@@ -1,5 +1,5 @@
 require 'coveralls'
-Coveralls.wear_merged!
+Coveralls.wear!
 
 require 'simplecov'
 SimpleCov.start 'rails' do

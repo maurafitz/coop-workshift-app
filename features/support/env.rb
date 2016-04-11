@@ -1,8 +1,8 @@
 require 'coveralls'
-Coveralls.wear_merged!
+Coveralls.wear!
 
 require 'simplecov'
-SimpleCov.start do
+SimpleCov.start 'rails' do
   add_filter "/datatables"
   add_filter "/spec/"
   add_filter "/features/"

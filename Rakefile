@@ -14,5 +14,5 @@ require File.expand_path('../config/application', __FILE__)
         Cucumber::Rake::Task.new(:features)
         RSpec::Core::RakeTask.new(:spec)
         
-        #task :default => [:spec, :features, 'coveralls:push']
+        task :default => [:spec, :features, 'coveralls:push']
     end

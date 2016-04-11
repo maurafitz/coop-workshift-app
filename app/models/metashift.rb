@@ -1,6 +1,7 @@
 class Metashift < ActiveRecord::Base
     has_many :shifts
     has_many :preferences
+    belongs_to :unit
     
     def self.import(file)
       spreadsheet = open_spreadsheet(file)

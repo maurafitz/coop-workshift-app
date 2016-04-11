@@ -30,4 +30,9 @@ class ApplicationController < ActionController::Base
     self.current_user and self.current_user.is_ws_manager?
   end
   helper_method :admin_rights?
+  
+  def convert_to_id value
+    value.gsub(/ /, "_")
+  end
+  helper_method :convert_to_id
 end

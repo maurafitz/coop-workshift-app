@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411202928) do
+ActiveRecord::Schema.define(version: 20160411210852) do
 
   create_table "metashifts", force: :cascade do |t|
     t.string   "category"
@@ -20,7 +20,10 @@ ActiveRecord::Schema.define(version: 20160411202928) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "name"
+    t.integer  "unit_id"
   end
+
+  add_index "metashifts", ["unit_id"], name: "index_metashifts_on_unit_id"
 
   create_table "policies", force: :cascade do |t|
     t.datetime "first_day"

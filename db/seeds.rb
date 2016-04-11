@@ -70,12 +70,25 @@ metashifts = [{:category => 'Cooking', :description => 'fake description',
               {:category => 'Cleaning', :description => 'fake description',
                :multiplier => 2.0},
               {:category => 'Trash Duty', :description => 'fake description',
-               :multiplier => 2.0}
+               :multiplier => 2.0},
+              {:category => 'Kitchen', :name => 'Kitchen Manager', :multiplier => 1,
+               :description => 'Refer to bylaws for manager description.'},
+              {:category => 'Kitchen', :name => 'Dishes', :multiplier => 1,
+               :description => 'Use a sponge and soap to scrub off each dish.'},
+              {:category => 'Kitchen', :name => 'Head Cook', :multiplier => 1,
+               :description => 'Lead a team in cooking meals.'},
+              {:category => 'Garbage', :name => 'TRC (Trash, Recycling, Compost)', :multiplier => 1,
+               :description => 'Take out trash, recycling and compost bins.'},
+              {:category => 'Garbage', :name => 'Waste Reduction Coordinator', :multiplier => 1,
+               :description => 'Coordinate waste reduction. Go to CO.'}
              ]
           
 metashift_instances = []
 metashifts.each do |metashift|
-    metashift_instances << Metashift.create!(metashift)
+    m = Metashift.create!(metashift)
+    m.unit = unit_instances[0]
+    m.save
+    metashift_instances << m
 end
 
 

@@ -75,7 +75,10 @@ metashifts = [{:category => 'Cooking', :description => 'fake description',
           
 metashift_instances = []
 metashifts.each do |metashift|
-    metashift_instances << Metashift.create!(metashift)
+    m = Metashift.create!(metashift)
+    m.unit = unit_instances[0]
+    m.save
+    metashift_instances << m
 end
 
 

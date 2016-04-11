@@ -1,3 +1,7 @@
+Given /I fill in my availability correctly/ do
+    pending
+end
+
 When(/^I fill in "([^"]*)" for the rank box for "([^"]*)"$/) do |rank, workshift|
   pending # Write code here that turns the phrase above into concrete actions
 end

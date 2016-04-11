@@ -1,4 +1,61 @@
-<% @metashifts.each do |metashift| %>
-    <%= metashift.inspect %>
-    <br>
-<% end %>
+<h3>Rank the Workshifts</h3>
+
+<div class=" col-md-9 col-lg-9 ">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Category</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @metashifts_by_category.each do |category, metashifts| %>
+        <tr class="pref_meta">
+          <td style="width:50px;">
+            <input type="text" class="form-control" maxlength="1" size="1" min="1" max="5"> 
+          </td>
+          <td>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<%=convert_to_id category%>" aria-expanded="true" aria-controls="<%=convert_to_id category%>" >
+                       <%=category %> 
+                    </a>
+                  </h4>
+                </div>
+                <div id="<%= convert_to_id category %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Rank</th>
+                          <th>Shift</th>
+                          <th>Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% metashifts.each do |metashift| %>
+                          <tr>
+                            <td style="width:50px;">
+                              <input type="text" class="form-control" maxlength="1" size="1" min="1" max="5"> </td>
+                            <td>
+                              <%=metashift.name %>
+                            </td>
+                            <td>
+                              <%=metashift.description %>
+                            </td>
+                          </tr>
+                          <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -67,7 +67,8 @@ class UsersController < ApplicationController
   
   def new_preferences
     @user = current_user
-    @metashifts = @user.unit.metashifts
+    @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
+        metashift.category}
   end
   
 private

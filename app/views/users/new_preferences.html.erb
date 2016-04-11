@@ -1,11 +1,12 @@
 <h3>Rank the Workshifts</h3>
 
-<div class=" col-md-9 col-lg-9 ">
-  <table class="table">
+<div class ="col-md-1 col-lg-1"></div>
+<div class=" col-md-10 col-lg-10 ">
+  <table class="table table-condensed table-responsive">
     <thead>
       <tr>
         <th>Rank</th>
-        <th>Category</th>
+        <th>Category (Click on Category to exapand)</th>
       </tr>
     </thead>
     <tbody>
@@ -15,8 +16,8 @@
             <input type="text" class="form-control" maxlength="1" size="1" min="1" max="5"> 
           </td>
           <td>
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-              <div class="panel panel-default">
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default no-margin">
                 <div class="panel-heading" role="tab" id="headingOne">
                   <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<%=convert_to_id category%>" aria-expanded="true" aria-controls="<%=convert_to_id category%>" >
@@ -24,7 +25,7 @@
                     </a>
                   </h4>
                 </div>
-                <div id="<%= convert_to_id category %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div id="<%= convert_to_id category %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                   <div class="panel-body">
                     <table class="table">
                       <thead>
@@ -59,3 +60,5 @@
     </tbody>
   </table>
 </div>
+<div class ="col-md-1 col-lg-1"></div>
+

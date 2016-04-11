@@ -1,19 +1,19 @@
 class Metashift < ActiveRecord::Base
     has_many :shifts
     
-     def self.import(file)
-        spreadsheet = open_spreadsheet(file)
-        header = spreadsheet.row(1)
-        added = []
-        (2..spreadsheet.last_row).each do |i|
-          row = Hash[[header, spreadsheet.row(i)].transpose]
-          metashift = find_by(category: row["category"]) || new
-          metashift.attributes = row.to_hash.slice(*row.to_hash.keys)
-          if metashift.save!
-            added << metashift
-          end
+    def self.import(file)
+      spreadsheet = open_spreadsheet(file)
+      header = spreadsheet.row(1)
+      added = []
+      (2..spreadsheet.last_row).each do |i|
+        row = Hash[[header, spreadsheet.row(i)].transpose]
+        metashift = find_by(category: row["category"]) || new
+        metashift.attributes = row.to_hash.slice(*row.to_hash.keys)
+        if metashift.save!
+          added << metashift
         end
-        return added
+      end
+      return added
     end
     
     def self.open_spreadsheet(file)
@@ -22,5 +22,4 @@ class Metashift < ActiveRecord::Base
         else raise "Unknown file type: #{file.original_filename}"           
       end
     end
-    
 end

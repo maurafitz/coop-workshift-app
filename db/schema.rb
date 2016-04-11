@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405075121) do
+ActiveRecord::Schema.define(version: 20160411202928) do
 
   create_table "metashifts", force: :cascade do |t|
     t.string   "category"
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20160405075121) do
     t.datetime "updated_at",     null: false
     t.integer  "unit_id"
   end
+
+  create_table "preferences", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "metashift_id"
+    t.integer  "rating"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "preferences", ["metashift_id"], name: "index_preferences_on_metashift_id"
+  add_index "preferences", ["user_id"], name: "index_preferences_on_user_id"
 
   create_table "shifts", force: :cascade do |t|
     t.datetime "start_time"

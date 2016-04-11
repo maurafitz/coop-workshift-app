@@ -53,8 +53,7 @@ module NavigationHelpers
       
      #### Preferences ####
     when /^the set preferences page$/
-      # user_preferences_path
-      "/"
+      new_preferences_path
       
       
       

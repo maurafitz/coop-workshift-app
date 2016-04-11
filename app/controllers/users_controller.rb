@@ -65,6 +65,11 @@ class UsersController < ApplicationController
   def edit
   end
   
+  def new_preferences
+    @user = current_user
+    @metashifts = @user.unit.metashifts
+  end
+  
 private
 
   def get_current_uploaded ids

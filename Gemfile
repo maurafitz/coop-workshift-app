@@ -98,7 +98,6 @@ group :production do
   gem 'rails_12factor'
   gem 'rspec-rails', '~> 3.0'
   gem 'pg'
-  #gem 'coveralls', require: false
   gem 'cucumber-rails', :require => false
 
 

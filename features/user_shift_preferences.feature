@@ -5,6 +5,7 @@ Feature: Set User Preferences for Workshifts
   
   Background:
     Given I am logged in
+    And I am a member of "Cloyne"
     And the following metashifts exist:
     | category      | name                             | id | description                                   |
     | Kitchen       | Kitchen Manager                  | 1  | Refer to bylaws for manager description.      |
@@ -15,17 +16,17 @@ Feature: Set User Preferences for Workshifts
     
     And I am on the set preferences page
 
-  @wip
+  # @wip
   Scenario: A user views workshifts organized by category
     Then I should see "Rank the Workshifts"
     And I should see the following: "Kitchen", "Garbage"
-    And I should not see the following: "Kitchen Manager", "Dishes", "Head Cook", "Waste Reduction Coordinator", "TRC"
+    And the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook", "Waste Reduction Coordinator", "TRC"
     When I click "Kitchen"
     Then I should see the following: "Kitchen Manager", "Dishes", "Head Cook"
-    And I should not see the following: "Waste Reduction Coordinator", "TRC"
+    And the following should be hidden: "Waste Reduction Coordinator", "TRC"
     And I should see "View description"
     When I click "Kitchen"
-    Then I should not see the following: "Kitchen Manager", "Dishes", "Head Cook"
+    Then the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook"
     
   @wip
   Scenario: A user views workshift descriptions

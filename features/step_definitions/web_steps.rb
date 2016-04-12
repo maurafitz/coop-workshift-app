@@ -177,6 +177,13 @@ Then /^(the tag )?"([^\"]+)" should be hidden$/ do |tag, selector_or_text|
   assert_hidden(options)
 end
 
+Then /^the following should be visible: (.*)$/ do |list|
+  list.split(',').each do |text|
+    text =~ /("(.*)")/
+    step %Q{#{$1} should be visible}
+  end
+end
+
 Then /^the following should be hidden: (.*)$/ do |list|
   list.split(',').each do |text|
     text =~ /("(.*)")/

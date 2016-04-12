@@ -70,14 +70,12 @@ end
 
 ### USER ASSOCIATIONS ### 
 And /^I belong to "(.*)"$/ do |coop_unit|
-  puts "GOT HERE"
   @current_unit = Unit.create!(:name => coop_unit)
   @current_user.unit = @current_unit
   @current_user.save
 end
 
 And /^I am a member of "(.*)"$/ do |house|
-  puts "GOT HERE"
   step %Q{I belong to "#{house}"}
 end
 

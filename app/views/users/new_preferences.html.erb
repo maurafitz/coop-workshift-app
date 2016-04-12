@@ -1,12 +1,12 @@
-<h3>Rank the Workshifts</h3>
 
 <div class ="col-md-1 col-lg-1"></div>
 <div class=" col-md-10 col-lg-10 ">
-  <table class="table table-condensed table-responsive">
+<h3>Rank the Workshifts</h3>
+  <table class="table table-responsive">
     <thead>
       <tr>
         <th>Rank</th>
-        <th>Category (Click on Category to exapand)</th>
+        <th>Category</th>
       </tr>
     </thead>
     <tbody>
@@ -27,7 +27,7 @@
                 </div>
                 <div id="<%= convert_to_id category %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                   <div class="panel-body">
-                    <table class="table">
+                    <table class="table no-margin">
                       <thead>
                         <tr>
                           <th>Rank</th>
@@ -40,12 +40,22 @@
                           <tr>
                             <td style="width:50px;">
                               <input type="text" class="form-control" maxlength="1" size="1" min="1" max="5"> </td>
-                            <td>
-                              <%=metashift.name %>
-                            </td>
-                            <td>
-                              <%=metashift.description %>
-                            </td>
+                            <td><%=metashift.name %></td>
+                            <% if metashift.description.length <= 100 %>
+                              <td><%=metashift.description %></td>
+                            <% else %>
+                              <td>
+                                <div id="wrap">
+                                  <div class="meta<%=metashift.id%> collapse in">
+                                    <%=metashift.description[0..100] %>...
+                                  </div> 
+                                  <div class="meta<%=metashift.id%> collapse"  role="tabpanel"> <%=metashift.description%> </div>
+                                  <a id="link<%=metashift.id%>" class="true-link" role="button" data-parent="#wrap" data-toggle="collapse" href=".meta<%=metashift.id%>" aria-expanded="true" aria-controls="<%=metashift.id%>" >
+                                    toggle description
+                                  </a>
+                                </div>
+                              </td>
+                            <% end %>
                           </tr>
                           <% end %>
                       </tbody>

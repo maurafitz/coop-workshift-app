@@ -69,7 +69,20 @@ metashifts = [{:category => 'Cooking', :description => 'fake description',
                :multiplier => 2.0},
               {:category => 'Cleaning', :description => 'fake description',
                :multiplier => 2.0},
-              {:category => 'Trash Duty', :description => 'fake description',
+              {:category => 'Trash Duty', :description => 'Laundry Rooms: 
+ 1. Wipe off the tops of all the washers, dryers, and counters with a wet rag.
+ 2. Bring the lost and found bin to the Freepile if it has not been emptied in a week.
+ 3. Clear the lint collectors of all dryers that not in use. 
+ 4. Organize bottles of detergent and empty the lint bin into compost.
+ 5. Sweep the floor.
+ 
+ Study Rooms: 
+ 1. Bring the lost and found bin to the Freepile if it has not been emptied in a week.
+ 2. Clear off all tables completely. Put any personal items in the box until next week. 
+ 3. Clean off tables with bleach solution and a rag.
+ 4. Pick up all garbage and take to dumpster, including trash in the hallways. Empty the recycling bins.
+ 5. Take all dishes to the dishwash area. Compost leftover food and rinse before placing them in the bins.
+ 6. Organize the furniture and sweep the floor.',
                :multiplier => 2.0},
               {:category => 'Kitchen', :name => 'Kitchen Manager', :multiplier => 1,
                :description => 'Refer to bylaws for manager description.'},

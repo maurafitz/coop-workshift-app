@@ -1,6 +1,10 @@
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "validate_pref.js" %>
+<% end %>
 
 <div class ="col-md-1 col-lg-1"></div>
 <div class=" col-md-10 col-lg-10 ">
+<form id="pref_form" role="form" data-toggle="validator">
 <h3>Rank the Workshifts</h3>
   <table class="table table-responsive">
     <thead>
@@ -13,7 +17,9 @@
       <% @metashifts_by_category.each do |category, metashifts| %>
         <tr class="pref_meta">
           <td style="width:50px;">
-            <input type="text" class="form-control" maxlength="1" size="1" min="1" max="5"> 
+            <div class="form-group">
+            <input type="text" pattern="^[1-5]$" class="form-control pref_rank" maxlength="1" size="1"> 
+            </div>
           </td>
           <td>
             <div id="accordion" role="tablist" aria-multiselectable="true">
@@ -39,7 +45,9 @@
                         <% metashifts.each do |metashift| %>
                           <tr>
                             <td style="width:50px;">
-                              <input type="text" class="form-control" maxlength="1" size="1" min="1" max="5"> </td>
+                              <div class="form-group">
+                                <input type="text" pattern="^[1-5]$" class="form-control pref_rank" maxlength="1" size="1"> 
+                              </div>                            </td>
                             <td><%=metashift.name %></td>
                             <% if metashift.description.length <= 100 %>
                               <td><%=metashift.description %></td>
@@ -69,6 +77,12 @@
       <% end %>
     </tbody>
   </table>
+</form>
 </div>
 <div class ="col-md-1 col-lg-1"></div>
 
+<script>
+  $(document).ready( function(){
+    $("#pref_form").validator();
+  })
+</script>

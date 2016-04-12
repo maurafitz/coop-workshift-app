@@ -71,6 +71,8 @@ class UsersController < ApplicationController
         metashift.category}
   end
   
+
+  
 private
 
   def get_current_uploaded ids

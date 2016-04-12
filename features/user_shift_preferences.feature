@@ -20,13 +20,13 @@ Feature: Set User Preferences for Workshifts
   Scenario: A user views workshifts organized by category
     Then I should see "Rank the Workshifts"
     And I should see the following: "Kitchen", "Garbage"
-    # And the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook", "Waste Reduction Coordinator", "TRC"
+    And the "Kitchen" category should be collapsed
+    # And the "Garbage" category should be collapsed
     When I click "Kitchen"
-    Then the following should be visible: "Kitchen Manager", "Dishes", "Head Cook"
-    # And the following should be hidden: "Waste Reduction Coordinator", "TRC"
-    And "Description" should be visible
+    # Then the "Kitchen" category should not be collapsed
+    # And the "Garbage" category should be collapsed
     When I click "Kitchen"
-    # Then the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook"
+    # Then the "Kitchen" category should be collapsed
     
   @wip
   Scenario: A user views workshift descriptions

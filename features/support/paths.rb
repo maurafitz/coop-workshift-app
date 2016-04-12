@@ -30,8 +30,6 @@ module NavigationHelpers
       user_profile_path(User.find_by_id(@current_user.id))
     when /^my edit profile page$/
       edit_profile_path(User.find_by_id(@current_user.id))
-    when /^the set preferences page$/
-      '/'
       
     #### WORKSHIFTS ####
     when /^the create workshifts page$/
@@ -53,10 +51,7 @@ module NavigationHelpers
       
      #### Preferences ####
     when /^the set preferences page$/
-      new_preferences_path
-      
-      
-      
+      new_preferences_path(@current_user.id)
       
       
     # Add more mappings here.

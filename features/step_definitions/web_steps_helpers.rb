@@ -84,10 +84,6 @@ module WebStepsHelpers
   end
 
   def detect_visibility_with_capybara(options)
-    puts options
-    # puts "*"*100
-    # puts page.body
-    # puts "*"*100
     begin
       old_ignore_hidden_elements = Capybara.ignore_hidden_elements
       Capybara.ignore_hidden_elements = false
@@ -100,12 +96,8 @@ module WebStepsHelpers
           page.should_not have_hidden_tag
         end
       else
-        page.should have_css('*', :text => options[:text])
+        expect(page).to have_css('*', :text => options[:text])
         have_hidden_text = have_css('.hidden, .invisible, [style~="display: none"]', :text => options[:text])
-        element = find_field('#accordion')
-        puts element
-        
-        puts page.all('#accordion', visible: true).length
         if options[:expectation] == :hidden
           page.should have_hidden_text
         else

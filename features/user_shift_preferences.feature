@@ -22,12 +22,11 @@ Feature: Set User Preferences for Workshifts
     And I should see the following: "Kitchen", "Garbage"
     # And the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook", "Waste Reduction Coordinator", "TRC"
     When I click "Kitchen"
-    And the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook", "Waste Reduction Coordinator", "TRC"
-    Then I should see the following: "Kitchen Manager", "Dishes", "Head Cook"
-    And the following should be hidden: "Waste Reduction Coordinator", "TRC"
-    And I should see "View description"
+    Then the following should be visible: "Kitchen Manager", "Dishes", "Head Cook"
+    # And the following should be hidden: "Waste Reduction Coordinator", "TRC"
+    And "Description" should be visible
     When I click "Kitchen"
-    Then the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook"
+    # Then the following should be hidden: "Kitchen Manager", "Dishes", "Head Cook"
     
   @wip
   Scenario: A user views workshift descriptions

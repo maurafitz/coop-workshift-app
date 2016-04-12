@@ -18,14 +18,6 @@
 # * http://elabs.se/blog/15-you-re-cuking-it-wrong
 #
 
-# require 'spreewald_support/tolerance_for_selenium_sync_issues'
-# require 'spreewald_support/path_selector_fallbacks'
-# require 'spreewald_support/step_fallback'
-# require 'spreewald_support/custom_matchers'
-# require 'support/web_steps_helpers'
-
-
-
 require 'uri'
 require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
@@ -240,11 +232,19 @@ end
 
 ########## CLICK/SELECT/CHECK/FILL IN ##########
 When(/^(?:|I )press "([^"]*)"$/) do |button|
-  click_button(button)
+  begin
+    click_button(button)
+  rescue
+    click_link(button)
+  end
 end
 
 When(/^(?:|I )click "([^"]*)"$/) do |button|
-  click_button(button)
+  begin
+    click_button(button)
+  rescue
+    click_link(button)
+  end
 end
 
 When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |arg1, arg2|

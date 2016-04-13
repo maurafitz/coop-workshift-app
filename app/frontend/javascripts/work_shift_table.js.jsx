@@ -60,12 +60,18 @@ var UserComponent = React.createClass({
 
 var columnMeta = [
   {
-  "columnName": "shift",
-  "displayName": "Work Shift",
+  "columnName": "category",
+  "displayName": "Category",
   "order": 1,
   "locked": false,
   "visible": true,
-  //"customComponent": DescriptionComponent
+  },
+  {
+  "columnName": "name",
+  "displayName": "Name",
+  "order": 2,
+  "locked": false,
+  "visible": true,
   },
   {
   "columnName": "user",
@@ -74,15 +80,15 @@ var columnMeta = [
   "customComponent": UserComponent
   },
   {
-  "columnName": "start_time",
-  "displayName": "Start Time",
-  "order" :2
-  },
-  {
-  "columnName": "end_time",
-  "displayName": "End Time",
+  "columnName": "time",
+  "displayName": "Time",
   "order" :3
   },
+  //{
+  //"columnName": "end_time",
+  //"displayName": "End Time",
+  //"order" :3
+  //},
   {
   "columnName": "description",
   "displayName": "Description",
@@ -92,7 +98,7 @@ var columnMeta = [
 ];
 
 var columns = [
-  'shift', 'user', 'start_time', 'end_time', 'description' 
+  'category', 'name', 'user', 'time', 'description' 
   ];
 
 
@@ -103,22 +109,14 @@ var WorkShiftTable = React.createClass({
   },
   
   getInitialState: function() {
-   return {shiftData: [
-     {
-    "shift": "Pans",
+  return {shiftData: [
+    {
+    "category": "Kitchen",
+    "name": "Pans",
     "user": {"full_name":"Mayers Leonard",
-                 "user_id" : 1},
-    "start_time": "2PM",
-    "end_time": "3PM",
+                "user_id" : 1},
+    "time": "2:00PM - 3:00PM",
     "description": "Pans description"
-  },
-  {
-    "shift": "Kitchen",
-    "user": {"full_name":"Mom",
-                 "user_id" : 1},
-    "start_time": "3PM",
-    "end_time": "5PM",
-    "description": "Kitchen description"
   },
   ]}
   },
@@ -136,18 +134,18 @@ var WorkShiftTable = React.createClass({
         var user_hash = {"full_name":"",
                  "user_id" : null}
       }
-      data.push({"shift": shift.metashift.category,
+      data.push({"category": shift.metashift.category,
         "user": user_hash,
-        "start_time": moment(shift.start_time).format('llll'), 
-        "end_time": moment(shift.end_time).format('llll'),
+        "name": shift.metashift.name,
+        "time": moment(shift.start_time).format('dddd, h:mm a') + " - " +
+          moment(shift.end_time).format('h:mm a'), 
         "description": shift.metashift.description,
       })
     }
     console.log(data)
     if (shifts.length > 0) {
       this.setState({shiftData: data})
-    } else{
-      
+    } else {
     }
   },
 

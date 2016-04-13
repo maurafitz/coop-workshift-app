@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   post '/users/upload' => 'users#upload', as: 'csv_upload'
   post '/users/add' => 'users#add_user', as: 'add_user'
   get '/users/:id' => 'users#profile', as: 'user_profile'
-  post '/users/:id/edit' => 'users#edit_profile', as: 'edit_profile'
+  get '/users/:id/edit' => 'users#edit_profile', as: 'edit_profile'
+  post '/users/:id/edit/email' => 'users#edit_email', as: 'edit_email'
+  post '/users/:id/edit/password' => 'users#edit_password', as: 'edit_password'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
   

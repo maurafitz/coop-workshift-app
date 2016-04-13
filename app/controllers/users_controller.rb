@@ -70,10 +70,16 @@ class UsersController < ApplicationController
   end
   
   def edit_profile
-    if (defined? params[:user][:email])
+    if (defined? params[:user] and defined? params[:user][:email])
       user = User.find_by_id(params[:id])
       user.email = params[:user][:email]
       user.save
+    end
+    if (defined? params[:password] and defined? params[:password_confirmation] and defined? User.find_by_id(params[:id]))
+       if (params[:password] == params[:password_confirmation])
+          user = User.find_by_id(params[:id])
+          user.update_attribute(:password, params[:password][0])
+       end
     end
     redirect_to user_profile_path
   end

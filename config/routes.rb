@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   post '/users/:id/edit/password' => 'users#edit_password', as: 'edit_password'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
+  post '/users/:id/pref' => 'users#set_preferences', as: 'post_pref_page'
+  post '/users/:id/avail' => 'users#set_availability', as: 'post_avail_page'
   
 
 

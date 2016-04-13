@@ -33,6 +33,18 @@ class ApplicationController < ActionController::Base
   
   def convert_to_id value
     value.gsub(/ /, "_")
-  end
+  end 
   helper_method :convert_to_id
+  
+  def convert_to_time value
+    i = value % 12
+    if value == 12
+      return "12pm"
+    elsif value < 12
+      return i.to_s + "am"
+    else
+      return i.to_s + "pm"
+    end
+  end
+  helper_method :convert_to_time
 end

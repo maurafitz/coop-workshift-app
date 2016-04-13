@@ -8,10 +8,10 @@ Background:
   And I go to the create workshifts page
 
 Scenario: an admin adds workshifts using a csv file
-  When I upload "workshifts_upload.csv"
+  When I upload "workshifts_plus_times.csv"
   And I press "Import"
   Then I should see a workshift table
-  And I should see "Clean" "2" times
+  And I should see "Clean" "3" times
   And I should see "Plant" "1" times
   And I should see "You added 3 new workshifts"
   
@@ -24,7 +24,7 @@ Scenario: an admin adds workshifts manually
   Then I should see "You added 1 new workshifts"
   
 Scenario: an admin edits a table entry
-  When I upload "workshifts_upload.csv"
+  When I upload "workshifts_plus_times.csv"
   And I press "Import"
   # When I click "Edit"
   # Then I should be on the edit workshifts page

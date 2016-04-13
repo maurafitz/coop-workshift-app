@@ -6,7 +6,7 @@ class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
   def index
-    @shifts = Shift.all
+    @shifts = Shift.all 
     @serializedShifts = json_shifts(@shifts)
   end
   
@@ -23,8 +23,10 @@ class ShiftsController < ApplicationController
     metashift = Metashift.find_by_id(params[:shift][:metashift_id])
     start_time = Chronic.parse('this ' + day_of_the_week + ' ' + starttime.to_str)
     end_time = Chronic.parse('this ' + day_of_the_week + ' ' + endtime.to_str)
-    a_shift = Shift.new(:start_time => start_time, :end_time => end_time)
-    a_shift.save!
+    a_shift = Shift.create!(:start_time => start_time, :end_time => end_time)
+#    a_shift.save!
+    print("in add timeslots: ", a_shift)
+    print("in add timeslots: ", Shift.all)
     metashift.shifts << a_shift
     redirect_to '/shifts'
   end
@@ -32,16 +34,6 @@ class ShiftsController < ApplicationController
   # GET /shifts/1
   # GET /shifts/1.json
   def show
-  end
-  
-  def upload
-    if (not params[:file].blank?)
-      new_shifts = Metashift.import(params[:file])
-      @metashifts_uploaded = new_shifts
-    else
-      flash[:notice] = "No file specified."
-      redirect_to '/shifts/new'
-    end
   end
 
   # GET /shifts/new

@@ -25,10 +25,9 @@ Rails.application.routes.draw do
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
 
   get '/index' => 'workshift#index'
-  post '/shifts/upload' => 'shifts#upload', as: 'csv_shift_upload'
   post '/shifts/new' => 'shifts#new', as: 'create_shifts'
   post '/metashifts/add' => 'metashifts#add_metashift', as: 'add_metashift'
-  post '/shifts/upload' => 'shifts#upload', as: 'shift_csv_upload'
+  post '/shifts/upload' => 'metashifts#upload', as: 'shift_csv_upload'
   get '/shifts/:id/new_timeslots' => 'shifts#new_timeslots', as: 'new_timeslots'
   post '/shifts/add_timeslots' => 'shifts#add_timeslots', as: 'add_timeslots'
   

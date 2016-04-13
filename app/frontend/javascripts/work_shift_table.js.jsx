@@ -36,6 +36,9 @@ DescriptionComponent = React.createClass({
 var UserComponent = React.createClass({
   displayName: 'UserComponent',
   getInitialState: function(){
+    if (!this.props.rowData.user) {
+      return {profile_url: "/", full_name: "" }
+    }
     var full_name = this.props.rowData.user.full_name
     if (full_name) {
       full_name = full_name.capitalizeFirstLetter();
@@ -126,9 +129,15 @@ var WorkShiftTable = React.createClass({
     var data = []
     for (var i = 0; i < shifts.length; i++){
       var shift = shifts[i]
+      if (shift.user) {
+        var user_hash = {"full_name":shift.user.first_name +" " +shift.user.last_name,
+                 "user_id" : shift.user_id}  
+      } else {
+        var user_hash = {"full_name":"",
+                 "user_id" : null}
+      }
       data.push({"shift": shift.metashift.category,
-        "user": {"full_name":shift.user.first_name +" " +shift.user.last_name,
-                 "user_id" : shift.user_id},
+        "user": user_hash,
         "start_time": moment(shift.start_time).format('llll'), 
         "end_time": moment(shift.end_time).format('llll'),
         "description": shift.metashift.description,

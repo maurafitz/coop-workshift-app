@@ -59,6 +59,9 @@ class UsersController < ApplicationController
   end
   
   def show
+    if (params[:id] == 'null') 
+      redirect_to '/'
+    end
     @user = User.find_by_id(params[:id])
   end
   

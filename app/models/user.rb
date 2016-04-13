@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
     belongs_to :unit
     has_many :shifts
     has_many :preferences
+    has_many :avails
     
     PERMISSION = {
           :member => 0, :manager => 1, :ws_manager =>2

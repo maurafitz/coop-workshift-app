@@ -78,7 +78,7 @@ class UsersController < ApplicationController
     end
     redirect_to user_profile_path
   end
-  
+
   def edit_password
     if (defined? params[:name] and defined? params[:password] and defined? params[:password_confirmation] and defined? User.find_by_id(params[:id]))
       user = User.find_by_id(params[:id])
@@ -91,6 +91,7 @@ class UsersController < ApplicationController
     end
     redirect_to user_profile_path
   end
+
   $day_mapping = {
       0=> "Monday",
       1=> "Tuesday",

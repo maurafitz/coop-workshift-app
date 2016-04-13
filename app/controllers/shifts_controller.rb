@@ -38,7 +38,7 @@ class ShiftsController < ApplicationController
 
   # GET /shifts/new
   def new
-    #@shift = Shift.new
+    @shift = Shift.new
   end
 
   # GET /shifts/1/edit

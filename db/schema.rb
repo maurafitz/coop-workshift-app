@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160413223013) do
 
   create_table "avails", force: :cascade do |t|
@@ -23,6 +24,9 @@ ActiveRecord::Schema.define(version: 20160413223013) do
   end
 
   add_index "avails", ["user_id"], name: "index_avails_on_user_id"
+=======
+ActiveRecord::Schema.define(version: 20160411210852) do
+>>>>>>> Got rid of avails
 
   create_table "metashifts", force: :cascade do |t|
     t.string   "category"

@@ -135,6 +135,11 @@ class UsersController < ApplicationController
     puts
     avail.each do |datetime, status|
       day, time = datetime.split(",")
+      a = Avail.new
+      a.user = current_user
+      a.time = day.to_i
+      a.day = day.to_i
+      a.status = status
       puts $day_mapping[day.to_i] + " " + convert_to_time(time.to_i)
       break
     end

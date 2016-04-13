@@ -64,13 +64,56 @@ class UsersController < ApplicationController
   
   def edit
   end
-  
+  $day_mapping = {
+      0=> "Monday",
+      1=> "Tuesday",
+      2=> "Wednesday",
+      3=> "Thursday",
+      4=> "Friday",
+      5=> "Saturday",
+      6=> "Sunday"
+    }
   def new_preferences
     @user = current_user
+    @day_mapping = $day_mapping
     @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
         metashift.category}
   end
   
+  def set_preferences
+    categories = params["category"]
+    meta = params["meta"]
+    meta.each do |id, rank|
+      ms = Metashift.find_by_id(id.to_i)
+      puts ms.inspect
+      rank = rank.to_i
+      if rank == 0
+        rank = categories[ms.category].to_i
+      end
+      pref = Preference.new(:rating => rank)
+      pref.metashift = ms
+      pref.user = current_user
+      pref.save
+    end
+    current_user.preferences.each do |pref|
+      puts pref.inspect
+    end
+    redirect_to user_profile_path
+  end
+  
+  def set_availability
+    avail = params["avail"]
+    puts avail
+    puts
+    avail.each do |datetime, status|
+      day, time = datetime.split(",")
+      puts $day_mapping[day.to_i] + " " + convert_to_time(time.to_i)
+      break
+    end
+    
+    puts
+    redirect_to new_preferences_path
+  end
 
   
 private

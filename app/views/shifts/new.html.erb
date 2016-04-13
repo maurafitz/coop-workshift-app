@@ -1,21 +1,33 @@
+<head>
+  <style type="text/css">
+    h2 {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+
 <!-- app/views/shifts/new.html.erb -->
 <div class="row">
-<div class="col-lg-8">
+<div class="col-lg-5">
   <h2>Add Workshift Manually</h2>
   <div class="hline"></div>
 
   <%=render "add_manual_form" %>
 
 </div>
-<! --/col-lg-8 -->
 
-<div class="col-lg-4">
+
+<div class="col-lg-6 col-md-offset-1">
   <h2>Upload CSV</h2>
+  <h4>Format:</h4>
+  <p> Columns: category, name, description, multiplier, times. <br><br>
+  Multiplier is the hour value of the workshift. <br><br>
+  Times column format: <br>Wednesday, XX:XXAM to YY:YYPM; Friday, ZZ:ZZPM to YY:YYPM <br>
+    (place semi-colon after each day/time pair).</p>
+  <h4>An example:</h4>
+  <img src=<%= asset_path( 'csv_workshift_row.png' ) %> >
   <div class="hline"></div>
     <%=render "add_csv_form" %>
   </div>
 </div>
-<! --/row -->
-<div style='margin-top:30px;'>
-  <a href="/shifts" button type="button" class="btn btn-theme" id="back_button">Back</a>
-</div>
+

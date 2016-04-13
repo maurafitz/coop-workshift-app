@@ -43,7 +43,7 @@ var UserComponent = React.createClass({
     if (full_name) {
       full_name = full_name.capitalizeFirstLetter();
     }
-    return {profile_url: "users/"+this.props.rowData.user.user_id,
+    return {profile_url: "/users/"+this.props.rowData.user.user_id,
             full_name: full_name
     }
   },
@@ -131,7 +131,7 @@ var WorkShiftTable = React.createClass({
         var user_hash = {"full_name":shift.user.first_name +" " +shift.user.last_name,
                  "user_id" : shift.user_id}  
       } else {
-        var user_hash = {"full_name":"",
+        var user_hash = {"full_name":"(None)",
                  "user_id" : null}
       }
       data.push({"category": shift.metashift.category,

@@ -17,17 +17,9 @@ class ShiftsController < ApplicationController
   end
   
   def add_timeslots
-    day_of_the_week = params[:shift][:dayoftheweek]
-    starttime = params[:shift][:start_time]
-    endtime = params[:shift][:end_time]
-    metashift = Metashift.find_by_id(params[:shift][:metashift_id])
-    start_time = Chronic.parse('this ' + day_of_the_week + ' ' + starttime.to_str)
-    end_time = Chronic.parse('this ' + day_of_the_week + ' ' + endtime.to_str)
-    a_shift = Shift.create!(:start_time => start_time, :end_time => end_time)
-#    a_shift.save!
-    print("in add timeslots: ", a_shift)
-    print("in add timeslots: ", Shift.all)
-    metashift.shifts << a_shift
+    shift = params[:shift]
+    metashift = Metashift.find_by_id(shift[:metashift_id])
+    Shift.add_shift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], metashift)
     redirect_to '/shifts'
   end
 

@@ -84,6 +84,14 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
+  def new_preferences
+    @user = current_user
+    @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
+        metashift.category}
+  end
+  
+
+  
 private
 
   def get_current_uploaded ids

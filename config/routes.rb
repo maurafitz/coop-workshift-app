@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get '/users/:id' => 'users#profile', as: 'user_profile'
   get '/users/:id/edit' => 'users#edit_profile', as: 'edit_profile'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
+  get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
+  
+
 
   get '/index' => 'workshift#index'
   post '/shifts/new' => 'shifts#new', as: 'create_shifts'

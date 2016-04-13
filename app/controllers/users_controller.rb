@@ -66,6 +66,16 @@ class UsersController < ApplicationController
   end
   
   def edit
+    @user = User.find_by_id(params[:id])
+  end
+  
+  def edit_profile
+    if (defined? params[:user][:email])
+      user = User.find_by_id(params[:id])
+      user.email = params[:user][:email]
+      user.save
+    end
+    redirect_to user_profile_path
   end
   
   def new_preferences

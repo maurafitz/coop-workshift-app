@@ -126,16 +126,12 @@ class UsersController < ApplicationController
       pref.user = current_user
       pref.save
     end
-    current_user.preferences.each do |pref|
-    end
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path
   end
   
   def set_availability
     avail = params["avail"]
-    puts avail
-    puts
     avail.each do |datetime, status|
       day, time = datetime.split(",")
       a = Avail.new

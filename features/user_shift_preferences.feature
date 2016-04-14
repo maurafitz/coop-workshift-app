@@ -16,37 +16,48 @@ Feature: Set User Preferences for Workshifts
     
     And I am on the set preferences page
 
-  # @wip
+  @wip
   Scenario: A user views workshifts organized by category
     Then I should see "Rank the Workshifts"
     And I should see the following: "Kitchen", "Garbage"
     And the "Kitchen" category should be collapsed
     And the "Garbage" category should be collapsed
-    When I click "Kitchen"
-    Then the "Kitchen" category should not be collapsed
-    And the "Garbage" category should be collapsed
-    When I click "Kitchen"
-    Then the "Kitchen" category should be collapsed
+    # When I click "Kitchen"
+    # Then the "Kitchen" category should not be collapsed
+    # And the "Garbage" category should be collapsed
+    # When I click "Kitchen"
+    # Then the "Kitchen" category should be collapsed
     
   @wip
   Scenario: A user views workshift descriptions
-    When I click "Kitchen"
-    And I click "View description" in the row for "Dishes"
+    # When I click "Kitchen"
+    And I click "toggle description" in the row for "Dishes"
     Then I should see "Use a sponge and soap to scrub off each dish."
-    And I should not see "Lead a team in cooking meals."
-    When I click "Kitchen"
-    Then I should not see "Use a sponge and soap to scrub off each dish."
+    # And I should not see "Lead a team in cooking meals."
+    # When I click "Kitchen"
+    # Then I should not see "Use a sponge and soap to scrub off each dish."
   
-  @wip
+  # @wip
   Scenario: A user sets their workshift preferences
-    When I fill in "5" for the rank box for "Kitchen"
-    And I fill in "1" for the rank box for "Garbage"
-    When I click "Kitchen"
-    And I fill in "4" for the rank box for "Kitchen Manager"
-    And I fill in "3" for the rank box for "Dishes"
-    And I fill in "5" for the rank box for "Head Cook"
-    And I click "Save"
+    Given I have not saved any preferences
+    When I fill in the following rankings:
+    | Kitchen         | 5       |
+    | Kitchen Manager | 3       |
+    | Dishes          | 2       |
+    | Head Cook       | 1       |
+    And I click "Save Preferences"
     Then my preferences should be saved
+     
+     
+     
+    # When I fill in "5" for the rank box for "Kitchen"
+    # And I fill in "1" for the rank box for "Garbage"
+    # When I click "Kitchen"
+    # And I fill in "4" for the rank box for "Kitchen Manager"
+    # And I fill in "3" for the rank box for "Dishes"
+    # And I fill in "5" for the rank box for "Head Cook"
+    # And I click "Save Preferences"
+    # Then my preferences should be saved
     
   @wip
   Scenario: A user sets invalid workshift preferences

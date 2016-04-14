@@ -239,19 +239,11 @@ end
 
 ########## CLICK/SELECT/CHECK/FILL IN ##########
 When(/^(?:|I )press "([^"]*)"$/) do |button|
-  begin
-    click_button(button)
-  rescue
-    click_link(button)
-  end
+  click_button(button)
 end
 
 When(/^(?:|I )click "([^"]*)"$/) do |button|
-  begin
-    click_button(button)
-  rescue
-    click_link(button)
-  end
+  click_button(button)
 end
 
 When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |arg1, arg2|

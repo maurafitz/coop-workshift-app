@@ -83,15 +83,17 @@ class UsersController < ApplicationController
     end
     redirect_to user_profile_path
   end
+  
   $day_mapping = {
-      0=> "Monday",
-      1=> "Tuesday",
-      2=> "Wednesday",
-      3=> "Thursday",
-      4=> "Friday",
-      5=> "Saturday",
-      6=> "Sunday"
-    }
+    0=> "Monday",
+    1=> "Tuesday",
+    2=> "Wednesday",
+    3=> "Thursday",
+    4=> "Friday",
+    5=> "Saturday",
+    6=> "Sunday"
+  }
+  
   def new_preferences
     @user = current_user
     @day_mapping = $day_mapping
@@ -117,6 +119,7 @@ class UsersController < ApplicationController
     current_user.preferences.each do |pref|
       puts pref.inspect
     end
+    flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path
   end
   
@@ -128,14 +131,12 @@ class UsersController < ApplicationController
       day, time = datetime.split(",")
       a = Avail.new
       a.user = current_user
-      a.time = day.to_i
+      a.hour = time.to_i
       a.day = day.to_i
       a.status = status
-      puts $day_mapping[day.to_i] + " " + convert_to_time(time.to_i)
-      break
+      a.save
     end
-    
-    puts
+    flash[:success] = "Your availability has been saved"
     redirect_to new_preferences_path
   end
 

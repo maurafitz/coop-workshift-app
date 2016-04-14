@@ -23,4 +23,6 @@ $(document).ready(function() {
             $(this).selectpicker('setStyle', 'btn-info');
         }
     });
+    console.log("Fixs")
+    $('.table-fixed-header').fixedHeader();
 });

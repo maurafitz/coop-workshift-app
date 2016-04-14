@@ -84,8 +84,8 @@
 <div class="row">
 <%= form_tag post_avail_page_path, :id => "avail_form" do %>
   <h3>Set Your Availability</h3>
-    <table class="table table-striped table-bordered table-hover table-responsive">
-      <thead>
+    <table class="table table-striped table-condensed table-bordered table-hover table-responsive table-fixed-header">
+      <thead class="header">
         <tr>
           <th></th>
           <% (0...7).each do |i| %>
@@ -99,7 +99,7 @@
             <th> <%= convert_to_time(time) %> </th>
             <% (0...7).each do |day| %>
               <td>
-                <select name="avail[<%=day.to_s + "," + time.to_s %>]" class="selectpicker" data-width="100%" title="...">
+                <select name="avail[<%=day.to_s + "," + time.to_s %>]" class="selectpicker" data-width="100%" title="..." required>
                   <option title="<div style='vertical-align:middle;'><span class='glyphicon glyphicon-plus-sign' aria-hidden='true'></span></div>">Available</option>
                   <option title="<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span>">Not Preferred</option>
                   <option title="<span class='glyphicon glyphicon-remove-sign' aria-hidden='true'></span>">Unavaiable</option>

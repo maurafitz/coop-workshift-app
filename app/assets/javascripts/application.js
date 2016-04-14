@@ -21,6 +21,7 @@
 //= require moment
 //= require validator
 //= require bootstrap-datepicker
+//= require fixed-header
 
 
 // Added by us - sprockets
@@ -29,6 +30,6 @@
 // in the javascripts directory and any subdirectories. 
 // If you require bootstrap-sprockets after everything else, 
 // your other scripts may not have access to the Bootstrap functions.
-//= require_tree .
+// require_tree .
 
 

@@ -47,17 +47,6 @@ Feature: Set User Preferences for Workshifts
     | Head Cook       | 1       |
     And I click "Save Preferences"
     Then my preferences should be saved
-     
-     
-     
-    # When I fill in "5" for the rank box for "Kitchen"
-    # And I fill in "1" for the rank box for "Garbage"
-    # When I click "Kitchen"
-    # And I fill in "4" for the rank box for "Kitchen Manager"
-    # And I fill in "3" for the rank box for "Dishes"
-    # And I fill in "5" for the rank box for "Head Cook"
-    # And I click "Save Preferences"
-    # Then my preferences should be saved
     
   @wip
   Scenario: A user sets invalid workshift preferences

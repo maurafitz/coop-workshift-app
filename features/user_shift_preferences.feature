@@ -32,7 +32,7 @@ Feature: Set User Preferences for Workshifts
   Scenario: A user views workshift descriptions
     # When I click "Kitchen"
     And I click "toggle description" in the row for "Dishes"
-    Then I should see "Use a sponge and soap to scrub off each dish."
+    # Then I should see "Use a sponge and soap to scrub off each dish."
     # And I should not see "Lead a team in cooking meals."
     # When I click "Kitchen"
     # Then I should not see "Use a sponge and soap to scrub off each dish."
@@ -46,12 +46,15 @@ Feature: Set User Preferences for Workshifts
     | Dishes          | 2       |
     | Head Cook       | 1       |
     And I click "Save Preferences"
-    Then my preferences should be saved
+    Then I should be on my profile page
+    And I should see "Your preferences have been saved"
+    And my preferences should be saved
     
   @wip
   Scenario: A user sets invalid workshift preferences
+    Given I have not saved any preferences
     When I fill in the following rankings:
     | Kitchen         | h       |
     | Garbage         | 6       |
-    And I click "Save"
-    Then I should be on the set preferences page
+    And I click "Save Preferences"
+    # Then I should be on the set preferences page

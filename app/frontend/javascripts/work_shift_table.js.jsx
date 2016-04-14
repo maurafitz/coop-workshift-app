@@ -120,7 +120,32 @@ var UserComponent = React.createClass({
       );
     }
   }
-  });
+});
+
+var EditShiftComponent = React.createClass({
+  displayName: 'EditShiftComponent',
+  getInitialState: function(){
+    if (!this.props.rowData.user) {
+      return {profile_url: "/", full_name: "" }
+    }
+    var full_name = this.props.rowData.user.full_name
+    if (full_name) {
+      full_name = full_name.capitalizeFirstLetter();
+    }
+    return {profile_url: "/users/"+this.props.rowData.user.user_id,
+            full_name: full_name
+    }
+  },
+  
+  render: function(){
+    return (
+      <a href={this.state.profile_url} className="btn btn-default" role="button">
+        {this.state.full_name}
+      </a>
+      );
+  }
+});
+  
 
 var columnMeta = [
   {
@@ -159,6 +184,12 @@ var columnMeta = [
   "displayName": "Description",
   "order" :5,
   "customComponent": DescriptionComponent
+  },
+  {
+  "columnName": "options",
+  "displayName": "Options",
+  "order" :5,
+  "customComponent": EditShiftComponent
   },
 ];
 

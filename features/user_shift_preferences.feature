@@ -21,12 +21,12 @@ Feature: Set User Preferences for Workshifts
     Then I should see "Rank the Workshifts"
     And I should see the following: "Kitchen", "Garbage"
     And the "Kitchen" category should be collapsed
-    # And the "Garbage" category should be collapsed
+    And the "Garbage" category should be collapsed
     When I click "Kitchen"
-    # Then the "Kitchen" category should not be collapsed
-    # And the "Garbage" category should be collapsed
+    Then the "Kitchen" category should not be collapsed
+    And the "Garbage" category should be collapsed
     When I click "Kitchen"
-    # Then the "Kitchen" category should be collapsed
+    Then the "Kitchen" category should be collapsed
     
   @wip
   Scenario: A user views workshift descriptions

@@ -8,6 +8,7 @@ class ShiftsController < ApplicationController
   def index
     @shifts = Shift.all 
     @serializedShifts = json_shifts(@shifts)
+    @allUsers = User.all.to_json
   end
   
   def new_timeslots

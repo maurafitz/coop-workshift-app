@@ -2,7 +2,7 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'simplecov'
-SimpleCov.start 'rails' do
+SimpleCov.start do
   add_filter "/datatables"
   add_filter "/spec/"
   add_filter "/features/"

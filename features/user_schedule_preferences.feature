@@ -5,10 +5,10 @@ Feature: Set User Preferences for Schedule
 
   Background:
     Given I am logged in as a member
-    And I am on the set preferences page
     
   @wip
   Scenario: A user sets their time preferences correctly
+    When I go to the set preferences page
     And I fill in my availability correctly
     Then I should see "yes" "10" times
     And I should see "can't" "10" times
@@ -17,7 +17,8 @@ Feature: Set User Preferences for Schedule
     Then I should see "Your preferences have been set"
     
   @wip    
-  Scenario: A user sets their time preferences Incorrectly (Leave them Blank)
+  Scenario: A user sets their time preferences incorrectly
+    When I go to the set preferences page
     And I fill in "Notes" with "I have nothing to say"
     Then I press "Submit"
     Then I should see "Error, you must fill in all the boxes."

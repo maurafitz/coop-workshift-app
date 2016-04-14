@@ -6,20 +6,21 @@ class Metashift < ActiveRecord::Base
     def self.import(file)
       spreadsheet = open_spreadsheet(file)
       header = spreadsheet.row(1)
-      added = []
+      new_shifts = {}
       (2..spreadsheet.last_row).each do |i|
         row = Hash[[header, spreadsheet.row(i)].transpose]
         metashift = find_by(name: row["name"]) || new
         metashift.attributes = row.to_hash.slice(*%w[category name description multiplier])
         if metashift.save!
-          added << metashift
-          create_shift_instances(metashift, row.to_hash.slice('times')['times'])
+          shift_list = create_shift_instances(metashift, row.to_hash.slice('times')['times'])
+          new_shifts[metashift] = shift_list
         end
       end
-      return added
+      return new_shifts
     end
     
     def self.create_shift_instances(metashift, csv_times) 
+      metashift_times = []
       all_times = csv_times.split(';')
       all_times.each do |time_slot|
         time_slot = time_slot.squish
@@ -28,8 +29,10 @@ class Metashift < ActiveRecord::Base
         start_and_end = time_details[1].split('to')
         start_time = start_and_end[0].squish
         end_time = start_and_end[1].squish 
-        Shift.add_shift(day, start_time, end_time, metashift)
+        shift = Shift.add_shift(day, start_time, end_time, metashift)
+        metashift_times << shift
       end
+      return metashift_times
     end
     
     def self.open_spreadsheet(file)

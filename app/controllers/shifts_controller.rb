@@ -55,6 +55,7 @@ class ShiftsController < ApplicationController
   # DELETE /shifts/1
   # DELETE /shifts/1.json
   def destroy
+    @shift = Shift.find_by_id(params[:id])
     @shift.destroy
     respond_to do |format|
       format.html { redirect_to shifts_url, notice: 'Shift was successfully destroyed.' }

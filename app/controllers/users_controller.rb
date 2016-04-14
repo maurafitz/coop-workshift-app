@@ -105,7 +105,6 @@ class UsersController < ApplicationController
     meta = params["meta"]
     meta.each do |id, rank|
       ms = Metashift.find_by_id(id.to_i)
-      puts ms.inspect
       rank = rank.to_i
       if rank == 0
         rank = categories[ms.category].to_i
@@ -115,17 +114,12 @@ class UsersController < ApplicationController
       pref.user = current_user
       pref.save
     end
-    current_user.preferences.each do |pref|
-      puts pref.inspect
-    end
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path
   end
   
   def set_availability
     avail = params["avail"]
-    puts avail
-    puts
     avail.each do |datetime, status|
       day, time = datetime.split(",")
       a = Avail.new

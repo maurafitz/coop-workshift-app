@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
     belongs_to :unit
     has_many :shifts
     has_many :preferences
+    has_many :avails
     
     PERMISSION = {
           :member => 0, :manager => 1, :ws_manager =>2
@@ -60,6 +61,17 @@ class User < ActiveRecord::Base
       else
         # puts "Couldnt find user"
       end
+    end
+    
+    def is_available? day_int, start_int, duration=1
+      avail = true
+      (start_int...start_int+duration).each do |hour_int|
+        a = self.avails.where(day: day_int, hour: hour_int).first
+        if not a or a.status == "Unavaiable" or a.status == ""
+          return false
+        end
+      end
+      return avail
     end
     
     def self.random_pw

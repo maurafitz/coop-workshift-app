@@ -21,17 +21,18 @@ Rails.application.routes.draw do
   post '/users/upload' => 'users#upload', as: 'csv_upload'
   post '/users/add' => 'users#add_user', as: 'add_user'
   get '/users/:id' => 'users#profile', as: 'user_profile'
-  get '/users/:id/edit' => 'users#edit_profile', as: 'edit_profile'
+  post '/users/:id/edit' => 'users#edit_profile', as: 'edit_profile'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
+  post '/users/:id/pref' => 'users#set_preferences', as: 'post_pref_page'
+  post '/users/:id/avail' => 'users#set_availability', as: 'post_avail_page'
   
 
 
   get '/index' => 'workshift#index'
-  post '/shifts/upload' => 'shifts#upload', as: 'csv_shift_upload'
   post '/shifts/new' => 'shifts#new', as: 'create_shifts'
   post '/metashifts/add' => 'metashifts#add_metashift', as: 'add_metashift'
-  post '/shifts/upload' => 'shifts#upload', as: 'shift_csv_upload'
+  post '/shifts/upload' => 'metashifts#upload', as: 'shift_csv_upload'
   get '/shifts/:id/new_timeslots' => 'shifts#new_timeslots', as: 'new_timeslots'
   post '/shifts/add_timeslots' => 'shifts#add_timeslots', as: 'add_timeslots'
   

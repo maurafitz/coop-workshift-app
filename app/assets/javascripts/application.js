@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
+// require jquery_ujs
 //= require bootstrap
 //= require bootstrap.file-input
 // require dataTables/bootstrap/3/jquery.dataTables.bootstrap
@@ -19,7 +19,9 @@
 //= require turbolinks
 
 //= require moment
+//= require validator
 //= require bootstrap-datepicker
+//= require fixed-header
 
 
 // Added by us - sprockets

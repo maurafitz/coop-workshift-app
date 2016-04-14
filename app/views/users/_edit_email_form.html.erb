@@ -1,0 +1,6 @@
+<%=form_tag edit_profile_path, :id => 'my_form' do %>
+  <%= label :user, :email, 'Email' %>
+  <%= text_field :user,"email", class:"form-control" %>
+  <br>
+  <button type="submit" class="btn btn-theme" id="submit_button">Update Email</button>
+<% end %>

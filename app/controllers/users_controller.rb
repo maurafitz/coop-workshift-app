@@ -105,10 +105,12 @@ class UsersController < ApplicationController
     meta = params["meta"]
     meta.each do |id, rank|
       ms = Metashift.find_by_id(id.to_i)
-      puts ms.inspect
       rank = rank.to_i
       if rank == 0
-        rank = categories[ms.category].to_i
+        cat = categories[ms.category].to_i
+        if cat != 0; rank = cat
+        else rank = 3 #Default Value
+        end
       end
       pref = Preference.new(:rating => rank)
       pref.metashift = ms
@@ -116,7 +118,6 @@ class UsersController < ApplicationController
       pref.save
     end
     current_user.preferences.each do |pref|
-      puts pref.inspect
     end
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path

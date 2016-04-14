@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by_id(params[:id])
   end
-  
+
   def edit_profile
     if (defined? params[:user] and defined? params[:user][:email])
       user = User.find_by_id(params[:id])
@@ -93,7 +93,6 @@ class UsersController < ApplicationController
     5=> "Saturday",
     6=> "Sunday"
   }
-  
   def new_preferences
     @user = current_user
     @day_mapping = $day_mapping

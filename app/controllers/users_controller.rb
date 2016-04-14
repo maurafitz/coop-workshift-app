@@ -68,13 +68,8 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by_id(params[:id])
   end
-<<<<<<< HEAD
-  
-  def edit_email
-=======
 
-  def edit_profile
->>>>>>> ae55f3b26da53607299d0f5f5166b573c184fb3f
+  def edit_email
     if (defined? params[:user] and defined? params[:user][:email])
       user = User.find_by_id(params[:id])
       user.email = params[:user][:email]
@@ -129,16 +124,22 @@ class UsersController < ApplicationController
     meta.each do |id, rank|
       ms = Metashift.find_by_id(id.to_i)
       rank = rank.to_i
+      pref = Preference.new
       if rank == 0
         cat = categories[ms.category].to_i
-        if cat != 0; rank = cat
-        else rank = 3 #Default Value
+        if cat != 0; 
+          rank = cat
+          pref.cat_rating = cat
+        else 
+          rank = 3 #Default Value
+          pref.cat_rating = 3
         end
       end
-      pref = Preference.new(:rating => rank)
+      pref.rating = rank
       pref.metashift = ms
       pref.user = current_user
       pref.save
+      puts pref.inspect
     end
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path

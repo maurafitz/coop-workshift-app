@@ -26,9 +26,9 @@ Rails.application.routes.draw do
   post '/users/:id/edit/password' => 'users#edit_password', as: 'edit_password'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
-  post '/users/:id/pref' => 'users#set_pref_and_avail', as: 'submit_pref_set'
+  post '/users/:id/pref/new' => 'users#set_pref_and_avail', as: 'submit_pref_set'
   get '/users/:id/pref/edit' => 'users#edit_preferences', as: 'edit_preferences'
-  post '/users/:id/pref' => 'users#set_pref_and_avail', as: 'submit_pref_edit'
+  post '/users/:id/pref/edit' => 'users#edit_pref_and_avail', as: 'submit_pref_edit'
 
 
 

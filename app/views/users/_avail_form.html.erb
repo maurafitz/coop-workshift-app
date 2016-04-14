@@ -14,7 +14,7 @@
           <th> <%= convert_to_time(time) %> </th>
           <% (0...7).each do |day| %>
             <td>
-              <select name="avail[<%=day.to_s + "," + time.to_s %>]" class="selectpicker" data-width="100%" title="..." required>
+              <select data-status="<%= @avail_dic[day.to_s + ',' + time.to_s] %>" name="avail[<%=day.to_s + "," + time.to_s %>]" class="selectpicker" data-width="100%" title="..." required>
                 <option title="<div style='vertical-align:middle;'><span class='glyphicon glyphicon-plus-sign' aria-hidden='true'></span></div>">Available</option>
                 <option title="<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span>">Not Preferred</option>
                 <option title="<span class='glyphicon glyphicon-remove-sign' aria-hidden='true'></span>">Unavailable</option>

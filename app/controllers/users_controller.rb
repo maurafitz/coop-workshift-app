@@ -125,6 +125,7 @@ class UsersController < ApplicationController
       pref.metashift = ms
       pref.user = current_user
       pref.save
+      puts pref.inspect
     end
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path

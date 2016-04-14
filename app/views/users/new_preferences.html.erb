@@ -19,7 +19,7 @@
         <tr class="pref_meta">
           <td style="width:50px;">
             <div class="form-group">
-            <input id="<%=category.length%>" name="category[<%= category %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank" maxlength="1" size="1"> 
+            <input id="<%=category.length%>" name="category[<%= category %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
             </div>
           </td>
           <td>
@@ -47,8 +47,9 @@
                           <tr>
                             <td style="width:50px;">
                               <div class="form-group">
-                                <input name="meta[<%= metashift.id %>]"type="text" pattern="^[1-5]$" class="form-control pref_rank" maxlength="1" size="1"> 
-                              </div>                            </td>
+                                <input id="<%=metashift.id%>" name="meta[<%= metashift.id %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
+                              </div>                            
+                            </td>
                             <td><%=metashift.name %></td>
                             <% if metashift.description.length <= 100 %>
                               <td><%=metashift.description %></td>
@@ -78,7 +79,7 @@
       <% end %>
     </tbody>
   </table>
-  <button type="submit" class="btn btn-theme pull-right">Save Preferences</button>
+  <button id="pref_submit" type="submit" class="btn btn-theme pull-right">Save Preferences</button>
 <% end %>
 </div>
 <div class="row">
@@ -102,7 +103,7 @@
                 <select name="avail[<%=day.to_s + "," + time.to_s %>]" class="selectpicker" data-width="100%" title="..." required>
                   <option title="<div style='vertical-align:middle;'><span class='glyphicon glyphicon-plus-sign' aria-hidden='true'></span></div>">Available</option>
                   <option title="<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span>">Not Preferred</option>
-                  <option title="<span class='glyphicon glyphicon-remove-sign' aria-hidden='true'></span>">Unavaiable</option>
+                  <option title="<span class='glyphicon glyphicon-remove-sign' aria-hidden='true'></span>">Unavailable</option>
                   <option title="<span class='glyphicon glyphicon-question-sign' aria-hidden='true'></span>">Unsure</option>
                 </select>
               </td>

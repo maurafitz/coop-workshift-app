@@ -13,7 +13,7 @@ $(document).ready(function() {
         if (v == "Available") {
             $(this).selectpicker('setStyle', 'btn-success');
         }
-        else if (v == "Unavaiable") {
+        else if (v == "Unavailable") {
             $(this).selectpicker('setStyle', 'btn-danger');
         }
         else if (v == "Not Preferred") {
@@ -23,6 +23,15 @@ $(document).ready(function() {
             $(this).selectpicker('setStyle', 'btn-info');
         }
     });
-    console.log("Fixs")
+
+    $("#pref_submit").hover(function(){
+        $(".validate").each(function(){
+            v = parseInt($(this).val());
+            if(!(v > 0 && v < 6)){
+                $("#pref_submit").addClass("disabled");
+            }
+        })
+    })
+
     $('.table-fixed-header').fixedHeader();
 });

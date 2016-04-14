@@ -107,7 +107,10 @@ class UsersController < ApplicationController
       ms = Metashift.find_by_id(id.to_i)
       rank = rank.to_i
       if rank == 0
-        rank = categories[ms.category].to_i
+        cat = categories[ms.category].to_i
+        if cat != 0; rank = cat
+        else rank = 3 #Default Value
+        end
       end
       pref = Preference.new(:rating => rank)
       pref.metashift = ms

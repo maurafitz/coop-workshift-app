@@ -54,6 +54,22 @@ RSpec.describe ShiftsController, type: :controller do
         
     end
     
+    describe 'adding timeslots to a metashift' do
+        before(:each) do
+            @metashift = Metashift.create!(:category => "Kitchen",
+            :description => 'dlka;jfd', :multiplier => 5, :id => 3)
+            post :add_timeslots, 
+            :shift => {:dayoftheweek => 'Tuesday', :start_time => '07:00AM',
+                :end_time => '09:00AM', :metashift_id => '3'}
+        end
+        it 'should find the corresponding metashift' do
+            expect(assigns(:metashift)).to be_a(Metashift)
+        end
+        it 'should redirect to shifts index on success' do
+            expect(response).to redirect_to('/shifts')
+        end
+    end
+    
     
     describe "index" do
         # it 'should return something from shifts#index' do

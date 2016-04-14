@@ -69,17 +69,25 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
   end
   
-  def edit_profile
+  def edit_email
     if (defined? params[:user] and defined? params[:user][:email])
       user = User.find_by_id(params[:id])
       user.email = params[:user][:email]
       user.save
+      flash[:success] = "Email has been updated."
     end
-    if (defined? params[:password] and defined? params[:password_confirmation] and defined? User.find_by_id(params[:id]))
-       if (params[:password] == params[:password_confirmation])
-          user = User.find_by_id(params[:id])
-          user.update_attribute(:password, params[:password][0])
-       end
+    redirect_to user_profile_path
+  end
+  
+  def edit_password
+    if (defined? params[:name] and defined? params[:password] and defined? params[:password_confirmation] and defined? User.find_by_id(params[:id]))
+      user = User.find_by_id(params[:id])
+      if (params[:password] == params[:password_confirmation])
+        user.update_attribute(:password, params[:password][0])
+        flash[:success] = "Password has been updated."
+      else
+        flash[:danger] = "Passwords did not match."
+      end
     end
     redirect_to user_profile_path
   end

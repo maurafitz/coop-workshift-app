@@ -54,6 +54,39 @@ RSpec.describe ShiftsController, type: :controller do
         
     end
     
+    describe 'adding timeslots to a metashift' do
+        before(:each) do
+            @metashift = Metashift.create!(:category => "Kitchen",
+            :description => 'dlka;jfd', :multiplier => 5, :id => 3)
+            post :add_timeslots, 
+            :shift => {:dayoftheweek => 'Tuesday', :start_time => '07:00AM',
+                :end_time => '09:00AM', :metashift_id => '3'}
+        end
+        it 'should find the corresponding metashift' do
+            expect(assigns(:metashift)).to be_a(Metashift)
+        end
+        it 'should redirect to shifts index on success' do
+            expect(response).to redirect_to('/shifts')
+        end
+    end
+    
+    describe 'deleting a shift' do
+        before(:each) do
+            @metashift = Metashift.create!(:category => "Kitchen",
+            :description => 'dlka;jfd', :multiplier => 5, :id => 3)
+            @shift = Shift.create!(:start_time => '7:30AM', :end_time => '9:00AM',
+            :metashift_id => 3, :id => 153)
+            #get :destroy, :id => 153
+        end
+        it 'should find the correct shift' do
+            get :destroy, :id => 153
+            expect(assigns(:shift)).to be_a(Shift)
+        end
+        it 'should destroy the shift if it exists' do
+            expect { get :destroy, :id => 153 }.to change(Shift, :count).by(-1)
+        end
+    end
+    
     
     describe "index" do
         # it 'should return something from shifts#index' do

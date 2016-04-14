@@ -107,14 +107,19 @@ class UsersController < ApplicationController
     @day_mapping = $day_mapping
     @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
         metashift.category}
+    @new = true
   end
   
   def edit_preferences
+    @new = false
     @user = current_user
     @day_mapping = $day_mapping
     @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
         metashift.category}
-    prefs = @user.preferences
+    @avail_dic = {}
+    @user.avails.each do |avail| 
+      @avail_dic[avail.day.to_s + "," + avail.hour.to_s] = avail.status
+    end
   end
   
   def set_pref_and_avail

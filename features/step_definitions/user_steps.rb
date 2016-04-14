@@ -62,6 +62,8 @@ Given /^"(.*)" is logged in$/ do |first_name|
 end
 
 Given /^I am not logged in$/ do
+  @current_user = nil
+  @current_unit = nil
 end
 
 And /^I should not be logged in$/ do

@@ -34,4 +34,5 @@ $(document).ready(function() {
     })
 
     $('.table-fixed-header').fixedHeader();
+
 });

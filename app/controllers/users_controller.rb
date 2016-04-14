@@ -68,8 +68,13 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by_id(params[:id])
   end
+<<<<<<< HEAD
   
   def edit_email
+=======
+
+  def edit_profile
+>>>>>>> ae55f3b26da53607299d0f5f5166b573c184fb3f
     if (defined? params[:user] and defined? params[:user][:email])
       user = User.find_by_id(params[:id])
       user.email = params[:user][:email]
@@ -102,6 +107,15 @@ class UsersController < ApplicationController
     6=> "Sunday"
   }
   
+  $day_mapping = {
+    0=> "Monday",
+    1=> "Tuesday",
+    2=> "Wednesday",
+    3=> "Thursday",
+    4=> "Friday",
+    5=> "Saturday",
+    6=> "Sunday"
+  }
   def new_preferences
     @user = current_user
     @day_mapping = $day_mapping
@@ -125,7 +139,6 @@ class UsersController < ApplicationController
       pref.metashift = ms
       pref.user = current_user
       pref.save
-      puts pref.inspect
     end
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path

@@ -50,7 +50,8 @@ Feature: Set User Preferences for Workshifts
     
   @wip
   Scenario: A user sets invalid workshift preferences
-    When I fill in "h" for the rank box for "Kitchen"
-    And I fill in "6" for the rank box for "Garbage"
+    When I fill in the following rankings:
+    | Kitchen         | h       |
+    | Garbage         | 6       |
     And I click "Save"
-    Then I should see "You must enter a number 1-5 for each preference."
+    Then I should be on the set preferences page

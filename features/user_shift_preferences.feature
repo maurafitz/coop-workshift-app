@@ -45,7 +45,7 @@ Feature: Set User Preferences for Workshifts
     | Kitchen Manager | 3       |
     | Dishes          | 2       |
     | Head Cook       | 1       |
-    And I click "Save Preferences"
+    And I click "Save"
     Then my preferences should be saved
     
   @wip

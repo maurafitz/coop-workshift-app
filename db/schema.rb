@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160414193744) do
+=======
+ActiveRecord::Schema.define(version: 20160414201115) do
+>>>>>>> 46a0bc315f442b07452388e7087a8c8aae25c4e3
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -53,6 +57,7 @@ ActiveRecord::Schema.define(version: 20160414193744) do
     t.integer  "rating"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "cat_rating"
   end
 
   add_index "preferences", ["metashift_id"], name: "index_preferences_on_metashift_id"
@@ -85,6 +90,7 @@ ActiveRecord::Schema.define(version: 20160414193744) do
     t.integer  "permissions"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "password"
     t.string   "password_digest"
     t.boolean  "sent_confirmation",   default: false
     t.boolean  "has_confirmed",       default: false

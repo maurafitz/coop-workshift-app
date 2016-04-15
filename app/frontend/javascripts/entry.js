@@ -18,7 +18,11 @@ var WST = require('./work_shift_table.js.jsx');
 if(document.getElementById('work-shift-table'))
 {
     var shifts = $('.temp_information').data('temp');
-    ReactDOM.render(<WST shifts={shifts}/>, document.getElementById('work-shift-table'));
+    var admin = $('.temp_information').data('is-admin');
+    var allusers= $('.temp_information').data('allusers');
+    console.log($('.temp_information') );
+    ReactDOM.render(<WST shifts={shifts}
+                         admin={admin} allusers={allusers}/>, document.getElementById('work-shift-table'));
 } 
 //ReactDOM.render(<WST/>, document.getElementById('work-shift-table'));
 
@@ -26,9 +30,5 @@ var app = new App();
 app.start();
 
 
-_.times(5, function(i) {
-  console.log(i);
-  //console.log($);
-});
 
 

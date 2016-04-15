@@ -5,7 +5,9 @@
 <!--= @serializedShifts.inspect-->
 
 
-<%= content_tag :div, class: "temp_information", data: {temp: @serializedShifts} do %>
+<%= content_tag :div, class: "temp_information", 
+data: {temp: @serializedShifts, is_admin: admin_rights?,
+       allusers: @allUsers} do %>
 
 <% end %>
 

@@ -60,13 +60,19 @@
 	
 	var WST = __webpack_require__(1);
 	
+	$.ajaxSetup({
+	  headers: {
+	    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	  }
+	});
+	
 	if (document.getElementById('work-shift-table')) {
-	    var shifts = $('.temp_information').data('temp');
-	    var admin = $('.temp_information').data('is-admin');
-	    var allusers = $('.temp_information').data('allusers');
-	    console.log($('.temp_information'));
-	    ReactDOM.render(React.createElement(WST, { shifts: shifts,
-	        admin: admin, allusers: allusers }), document.getElementById('work-shift-table'));
+	  var shifts = $('.temp_information').data('temp');
+	  var admin = $('.temp_information').data('is-admin');
+	  var allusers = $('.temp_information').data('allusers');
+	  console.log($('.temp_information'));
+	  ReactDOM.render(React.createElement(WST, { shifts: shifts,
+	    admin: admin, allusers: allusers }), document.getElementById('work-shift-table'));
 	}
 	//ReactDOM.render(<WST/>, document.getElementById('work-shift-table'));
 	
@@ -367,7 +373,7 @@
 	      url: '/shifts/' + shift_ids[0] + '/change_users',
 	      data: JSON.stringify({ user_ids: user_ids, shift_ids: shift_ids }),
 	      contentType: 'application/json', // format of request payload
-	      dataType: 'html', // format of the response
+	      // dataType: 'html', // format of the response
 	      success: function (msg) {
 	        noty({ text: msg,
 	          theme: 'relax', layout: 'topRight', type: 'success',

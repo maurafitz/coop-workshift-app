@@ -167,6 +167,8 @@ class UsersController < ApplicationController
       a.status = status
       a.save
     end
+    current_user.notes = params["notes"]
+    current_user.save
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path
   end
@@ -185,6 +187,7 @@ class UsersController < ApplicationController
       user.update_attribute(:preference_open, false == user.preference_open)
     end
   end
+  
   def edit_pref_and_avail
     categories = params["category"]
     meta = params["meta"]
@@ -217,6 +220,8 @@ class UsersController < ApplicationController
       a.status = status
       a.save
     end
+    current_user.notes = params["notes"]
+    current_user.save
     flash[:success] = "Your preferences have been edited successfully"
     redirect_to user_profile_path
   end

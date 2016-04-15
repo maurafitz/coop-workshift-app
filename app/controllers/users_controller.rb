@@ -80,16 +80,23 @@ class UsersController < ApplicationController
   end
 
   def edit_password
-    if (defined? params[:name] and defined? params[:password] and defined? params[:password_confirmation] and defined? User.find_by_id(params[:id]))
+    if (defined? params[:name] and defined? params[:password] and defined? params[:password_confirmation] and
+      defined? User.find_by_id(params[:id]) and defined? params[:old_password])
       user = User.find_by_id(params[:id])
       if (params[:password] == params[:password_confirmation])
-        user.update_attribute(:password, params[:password][0])
-        flash[:success] = "Your password has been updated."
+        if user.authenticate(params[:old_password])
+          user.update_attribute(:password, params[:password])
+          flash[:success] = "Your password has been updated."
+          redirect_to user_profile_path
+          return
+        else
+          flash[:danger] = "Invalid current password."
+        end
       else
-        flash[:danger] = "Passwords did not match."
+        flash[:danger] = "New passwords don't match."
       end
     end
-    redirect_to user_profile_path
+    redirect_to edit_profile_path
   end
   
   $day_mapping = {

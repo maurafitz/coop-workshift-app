@@ -1,0 +1,29 @@
+<!-- app/views/users/preference_access.html.erb -->
+<!DOCTYPE html>
+<html>
+<p>All/None</p>
+
+  <table id="Workshifts_uploaded" class="table table-striped table-hover">
+    <tr>
+      <th>Name</th>
+      <th>Workshift Open</th>
+      <th>Toggle</th>
+    </tr>
+    <% @users.each do | user | %>
+      <tr>
+        <td>
+          <%=user.full_name %>
+        </td>
+        <td>
+          <%=user.preference_open %>
+        </td>
+        <td>
+            <%= link_to 'Open/Close Workshift Preference Form', preference_access_path(:change_preference_for_id => user.id), :class=>"btn btn-theme" %>
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+
+
+</html>

@@ -93,12 +93,29 @@ class UsersController < ApplicationController
   end
   
   def new_preferences
+    if current_user.id != params[:id].to_i
+      redirect_to '/'
+    end
     @user = current_user
     @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
         metashift.category}
   end
   
-
+  def preference_access
+    if not @current_user.is_ws_manager?
+      redirect_to '/'
+    end
+    @users = User.all
+    user = User.find_by_id(params[:change_preference_for_id])
+    if user == nil
+      return
+    end
+    if (defined? user and defined? params[:change_preference_for_id])
+      puts "################## 2 ########################"
+      user = User.find_by_id(params[:change_preference_for_id])
+      user.update_attribute(:preference_open, false == user.preference_open)
+    end
+  end
   
 private
 
@@ -113,6 +130,6 @@ private
   end
   
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :permissions, :password, :password_confirmation, :avatar)
+    params.require(:user).permit(:first_name, :last_name, :email, :permissions, :password, :password_confirmation, :avatar, :change_preference_for_id)
   end
 end

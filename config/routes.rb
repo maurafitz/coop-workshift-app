@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   post '/users/:id/edit/password' => 'users#edit_password', as: 'edit_password'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
-  
+  get '/preference_access' => 'users#preference_access', as: 'preference_access'
 
 
   get '/index' => 'workshift#index'
@@ -42,6 +42,5 @@ Rails.application.routes.draw do
   get '/policies/' => 'policies#show', as: 'policy'
   post 'policies/' => 'policies#create'
   put '/policies/' => 'policies#update'
-  
   
 end

@@ -47,6 +47,7 @@ When /^I fill in the following rankings:$/ do |fields|
     end
     step %Q{I fill in "#{value}" for "#{name}"}
   end
+  sleep 2
 end
 
 Then(/^my shift preferences should be saved$/) do
@@ -102,8 +103,15 @@ Then(/^my schedule preferences should be saved$/) do
 end
 
 Then(/^my availability for "([^"]*)", "([^"]*)" should be "([^"]*)"$/) do |day, hour, status|
-  expect(@current_user.avails.where(:day => day, :hour => hour).first.status).to eq(status)
+  set_mappings
+  expect(@current_user.avails.where(:day => @day_mapping[day], :hour => @time_mapping[hour]).first.status).to eq(status)
 end
+
+And /^my ranking for "([^"]*)" should be "([^"]*)"$/ do |metashift, rank|
+  metashift = Metashift.find_by_name(metashift)
+  expect(@current_user.preferences.where(:metashift => metashift).first.rating).to eq(rank.to_i)
+end
+
 
 Then(/^I should see a(?:n)? "([^"]*)" status "([^"]*)" times$/) do |status, num|
   status_mapping = {

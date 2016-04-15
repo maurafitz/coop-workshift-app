@@ -11,7 +11,6 @@ Feature: Set and Edit User Preferences for Schedule
     | category      | name                             | id | description                                   |
     | Kitchen       | Kitchen Manager                  | 1  | Refer to bylaws for manager description.      |
      
-  @wip
   Scenario: A user sets their time preferences correctly
     Given I have not saved any preferences
     When I go to the set preferences page
@@ -34,7 +33,7 @@ Feature: Set and Edit User Preferences for Schedule
     And I should see an "Unavailable" status "34" times
     And I should see a "Not Preferred" status "45" times
     And I should see an "Unsure" status "12" times
-    # When I fill in "Notes" with "I have nothing to say"
+    When I fill in "Notes" with "I have nothing to say"
     And I click "Save"
     Then I should be on my profile page
     And I should see "Your preferences have been saved"
@@ -47,21 +46,28 @@ Feature: Set and Edit User Preferences for Schedule
     Then I press "Submit"
     Then I should see "Error, you must fill in all the boxes."
     
-  # @wip
   Scenario: A user edits their time preferences
-    Given I have saved the following time preferences:
+    # Given I have saved the following time preferences:
+    # | day         | times              | availability  |
+    # | Monday      | 8am-6pm            | Unavailable   |
+    # | Monday      | 7pm-11pm           | Not Preferred |
+    Given I have not saved any preferences
+    When I go to the set preferences page
+    And I select the following time preferences:
     | day         | times              | availability  |
     | Monday      | 8am-6pm            | Unavailable   |
     | Monday      | 7pm-11pm           | Not Preferred |
+    And I click "Save"
     When I go to the edit preferences page
     Then I should see an "Unavailable" status "11" times
     And I should see a "Not Preferred" status "5" times
-    # And I should see "Unavailable" in the availability box for "Monday", "8am"
     When I select the following time preferences:
     | day         | times              | availability  |
     | Monday      | 8am-6pm            | Available     |
     | Tuesday     | 3pm-3pm, 10pm-11pm | Not Preferred |
     And I click "Save"
+    Then I should be on my profile page
+    And I should see "Your preferences have been edited successfully"
     Then my availability for "Monday", "8am" should be "Available"
     And my availability for "Tuesday", "10pm" should be "Not Preferred"
       

@@ -20,10 +20,11 @@ end
 
 ### LOGGING IN USERS ###
 def simulate_login(user)
-  visit path_to('the login page')
+  visit path_to('the home page')
+  click_link('Login')
   fill_in('email', :with => user.email)
   fill_in('password', :with => user.password)
-  click_button("Log In")
+  click_button("Sign In")
   @current_user = user
 end
 

@@ -237,6 +237,10 @@ Then(/^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/) do |labe
   end
 end
 
+Then(/^the "([^"]*)" button should be disabled$/) do |button|
+  expect(page.all('.disabled').length).to eq(1)
+end
+
 ########## CLICK/SELECT/CHECK/FILL IN ##########
 When(/^(?:|I )press "([^"]*)"$/) do |button|
   click_button(button)
@@ -247,7 +251,8 @@ When(/^(?:|I )click "([^"]*)"$/) do |button|
     click_button(button)
   rescue
     click_link(button)
-  end  
+  end
+  sleep 0.5
 end
 
 When /^I select "([^"]*)" as the (.+) "([^"]*)"(?: date)?$/ do |date, model, selector|
@@ -376,4 +381,8 @@ end
 
 Then /^show me the page$/ do
   save_and_open_page
+end
+
+And /^I see the page$/ do
+  puts page.body
 end

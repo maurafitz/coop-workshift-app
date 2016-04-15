@@ -105,7 +105,11 @@ class UsersController < ApplicationController
   def new_preferences
     if current_user.id != params[:id].to_i
       redirect_to '/'
+    elsif current_user.avails.length != 0
+      flash[:warning] = "You have already set your preferences. Edit them here."
+      redirect_to edit_preferences_path
     end
+    
     @new = true
     @user = current_user
     @day_mapping = $day_mapping
@@ -114,6 +118,10 @@ class UsersController < ApplicationController
   end
   
   def edit_preferences
+    if current_user.avails.length == 0
+      flash[:warning] = "You have not yet set your preferences. Please set them here."
+      redirect_to new_preferences_path
+    end
     @new = false
     @user = current_user
     @day_mapping = $day_mapping

@@ -8,6 +8,7 @@ class ShiftsController < ApplicationController
   def index
     @shifts = Shift.all 
     @serializedShifts = json_shifts(@shifts)
+    @allUsers = User.all.to_json
   end
   
   def new_timeslots
@@ -22,6 +23,12 @@ class ShiftsController < ApplicationController
     Shift.add_shift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift)
     redirect_to '/shifts'
   end
+  
+  # def update_shift
+  #   shift = Shift.find_by_id(params[:shift_id])
+  #   shift.user = User.find_by_id(params[:user_id])
+  #   shift.save()
+  # end
 
   # GET /shifts/1
   # GET /shifts/1.json

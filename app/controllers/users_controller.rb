@@ -103,6 +103,9 @@ class UsersController < ApplicationController
   }
   
   def new_preferences
+    if current_user.id != params[:id].to_i
+      redirect_to '/'
+    end
     @new = true
     @user = current_user
     @day_mapping = $day_mapping
@@ -168,6 +171,20 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
+  def preference_access
+    if not @current_user.is_ws_manager?
+      redirect_to '/'
+    end
+    @users = User.all
+    user = User.find_by_id(params[:change_preference_for_id])
+    if user == nil
+      return
+    end
+    if (defined? user and defined? params[:change_preference_for_id])
+      user = User.find_by_id(params[:change_preference_for_id])
+      user.update_attribute(:preference_open, false == user.preference_open)
+    end
+  end
   def edit_pref_and_avail
     categories = params["category"]
     meta = params["meta"]
@@ -218,6 +235,6 @@ private
   end
   
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :permissions, :password, :password_confirmation, :avatar)
+    params.require(:user).permit(:first_name, :last_name, :email, :permissions, :password, :password_confirmation, :avatar, :change_preference_for_id)
   end
 end

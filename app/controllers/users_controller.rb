@@ -142,31 +142,37 @@ class UsersController < ApplicationController
       ms = Metashift.find_by_id(id.to_i)
       rank = rank.to_i
       pref = Preference.new
-      cat = categories[ms.category].to_i
-      if cat != 0
-        pref.cat_rating = cat
-      else
-        pref.cat_rating = 3
+      if pref and ms
+        cat = categories[ms.category].to_i
+        if cat != 0
+          pref.cat_rating = cat
+        else
+          pref.cat_rating = 3
+        end
+        if rank == 0
+          rank = pref.cat_rating
+        end
+        pref.rating = rank
+        pref.metashift = ms
+        pref.user = current_user
+        pref.save
       end
-      if rank == 0
-        rank = pref.cat_rating
-      end
-      pref.rating = rank
-      pref.metashift = ms
-      pref.user = current_user
-      pref.save
     end
     #Saving Avails
     avail = params["avail"]
     avail.each do |datetime, status|
       day, time = datetime.split(",")
       a = Avail.new
-      a.user = current_user
-      a.hour = time.to_i
-      a.day = day.to_i
-      a.status = status
-      a.save
+      if a
+        a.user = current_user
+        a.hour = time.to_i
+        a.day = day.to_i
+        a.status = status
+        a.save
+      end
     end
+    current_user.notes = params["notes"]
+    current_user.save
     flash[:success] = "Your preferences have been saved"
     redirect_to user_profile_path
   end
@@ -185,6 +191,7 @@ class UsersController < ApplicationController
       user.update_attribute(:preference_open, false == user.preference_open)
     end
   end
+  
   def edit_pref_and_avail
     categories = params["category"]
     meta = params["meta"]
@@ -192,31 +199,37 @@ class UsersController < ApplicationController
       ms = Metashift.find_by_id(id.to_i)
       rank = rank.to_i
       pref = Preference.where(user: current_user).where(metashift: ms).first
-      cat = categories[ms.category].to_i
-      if cat != 0
-        pref.cat_rating = cat
-      else
-        pref.cat_rating = 3
+      if pref and ms
+        cat = categories[ms.category].to_i
+        if cat != 0
+          pref.cat_rating = cat
+        else
+          pref.cat_rating = 3
+        end
+        if rank == 0
+          rank = pref.cat_rating
+        end
+        pref.rating = rank
+        pref.metashift = ms
+        pref.user = current_user
+        pref.save
       end
-      if rank == 0
-        rank = pref.cat_rating
-      end
-      pref.rating = rank
-      pref.metashift = ms
-      pref.user = current_user
-      pref.save
     end
     #Saving Avails
     avail = params["avail"]
     avail.each do |datetime, status|
       day, time = datetime.split(",")
       a = Avail.where(user:current_user).where(day: day.to_i).where(hour: time.to_i).first
-      a.user = current_user
-      a.hour = time.to_i
-      a.day = day.to_i
-      a.status = status
-      a.save
+      if a
+        a.user = current_user
+        a.hour = time.to_i
+        a.day = day.to_i
+        a.status = status
+        a.save
+      end
     end
+    current_user.notes = params["notes"]
+    current_user.save
     flash[:success] = "Your preferences have been edited successfully"
     redirect_to user_profile_path
   end

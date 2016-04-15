@@ -37,8 +37,10 @@ And /^I should see "(.+)" in the row for "(.+)"$/ do |name, task|
 end
 
 And /^I click "(.+)" in the row for "(.+)"$/ do |button, task|
-    find('tr', text: task).click_link("Description")
-   # find(:xpath, '//ul/li').text
+    #find('tr', text: task).click_link("Description")
+    # within :xpath, "//tr[td = 'Kitchen']/td/div/button" do
+    #     click_link 'Description'
+    #end
 end
 
 

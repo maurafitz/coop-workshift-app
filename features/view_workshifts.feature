@@ -15,7 +15,7 @@ Feature: View Workshift Table
     And I should see "Maura Fitz" in the row for "Kitchen"
 
   Scenario: A user can click to view a workshift description
-    #When I click "Description" in the row for "Kitchen"
+#    When I click "Description" in the row for "Kitchen"
     #Then I should see "Sweeping the kitchen floors"
 
  Scenario: A regular user can't edit workshifts

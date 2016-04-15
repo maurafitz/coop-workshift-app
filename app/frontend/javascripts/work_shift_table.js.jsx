@@ -60,7 +60,7 @@ DescriptionComponent = React.createClass({
   render: function(){
     return (
       <div>
-        <OverlayTrigger trigger="click" placement="left" overlay={<Popover title={this.props.rowData.shift}>{this.props.rowData.description}</Popover>}>
+        <OverlayTrigger trigger="click" placement="left" overlay={<Popover title={this.props.rowData.shift} id={this.props.rowData.shift_id + "he"}>{this.props.rowData.description}</Popover>}>
           <Button color="blue" type="button">Description</Button>
         </OverlayTrigger>
       </div>

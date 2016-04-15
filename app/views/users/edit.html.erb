@@ -1,5 +1,4 @@
 <!-- app/views/users/edit.html.erb -->
-<div class="container mtb">
 <% flash.each do |key, value| %>
   <div class="alert alert-<%=key%>" >
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -8,15 +7,16 @@
 <% end %>
 
 <%= yield %>
-</div>
 <h1>Edit Account</h1>
+<div class="col-lg-1">
+</div>
 <div class="col-lg-8">
   <h2>Change Password</h2>
   <%=render "edit_password_form" %>
   <div class="hline"></div>
-</div>
-<div class="col-lg-8">
   <h2>Update Email</h2>
   <%=render "edit_email_form" %>
   <div class="hline"></div>
+</div>
+<div class="col-lg-1">
 </div>

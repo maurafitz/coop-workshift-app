@@ -60,7 +60,7 @@ end
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
   if current_path.respond_to? :should
-    current_path.should == path_to(page_name)
+    expect(current_path).to  eq(path_to(page_name))
   else
     assert_equal path_to(page_name), current_path
   end
@@ -69,7 +69,7 @@ end
 ########## WHAT I SHOULD SEE ON PAGE ##########
 Then(/^I should see "([^"]*)" "(.+)" times$/) do |text, num|
   number = num.to_i
-  page.should have_content(text, :count => number)
+  expect(page).to have_content(text, :count => number)
 end
 
 
@@ -237,17 +237,22 @@ Then(/^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/) do |labe
   end
 end
 
+Then(/^the "([^"]*)" button should be disabled$/) do |button|
+  expect(page.all('.disabled').length).to eq(1)
+end
+
 ########## CLICK/SELECT/CHECK/FILL IN ##########
 When(/^(?:|I )press "([^"]*)"$/) do |button|
   click_button(button)
 end
 
 When(/^(?:|I )click "([^"]*)"$/) do |button|
-  click_button(button)
-end
-
-When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
+  begin
+    click_button(button)
+  rescue
+    click_link(button)
+  end
+  sleep 0.5
 end
 
 When /^I select "([^"]*)" as the (.+) "([^"]*)"(?: date)?$/ do |date, model, selector|
@@ -376,4 +381,8 @@ end
 
 Then /^show me the page$/ do
   save_and_open_page
+end
+
+And /^I see the page$/ do
+  puts page.body
 end

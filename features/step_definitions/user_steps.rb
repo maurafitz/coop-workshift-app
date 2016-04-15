@@ -21,6 +21,7 @@ end
 ### LOGGING IN USERS ###
 def simulate_login(user)
   visit path_to('the home page')
+  click_link('Login')
   fill_in('email', :with => user.email)
   fill_in('password', :with => user.password)
   click_button("Sign In")
@@ -62,6 +63,8 @@ Given /^"(.*)" is logged in$/ do |first_name|
 end
 
 Given /^I am not logged in$/ do
+  @current_user = nil
+  @current_unit = nil
 end
 
 And /^I should not be logged in$/ do

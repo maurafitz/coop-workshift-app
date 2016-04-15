@@ -3,8 +3,7 @@ Feature: Log in to the Application
   In order to view pages on the site that I have permissions for
   I want to be able to log in to the app.
 
-Background: users in database
-
+Background:
   Given the following users exist:
   | first_name      | last_name     | email                     |   password     |    permissions   |
   | Eric            | Nelson        | ericn@berkeley.edu        |   bunnny       |      0           |

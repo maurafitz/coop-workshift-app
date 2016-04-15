@@ -10,4 +10,10 @@ Feature: Set User Access to Preferences for Schedule
     Given I am on my profile page
     Then I should see "Select Workshifts Preference"
     When I follow "Open/Close Workshift Preference Form" 
+    Then I should see "true"
+    When I follow "Open/Close Workshift Preference Form for Example"
+    Then I should see "false"
+    When I follow "Profile"
+    Then I should not see "Select Workshifts Preference"
+    
     

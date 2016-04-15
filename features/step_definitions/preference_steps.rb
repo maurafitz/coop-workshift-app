@@ -2,20 +2,10 @@ def convert_to_id value
     value.gsub(/ /, "_")
 end 
 
-Then /^the "(.*)" category should (not )?be collapsed$/ do |category, not_collapsed|
-  category = convert_to_id category
-  element = find_by_id(category)
-  expect(element[:class]).to include('collapse')
-  if not_collapsed
-    expect(element[:class]).to include('in')
-  else
-    expect(element[:class]).to_not include('in')
-  end
-end
-
 Given /^I have not saved any preferences$/ do
   @category_rankings = {}
   @shift_rankings = {}
+  @availability = {}
 end
 
 When /^I fill in the following rankings:$/ do |fields|
@@ -32,7 +22,7 @@ When /^I fill in the following rankings:$/ do |fields|
   end
 end
 
-Then(/^my preferences should be saved$/) do
+Then(/^my shift preferences should be saved$/) do
   db_preferences = {}
   @current_user.preferences.each do |preference|
     db_preferences[Metashift.find_by_id(preference.metashift_id)] = preference.rating
@@ -48,6 +38,51 @@ Then(/^my preferences should be saved$/) do
   end
 end
   
+And /^I select the following time preferences:$/ do |fields|
+  day_mapping = {
+  "Monday" => 0,
+  "Tuesday" => 1,
+  "Wednesday" => 2,
+  "Thursday" => 3,
+  "Friday" => 4,
+  "Saturday" => 5,
+  "Sunday" => 6
+  }
+  time_mapping = {
+  "8am" => 8,
+  "9am" => 9,
+  "10am" => 10,
+  "11am" => 11,
+  "12pm" => 12,
+  "1pm" => 13,
+  "2pm" => 14,
+  "3pm" => 15,
+  "4pm" => 16,
+  "5pm" => 17,
+  "6pm" => 18,
+  "7pm" => 19,
+  "8pm" => 20,
+  "9pm" => 21,
+  "10pm" => 22,
+  "11pm" => 23
+  }
+  fields.hashes.each do |availability_hash|
+    day = day_mapping[availability_hash[:day]]
+    time_blocks = availability_hash[:times].split(",")
+    availability_status = availability_hash[:availability]
+    
+    for time_block in time_blocks do
+      time_block =~ /(?: )?(.*)-(.*)/
+      start_time, end_time = time_mapping[$1], time_mapping[$2] 
+      for hour in start_time..end_time do
+        step %Q{I select "#{availability_status}" for "#{"avail[#{day},#{hour}]"}"}
+      end
+    end
+  end
+end
+
 Given /I fill in my availability correctly/ do
     pending
 end
+
+

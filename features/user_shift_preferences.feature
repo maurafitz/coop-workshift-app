@@ -1,3 +1,4 @@
+@javascript
 Feature: Set User Preferences for Workshifts
   As a co-op member
   In order to be assigned shifts that I like
@@ -9,52 +10,52 @@ Feature: Set User Preferences for Workshifts
     And the following metashifts exist:
     | category      | name                             | id | description                                   |
     | Kitchen       | Kitchen Manager                  | 1  | Refer to bylaws for manager description.      |
-    | Kitchen       | Dishes                           | 2  | Use a sponge and soap to scrub off each dish. |
     | Kitchen       | Head Cook                        | 3  | Lead a team in cooking meals.                 |
     | Garbage       | Waste Reduction Coordinator      | 4  | Coordinate waste reduction. Go to CO.         |
     | Garbage       | TRC (Trash, Recycling, Compost)  | 5  | Take out trash, recycling and compost bins.   |
+    | Kitchen       | Dishes                           | 2  | Put away any clean dishes. Attack the dishes according to type, e.g. silverware, cups, plates, bowls. Use a blue sponge and dish soap to scrub off each dish. Make a stack of soaped up dishes as you go.|
     
     And I am on the set preferences page
 
-  @wip
   Scenario: A user views workshifts organized by category
     Then I should see "Rank the Workshifts"
     And I should see the following: "Kitchen", "Garbage"
-    And the "Kitchen" category should be collapsed
-    And the "Garbage" category should be collapsed
-    # When I click "Kitchen"
-    # Then the "Kitchen" category should not be collapsed
-    # And the "Garbage" category should be collapsed
-    # When I click "Kitchen"
-    # Then the "Kitchen" category should be collapsed
+    And I should not see the following: "Kitchen Manager", "Dishes", "Head Cook", "Waste Reduction Coordinator", "TRC"
+    When I click "Kitchen"
+    Then I should see the following: "Kitchen Manager", "Dishes", "Head Cook"
+    And I should not see the following: "Waste Reduction Coordinator", "TRC"
+    And I should see the following: "Shift", "Description"
+    When I click "Kitchen"
+    Then I should not see the following: "Kitchen Manager", "Dishes", "Head Cook"
     
   @wip
   Scenario: A user views workshift descriptions
-    # When I click "Kitchen"
+    When I click "Kitchen"
     And I click "toggle description" in the row for "Dishes"
     # Then I should see "Use a sponge and soap to scrub off each dish."
     # And I should not see "Lead a team in cooking meals."
     # When I click "Kitchen"
     # Then I should not see "Use a sponge and soap to scrub off each dish."
   
-  # @wip
   Scenario: A user sets their workshift preferences
     Given I have not saved any preferences
-    When I fill in the following rankings:
+    When I click "Kitchen"
+    And I click "Garbage"
+    And I fill in the following rankings:
     | Kitchen         | 5       |
     | Kitchen Manager | 3       |
     | Dishes          | 2       |
     | Head Cook       | 1       |
-    And I click "Save Preferences"
+    And I click "Save"
     Then I should be on my profile page
     And I should see "Your preferences have been saved"
-    And my preferences should be saved
+    And my shift preferences should be saved
     
-  @wip
+  # @wip
   Scenario: A user sets invalid workshift preferences
     Given I have not saved any preferences
     When I fill in the following rankings:
     | Kitchen         | h       |
     | Garbage         | 6       |
-    And I click "Save Preferences"
-    # Then I should be on the set preferences page
+    And I click "Save"
+    Then I should be on the set preferences page

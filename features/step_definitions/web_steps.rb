@@ -243,7 +243,11 @@ When(/^(?:|I )press "([^"]*)"$/) do |button|
 end
 
 When(/^(?:|I )click "([^"]*)"$/) do |button|
-  click_button(button)
+  begin
+    click_button(button)
+  rescue
+    click_link(button)
+  end  
 end
 
 When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |arg1, arg2|

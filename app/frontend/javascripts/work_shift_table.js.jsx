@@ -70,7 +70,6 @@ DescriptionComponent = React.createClass({
 var UserComponent = React.createClass({
   displayName: 'UserComponent',
   getInitialState: function(){
-    console.log(this.props.rowData);
     if (!this.props.rowData.user) {
       return {profile_url: "/", full_name: "" }
     }
@@ -231,7 +230,6 @@ var WorkShiftTable = React.createClass({
         var user_hash = {"full_name":"(None)",
                  "user_id" : null}
       }
-      console.log(shift.start_time);
       data.push({"category": shift.metashift.category,
         "user": user_hash,
         "name": shift.metashift.name,
@@ -241,7 +239,6 @@ var WorkShiftTable = React.createClass({
         "shift_id": shift.id
       })
     }
-    console.log(data)
     if (shifts.length > 0) {
       this.setState({shiftData: data})
     } else {
@@ -275,7 +272,6 @@ var WorkShiftTable = React.createClass({
     shiftData: this.getDataWEditModeAppended(this.state.shiftData, !this.state.editMode)});
   },
   render: function() {
-    console.log("Dirty Shifts"); console.log(this.state.dirtyShifts);
     var saveButton;
     var editButton;
     var exitEditButton;

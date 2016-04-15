@@ -20,7 +20,6 @@ if(document.getElementById('work-shift-table'))
     var shifts = $('.temp_information').data('temp');
     var admin = $('.temp_information').data('is-admin');
     var allusers= $('.temp_information').data('allusers');
-    console.log($('.temp_information') );
     ReactDOM.render(<WST shifts={shifts}
                          admin={admin} allusers={allusers}/>, document.getElementById('work-shift-table'));
 } 

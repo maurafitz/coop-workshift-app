@@ -11,6 +11,9 @@ class Shift < ActiveRecord::Base
     end_time = Chronic.parse('this ' + day + ' ' + end_time.to_str)
     a_shift = Shift.create!(:start_time => start_time, :end_time => end_time)
     metashift.shifts << a_shift
+    metashift.save!
+    puts("shift start time: ", start_time)
+    puts("shift end time: ", end_time)
     return a_shift
   end
   

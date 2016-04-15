@@ -165,6 +165,7 @@ var WorkShiftTable = React.createClass({
         var user_hash = {"full_name":"(None)",
                  "user_id" : null}
       }
+      console.log(shift.start_time)
       data.push({"category": shift.metashift.category,
         "user": user_hash,
         "name": shift.metashift.name,

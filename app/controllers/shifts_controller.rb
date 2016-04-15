@@ -19,6 +19,8 @@ class ShiftsController < ApplicationController
   def add_timeslots
     shift = params[:shift]
     @metashift = Metashift.find_by_id(shift[:metashift_id])
+    puts("start time: ", shift[:start_time])
+    puts("end time: ", shift[:end_time])
     Shift.add_shift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift)
     redirect_to '/shifts'
   end

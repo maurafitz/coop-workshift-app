@@ -37,9 +37,9 @@ module NavigationHelpers
     when /^the view workshifts page$/
       '/shifts'
     when /^the edit workshift page$/
-      '/'
+      '/shifts'
     when /^the assign workshifts page$/
-      '/'
+      '/shifts'
       
     #### POLICIES ####
     when /^the view policy page$/

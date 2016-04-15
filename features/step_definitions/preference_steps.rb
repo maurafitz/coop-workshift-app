@@ -123,9 +123,9 @@ Then(/^I should see a(?:n)? "([^"]*)" status "([^"]*)" times$/) do |status, num|
   expect(page.all(".#{status_mapping[status]}").length).to eq(num.to_i)
 end
 
-When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |button, metashift|
-  pending # Write code here that turns the phrase above into concrete actions
-end
+#When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |button, metashift|
+ # pending # Write code here that turns the phrase above into concrete actions
+#end
 
 ### HELPER METHODS ###
 def convert_to_id value

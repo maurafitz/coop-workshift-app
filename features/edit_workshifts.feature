@@ -1,28 +1,20 @@
+@javascript
 Feature: View and Edit Workshifts
   As a work-shift manager,
   In order to keep workshift information up-to-date and prevent changes by non-admins,
   I would like to view and edit workshift attributes.
   
   Background:
-    Given the following workshifts exist:
-    | category      | name                             | description                                   |
-    | Kitchen       | Kitchen Manager                  | Refer to bylaws for manager description.      |
-    | Kitchen       | Dishes                           | Use a sponge and soap to scrub off each dish. |
-    | Kitchen       | Head Cook                        | Lead a team in cooking meals.                 |
-    | Garbage       | Waste Reduction Coordinator      | Coordinate waste reduction. Go to CO.         |
-    | Garbage       | TRC (Trash, Recycling, Compost)  | Take out trash, recycling and compost bins.   |
+    Given some workshifts have been created for the semester
     And I am on the view workshifts page
   
-  @wip
+  
   Scenario: A member views workshifts for the semester but cannot edit
     Given I am logged in as a member
-    Then I should see "All Workshifts"
+    And I am on the view workshifts page
+    Then I should see "Listing Shifts"
     And I should see a workshift table
-    And I should see "Kitchen" "3" times
-    And I should see "Garbage" "2" times
-    And I should see the following: "Kitchen Manager", "Dishes", "Head Cook", "Waste Reduction", "TRC"
-    And I should see "Lead a team in cooking meals."
-    And I should see "Use a sponge and soap to scrub off each dish."
+    And I should see "Maura Fitz"
     And I should not see "Edit"
     
   @wip  

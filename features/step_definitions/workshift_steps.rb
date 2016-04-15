@@ -36,6 +36,12 @@ And /^I should see "(.+)" in the row for "(.+)"$/ do |name, task|
     row.should have_content(name)
 end
 
+And /^I click "(.+)" in the row for "(.+)"$/ do |button, task|
+    find('tr', text: task).click_link("Description")
+   # find(:xpath, '//ul/li').text
+end
+
+
 And /^I follow edit for "(.*)"$/ do |text|
     within :xpath, "//table//tr[td[contains(.,\"#{text}\")]]" do
         click_link 'Edit'

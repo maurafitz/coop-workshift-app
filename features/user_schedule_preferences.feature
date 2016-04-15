@@ -11,7 +11,7 @@ Feature: Set and Edit User Preferences for Schedule
     | category      | name                             | id | description                                   |
     | Kitchen       | Kitchen Manager                  | 1  | Refer to bylaws for manager description.      |
      
-  # @wip
+  @wip
   Scenario: A user sets their time preferences correctly
     Given I have not saved any preferences
     When I go to the set preferences page
@@ -47,7 +47,7 @@ Feature: Set and Edit User Preferences for Schedule
     Then I press "Submit"
     Then I should see "Error, you must fill in all the boxes."
     
-  @wip
+  # @wip
   Scenario: A user edits their time preferences
     Given I have saved the following time preferences:
     | day         | times              | availability  |

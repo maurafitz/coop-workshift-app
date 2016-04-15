@@ -24,11 +24,19 @@ class ShiftsController < ApplicationController
     redirect_to '/shifts'
   end
   
-  # def update_shift
-  #   shift = Shift.find_by_id(params[:shift_id])
-  #   shift.user = User.find_by_id(params[:user_id])
-  #   shift.save()
-  # end
+  def change_users
+    params[:shift_ids].zip(params[:user_ids]).each do |shift_id, user_id|
+      shift = Shift.find_by_id(shift_id)
+      user = User.find_by_id(user_id)
+      if user and shift
+        shift.user = user
+        shift.save()
+      else
+        render :text => "Error saving shifts", :status => 500, :content_type => 'text/html'
+      end
+    end
+    render :text => "Successfully saved shifts", :status => 200, :content_type => 'text/html'
+  end
 
   # GET /shifts/1
   # GET /shifts/1.json

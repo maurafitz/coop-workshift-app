@@ -10,6 +10,9 @@ var config = module.exports = {
   context: path.join(__dirname, '../', '../'),
   // the main entry point for our application's frontend JS
   entry: './app/frontend/javascripts/entry.js',
+  // node: {
+  //   fs: 'empty', child_process: 'empty'
+  // }, 
   
 };
 

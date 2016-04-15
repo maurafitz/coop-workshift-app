@@ -14,6 +14,12 @@ var ReactDOM = require('react-dom')
 
 var WST = require('./work_shift_table.js.jsx');
 
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
 
 if(document.getElementById('work-shift-table'))
 {

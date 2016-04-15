@@ -52,6 +52,8 @@ module NavigationHelpers
      #### Preferences ####
     when /^the set preferences page$/
       new_preferences_path(@current_user.id)
+    when /^the edit preferences page$/
+      edit_preferences_path(@current_user.id)
       
       
     # Add more mappings here.

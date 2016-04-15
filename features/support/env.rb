@@ -26,9 +26,9 @@ require "codeclimate-test-reporter"
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 ## IGNORE ERRORS
-# Capybara.register_driver :poltergeist do |app|
-  # Capybara::Poltergeist::Driver.new(app, {js_errors: false})
-# end
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, {js_errors: false})
+end
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any

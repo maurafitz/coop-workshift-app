@@ -103,11 +103,9 @@ class UsersController < ApplicationController
   }
   
   def new_preferences
-<<<<<<< HEAD
     if current_user.id != params[:id].to_i
       redirect_to '/'
     end
-=======
     @new = true
     @user = current_user
     @day_mapping = $day_mapping
@@ -117,7 +115,6 @@ class UsersController < ApplicationController
   
   def edit_preferences
     @new = false
->>>>>>> 9be8b6cff547ebd625c706892db88f50664bcd4a
     @user = current_user
     @day_mapping = $day_mapping
     @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
@@ -174,7 +171,6 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
-<<<<<<< HEAD
   def preference_access
     if not @current_user.is_ws_manager?
       redirect_to '/'
@@ -185,12 +181,10 @@ class UsersController < ApplicationController
       return
     end
     if (defined? user and defined? params[:change_preference_for_id])
-      puts "################## 2 ########################"
       user = User.find_by_id(params[:change_preference_for_id])
       user.update_attribute(:preference_open, false == user.preference_open)
     end
   end
-=======
   def edit_pref_and_avail
     categories = params["category"]
     meta = params["meta"]
@@ -227,7 +221,6 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
 
->>>>>>> 9be8b6cff547ebd625c706892db88f50664bcd4a
   
 private
 

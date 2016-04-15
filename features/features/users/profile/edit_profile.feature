@@ -1,4 +1,4 @@
-Feature: Editiing User Profile
+Feature: Edit User Profile
   As a member of a coop,
   In order to update my account information,
   I would like to change my password and email.

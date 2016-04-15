@@ -18,7 +18,7 @@
           <%=user.preference_open %>
         </td>
         <td>
-            <%= link_to 'Open/Close Workshift Preference Form', preference_access_path(:change_preference_for_id => user.id), :class=>"btn btn-theme" %>
+            <%= link_to 'Open/Close Workshift Preference Form for ' + user.first_name, preference_access_path(:change_preference_for_id => user.id), :class=>"btn btn-theme" %>
         </td>
       </tr>
     <% end %>

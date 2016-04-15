@@ -9,6 +9,7 @@ var Button = require('react-bootstrap/lib/Button');
 var Popover = require('react-bootstrap/lib/Popover');
 var OverlayTrigger = require('react-bootstrap/lib/OverlayTrigger');
 var Input = require('react-bootstrap/lib/Input');
+var noty = require('noty');
 
 var moment = require('moment');
 
@@ -60,7 +61,9 @@ DescriptionComponent = React.createClass({
   render: function(){
     return (
       <div>
-        <OverlayTrigger trigger="click" placement="left" overlay={<Popover title={this.props.rowData.shift} id={this.props.rowData.shift_id + "he"}>{this.props.rowData.description}</Popover>}>
+        <OverlayTrigger trigger="focus" placement="left" 
+            overlay={<Popover title={this.props.rowData.shift} 
+            id={this.props.rowData.shift_id + "he"}>{this.props.rowData.description}</Popover>}>
           <Button color="blue" type="button">Description</Button>
         </OverlayTrigger>
       </div>
@@ -70,7 +73,6 @@ DescriptionComponent = React.createClass({
 var UserComponent = React.createClass({
   displayName: 'UserComponent',
   getInitialState: function(){
-    console.log(this.props.rowData);
     if (!this.props.rowData.user) {
       return {profile_url: "/", full_name: "" }
     }
@@ -82,14 +84,17 @@ var UserComponent = React.createClass({
   
   getUserOptions: function(){
     var lst = [];
+    var u_id = -1;
     if (this.props.rowData.user){
-      lst.push(<option key={this.props.rowData.user.id} 
+      u_id = this.props.rowData.user.id
+      lst.push(<option key={this.props.rowData.user.id+ "-" + this.props.rowData.shift_id} 
       value ={this.props.rowData.user.id}>{this.props.rowData.user.full_name}</option>);
     }
     for (var i = 0; i < allUsers.length; i++){
-      if (!this.props.rowData.user || this.props.rowData.user.user_id != allUsers[i].id){
+      if (!this.props.rowData.user || u_id != allUsers[i].id){
         //Only append to list if we haven't appended this name yet
-        lst.push(<option key={allUsers[i].id} value={allUsers[i].id}>{allUsers[i].full_name}</option>);
+        lst.push(<option key={allUsers[i].id + "-" + this.props.rowData.shift_id} 
+        value={allUsers[i].id}>{allUsers[i].full_name}</option>);
       }
     }
     return lst
@@ -98,7 +103,7 @@ var UserComponent = React.createClass({
   getUserDropdown: function(){
     return (
         <Input type="select" label="" placeholder="select" 
-        ref="userOptions" onChange={this.onUserChange}>
+        ref="userOptions" key={this.props.rowData.shift_id} onChange={this.onUserChange}>
           {this.getUserOptions()}
         </Input>
         )
@@ -168,8 +173,8 @@ var columnMeta = [
   //"order" :3
   //},
   {
-  "columnName": "user",
-  "displayName": "User",
+  "columnName": "user_full_name",
+  "displayName": "Member(s) Assigned",
   "order": 4,
   "customComponent": UserComponent,
   "extraProp": "this is a custom prop"
@@ -194,7 +199,7 @@ var columnMeta = [
 ];
 
 var columns = [
-  'category', 'name', 'user', 'time', 'description' 
+  'category', 'name', 'user_full_name', 'time', 'description' 
   ];
 
 
@@ -226,22 +231,22 @@ var WorkShiftTable = React.createClass({
       var shift = shifts[i]
       if (shift.user) {
         var user_hash = {"full_name":getFullName(shift.user),
-                 "user_id" : shift.user_id}  
+                 "id" : shift.user_id}  
       } else {
         var user_hash = {"full_name":"(None)",
                  "user_id" : null}
       }
-      console.log(shift.start_time);
       data.push({"category": shift.metashift.category,
         "user": user_hash,
         "name": shift.metashift.name,
         "time": moment(shift.start_time).format('dddd, h:mm a') + " - " +
           moment(shift.end_time).format('h:mm a'), 
         "description": shift.metashift.description,
-        "shift_id": shift.id
+        "shift_id": shift.id,
+        "user_full_name": user_hash.full_name
       })
     }
-    console.log(data)
+    
     if (shifts.length > 0) {
       this.setState({shiftData: data})
     } else {
@@ -267,7 +272,36 @@ var WorkShiftTable = React.createClass({
   },
   
   sendDirtyShiftsToDB: function(){
-    //Ajax call here
+    var shift_ids = []; var user_ids = [];
+    var shift = this.state.dirtyShifts[0]
+    // var shift_id = this.state.dirtyShifts[0].shift_id
+    // var user_id = this.state.dirtyShifts[0].user.id
+    for (var i = 0; i < this.state.dirtyShifts.length; i++){
+      shift_ids.push(this.state.dirtyShifts[i].shift_id);
+      user_ids.push(this.state.dirtyShifts[i].user.id);
+    }
+    var that = this
+    $.ajax({
+      type: "PUT",
+      url: '/shifts/' + shift_ids[0] + '/change_users',
+      data: JSON.stringify({user_ids: user_ids, shift_ids: shift_ids}),
+      contentType: 'application/json', // format of request payload
+      // dataType: 'html', // format of the response
+      success: function(msg) {
+        noty({text: msg,
+              theme: 'relax', layout: 'topRight', type: 'success',
+              timeout: 1000
+        });
+        console.log('Update to DB works, now clearing dirty shifts');
+        that.setState({dirtyShifts: []});
+      },
+      failure: function(msg){
+        noty({text: msg,
+              theme: 'relax', layout: 'topRight', type: 'failure',
+              timeout: 2000
+        }).bind(this);
+      }
+    });
   },
 
   toggleEditMode: function() {
@@ -275,13 +309,10 @@ var WorkShiftTable = React.createClass({
     shiftData: this.getDataWEditModeAppended(this.state.shiftData, !this.state.editMode)});
   },
   render: function() {
-    console.log("Dirty Shifts"); console.log(this.state.dirtyShifts);
-    var saveButton;
-    var editButton;
-    var exitEditButton;
+    var saveButton;  var editButton; var exitEditButton;
     if (this.props.admin){
       if (this.state.editMode) {
-        saveButton =<Button color="blue" type="button">Save Workshifts</Button>
+        saveButton =<Button color="blue" type="button" onClick={this.sendDirtyShiftsToDB}>Save Workshifts</Button>
         exitEditButton = <Button color="blue" type="button"
         onClick={this.toggleEditMode}>Exit Edit Mode</Button>
       } else {
@@ -295,6 +326,7 @@ var WorkShiftTable = React.createClass({
         columnMetadata={columnMeta}
         columns={columns}
         showFilter={true}
+        resultsPerPage={100}
         editMode={"random string"}/>
         <br></br>
         {saveButton}

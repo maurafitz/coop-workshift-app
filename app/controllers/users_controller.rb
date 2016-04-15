@@ -190,6 +190,18 @@ class UsersController < ApplicationController
       redirect_to '/'
     end
     @users = User.all
+    if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "all")
+      User.all.each do | u |
+        u.update_attribute(:preference_open, true)
+      end
+      redirect_to '/preference_access'
+    end
+    if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "none")
+      User.all.each do | u |
+        u.update_attribute(:preference_open, false)
+      end
+      redirect_to '/preference_access'
+    end
     user = User.find_by_id(params[:change_preference_for_id])
     if user == nil
       return
@@ -198,6 +210,7 @@ class UsersController < ApplicationController
       user = User.find_by_id(params[:change_preference_for_id])
       user.update_attribute(:preference_open, false == user.preference_open)
     end
+    redirect_to '/preference_access'
   end
   
   def edit_pref_and_avail

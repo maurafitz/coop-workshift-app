@@ -18,7 +18,6 @@
 # * http://elabs.se/blog/15-you-re-cuking-it-wrong
 #
 
-
 require 'uri'
 require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
@@ -102,15 +101,15 @@ end
 
 Then(/^(?:|I )should see "([^"]*)"$/) do |text|
   if page.respond_to? :should
-    page.should have_content(text)
+    expect(page).to have_content(text)
   else
     assert page.has_content?(text)
   end
 end
 
 Then /^I should see the following: (.*)$/ do |list|
-  list.split(',').each do |item|
-    item =~ /("(.*)")/
+  list.split(',').each do |text|
+    text =~ /("(.*)")/
     step %Q{I should see #{$1}}
   end
 end
@@ -127,15 +126,15 @@ end
 
 Then(/^(?:|I )should not see "([^"]*)"$/) do |text|
   if page.respond_to? :should
-    page.should have_no_content(text)
+    expect(page).to have_no_content(text)
   else
     assert page.has_no_content?(text)
   end
 end
 
 Then /^I should not see the following: (.*)$/ do |list|
-  list.split(',').each do |item|
-    item =~ /("(.*)")/
+  list.split(',').each do |text|
+    text =~ /("(.*)")/
     step %Q{I should not see #{$1}}
   end
 end
@@ -147,6 +146,48 @@ Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
     page.should have_no_xpath('//*', :text => regexp)
   else
     assert page.has_no_xpath?('//*', :text => regexp)
+  end
+end
+
+# Checks that an element is actually present and visible, also considering styles.
+# Within a selenium test, the browser is asked whether the element is really visible
+# In a non-selenium test, we only check for `.hidden`, `.invisible` or `style: display:none`
+#
+# The step 'Then (the tag )?"..." should **not** be visible' is ambiguous. Please use 'Then (the tag )?"..." should be hidden' or 'Then I should not see "..."' instead.
+#
+# More details [here](https://makandracards.com/makandra/1049-capybara-check-that-a-page-element-is-hidden-via-css)
+Then /^(the tag )?"([^\"]+)" should( not)? be visible$/ do |tag, selector_or_text, hidden|
+  if hidden
+    warn "The step 'Then ... should not be visible' is prone to misunderstandgs. Please use 'Then ... should be hidden' or 'Then I should not see ...' instead."
+  end
+
+  options = {}
+  tag ? options.store(:selector, selector_or_text) : options.store(:text, selector_or_text)
+
+  hidden ? assert_hidden(options) : assert_visible(options)
+end
+
+# Checks that an element is actually present and hidden, also considering styles.
+# Within a selenium test, the browser is asked whether the element is really hidden.
+# In a non-selenium test, we only check for `.hidden`, `.invisible` or `style: display:none`
+Then /^(the tag )?"([^\"]+)" should be hidden$/ do |tag, selector_or_text|
+  options = {}
+  tag ? options.store(:selector, selector_or_text) : options.store(:text, selector_or_text)
+
+  assert_hidden(options)
+end
+
+Then /^the following should be visible: (.*)$/ do |list|
+  list.split(',').each do |text|
+    text =~ /("(.*)")/
+    step %Q{#{$1} should be visible}
+  end
+end
+
+Then /^the following should be hidden: (.*)$/ do |list|
+  list.split(',').each do |text|
+    text =~ /("(.*)")/
+    step %Q{#{$1} should be hidden}
   end
 end
 

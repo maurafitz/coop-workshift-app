@@ -25,6 +25,9 @@
                       <% end %>
                     <% end %>
                 </div>
+                <div class ="btn btn-theme">
+                  <%= link_to('Select Workshifts Preference', new_preferences_path) if @user.preference_open %>
+                </div>
                 <div class=" col-md-9 col-lg-9 "> 
                   <table class="table table-user-information">
                     <tbody>
@@ -66,6 +69,7 @@
             <br> <%= link_to 'Create Workshifts', create_shifts_path %> </br>
             <br> <%= link_to 'Assign Workshifts', '/'%> </br>
             <br> <%= link_to 'View Weekly History', '/'%> </br>
+            <br> <%= link_to 'Open/Close Workshift Preference Form', '/preference_access' %> </br>
         <% end %>
     </div>
 </div>

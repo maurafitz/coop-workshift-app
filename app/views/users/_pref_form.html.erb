@@ -1,0 +1,74 @@
+
+<h3>Rank the Workshifts</h3>
+  <table class="table table-responsive">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Category</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @metashifts_by_category.each do |category, metashifts| %>
+        <tr class="pref_meta">
+          <td style="width:50px;">
+            <div class="form-group">
+            <input value="<%= @cat_dict[metashifts[0].category] if not @new %>" id="<%=category.reverse%>" name="category[<%= category %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
+            </div>
+          </td>
+          <td>
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default no-margin">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<%=convert_to_id category%>" aria-expanded="true" aria-controls="<%=convert_to_id category%>" >
+                       <%=category %> 
+                    </a>
+                  </h4>
+                </div>
+                <div id="<%= convert_to_id category %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    <table class="table no-margin">
+                      <thead>
+                        <tr>
+                          <th>Rank</th>
+                          <th>Shift</th>
+                          <th>Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% metashifts.each do |metashift| %>
+                          <tr>
+                            <td style="width:50px;">
+                              <div class="form-group">
+                                <input value="<%=@meta_dict[metashift.id] if not @new%>" id="<%=metashift.id%>" name="meta[<%= metashift.id %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
+                              </div>                            
+                            </td>
+                            <td><%=metashift.name %></td>
+                            <% if metashift.description.length <= 100 %>
+                              <td><%=metashift.description %></td>
+                            <% else %>
+                              <td>
+                                <div id="wrap">
+                                  <div class="meta<%=metashift.id%> collapse in">
+                                    <%=metashift.description[0..100] %> ...
+                                  </div> 
+                                  <div class="meta<%=metashift.id%> collapse"  role="tabpanel"> <%=metashift.description%> </div>
+                                  <a id="link<%=metashift.id%>" class="true-link" role="button" data-parent="#wrap" data-toggle="collapse" href=".meta<%=metashift.id%>" aria-expanded="true" aria-controls="<%=metashift.id%>" >
+                                    toggle description
+                                  </a>
+                                </div>
+                              </td>
+                            <% end %>
+                          </tr>
+                          <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>

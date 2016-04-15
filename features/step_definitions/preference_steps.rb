@@ -1,7 +1,3 @@
-def convert_to_id value
-    value.gsub(/ /, "_")
-end 
-
 Given /^I have not saved any preferences$/ do
   @category_rankings = {}
   @shift_rankings = {}
@@ -39,50 +35,76 @@ Then(/^my shift preferences should be saved$/) do
 end
   
 And /^I select the following time preferences:$/ do |fields|
-  day_mapping = {
-  "Monday" => 0,
-  "Tuesday" => 1,
-  "Wednesday" => 2,
-  "Thursday" => 3,
-  "Friday" => 4,
-  "Saturday" => 5,
-  "Sunday" => 6
-  }
-  time_mapping = {
-  "8am" => 8,
-  "9am" => 9,
-  "10am" => 10,
-  "11am" => 11,
-  "12pm" => 12,
-  "1pm" => 13,
-  "2pm" => 14,
-  "3pm" => 15,
-  "4pm" => 16,
-  "5pm" => 17,
-  "6pm" => 18,
-  "7pm" => 19,
-  "8pm" => 20,
-  "9pm" => 21,
-  "10pm" => 22,
-  "11pm" => 23
-  }
+  set_mappings
   fields.hashes.each do |availability_hash|
-    day = day_mapping[availability_hash[:day]]
+    day = @day_mapping[availability_hash[:day]]
     time_blocks = availability_hash[:times].split(",")
     availability_status = availability_hash[:availability]
     
     for time_block in time_blocks do
       time_block =~ /(?: )?(.*)-(.*)/
-      start_time, end_time = time_mapping[$1], time_mapping[$2] 
+      start_time, end_time = @time_mapping[$1], @time_mapping[$2] 
       for hour in start_time..end_time do
+        if not @availability[day]
+          @availability[day] = {}
+        end
+        @availability[day][hour] = availability_status
         step %Q{I select "#{availability_status}" for "#{"avail[#{day},#{hour}]"}"}
       end
     end
   end
 end
 
-Given /I fill in my availability correctly/ do
-    pending
+Then(/^my schedule preferences should be saved$/) do
+  db_preferences = {}
+  @current_user.avails.each do |a|
+    if not db_preferences[a.day]
+      db_preferences[a.day] = {}
+    end
+    db_preferences[a.day][a.hour] = a.status
+  end
+  db_preferences.each do |day, hour_hash|
+    hour_hash.each do |hour, status|
+      expect(status).to eq(@availability[day][hour])
+    end
+  end
 end
 
+When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |button, metashift|
+  pending # Write code here that turns the phrase above into concrete actions
+end
 
+### HELPER METHODS ###
+def convert_to_id value
+    value.gsub(/ /, "_")
+end 
+
+def set_mappings
+  @day_mapping = {
+    "Monday" => 0,
+    "Tuesday" => 1,
+    "Wednesday" => 2,
+    "Thursday" => 3,
+    "Friday" => 4,
+    "Saturday" => 5,
+    "Sunday" => 6
+  }
+  @time_mapping = {
+    "8am" => 8,
+    "9am" => 9,
+    "10am" => 10,
+    "11am" => 11,
+    "12pm" => 12,
+    "1pm" => 13,
+    "2pm" => 14,
+    "3pm" => 15,
+    "4pm" => 16,
+    "5pm" => 17,
+    "6pm" => 18,
+    "7pm" => 19,
+    "8pm" => 20,
+    "9pm" => 21,
+    "10pm" => 22,
+    "11pm" => 23
+  }
+end

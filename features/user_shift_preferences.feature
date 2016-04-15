@@ -31,11 +31,12 @@ Feature: Set User Preferences for Workshifts
   @wip
   Scenario: A user views workshift descriptions
     When I click "Kitchen"
-    And I click "toggle description" in the row for "Dishes"
-    # Then I should see "Use a sponge and soap to scrub off each dish."
-    # And I should not see "Lead a team in cooking meals."
-    # When I click "Kitchen"
-    # Then I should not see "Use a sponge and soap to scrub off each dish."
+    Then I should see "Put away any clean dishes."
+    And I should not see "Use a blue sponge"
+    When I click "toggle description" in the row for "Dishes"
+    Then I should see "Use a blue sponge and dish soap to scrub off each dish."
+    When I click "toggle description" in the row for "Dishes"
+    Then I should not see "Use a blue sponge and dish soap to scrub off each dish."
   
   Scenario: A user sets their workshift preferences
     Given I have not saved any preferences

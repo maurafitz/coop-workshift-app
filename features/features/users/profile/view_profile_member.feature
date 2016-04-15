@@ -1,4 +1,4 @@
-Feature: Viewing User Profile
+Feature: View User Profile
   As a member of a coop,
   In order to stay on track with my workshift hours,
   I would like to view my edit balance, fine balance, shift assignment, and signoff history on one page.
@@ -18,7 +18,7 @@ Feature: Viewing User Profile
     And I should see "Edit Profile"
     And I should not see the following: "Create Users", "Create Workshifts", "Assign Workshifts", "View Weekly History"
     
-  Scenario: A member tries to edit their profile
+  Scenario: A member edits their profile from their profile page
     Given I am logged in
     And I am on my profile page
     When I follow "Edit Profile"

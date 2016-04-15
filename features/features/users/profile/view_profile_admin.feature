@@ -1,4 +1,4 @@
-Feature: Viewing User Profile as an Admin
+Feature: Workshift Manager: View User Profile
   As a workshift manager,
   In order to manage coop workshifts and stay on track of my own hours,
   I would like to view my information and be able to edit users and workshifts on one page.

@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   post '/shifts/upload' => 'metashifts#upload', as: 'shift_csv_upload'
   get '/shifts/:id/new_timeslots' => 'shifts#new_timeslots', as: 'new_timeslots'
   post '/shifts/add_timeslots' => 'shifts#add_timeslots', as: 'add_timeslots'
-  
+  put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_users'
   
   get '/policies/new' => 'policies#new', as: 'new_policy'
   get '/policies/edit' => 'policies#edit', as: 'edit_policy'

@@ -12,25 +12,23 @@ Scenario: an admin adds workshifts using a csv file
   And I press "Import"
   Then I should see a workshift table
   And I should see "Clean" "3" times
-  And I should see "Plant" "1" times
+  And I should see "Plants" "1" times
+  And I should see "Friday, 1:30 PM to 4:30 PM"
+  And I should see "3.0"
   And I should see "You added 3 new workshifts"
   
 Scenario: an admin adds workshifts manually
   When I fill in "Category" with "Kitchen"
-  # And I fill in "Name" with "Sweep"
+  And I fill in "Name" with "Sweep"
   And I fill in "Description" with "Sweeping the kitchen floor"
   And I fill in "Hour Value" with "1.5"
   When I press "Add Workshift"
   Then I should see "You added 1 new workshifts"
-  
-Scenario: an admin edits a table entry
-  When I upload "workshifts_plus_times.csv"
-  And I press "Import"
-  # When I click "Edit"
-  # Then I should be on the edit workshifts page
-  # Then I should be able to edit the values for the table entry
+  And I should see "Sweep"
+  And I should see "Sweeping the kitchen floor"
+  And I should see "1.5"
   
 Scenario: an admin tries to import no file
   When I press "Import"
   Then I should be on the create workshifts page
-  # And I should see "You must select a file to upload."
+  And I should see "You must select a file to upload."

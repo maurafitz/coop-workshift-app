@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 20160414201115) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.boolean  "preference_open",     default: true
   end
 
 end

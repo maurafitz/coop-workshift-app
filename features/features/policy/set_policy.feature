@@ -1,4 +1,4 @@
-Feature: Setting Semester Policies
+Feature: Workshift Manager: Set Semester Policies
   As a work-shift manager,
   In order to enforce policies for the semester,
   I would like to set fining dates, the start and end of the semester, market sell-by, and fining rates.

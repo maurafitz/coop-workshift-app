@@ -1,4 +1,4 @@
-Feature: Viewing Semester Policies
+Feature: View Semester Policies
   As a coop member,
   In order to abide by the policies for the semester,
   I would like to view fining dates, the start and end of the semester, market sell-by, and fining rates.
@@ -19,4 +19,3 @@ Feature: Viewing Semester Policies
     And I should see "Semester Start Date:" 
     And I should see "January 16, 2016"
     And I should not see "Edit"
-  

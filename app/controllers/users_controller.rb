@@ -74,7 +74,7 @@ class UsersController < ApplicationController
       user = User.find_by_id(params[:id])
       user.email = params[:user][:email]
       user.save
-      flash[:success] = "Email has been updated."
+      flash[:success] = "Your email has been updated."
     end
     redirect_to user_profile_path
   end
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
       user = User.find_by_id(params[:id])
       if (params[:password] == params[:password_confirmation])
         user.update_attribute(:password, params[:password][0])
-        flash[:success] = "Password has been updated."
+        flash[:success] = "Your password has been updated."
       else
         flash[:danger] = "Passwords did not match."
       end

@@ -36,27 +36,29 @@
       <th>Times</th>
       <th>Add Timeslots</th>
     </tr>
-    <% @metashifts_uploaded.each do |shift| %>
+    <% @metashifts_uploaded.each do |metashift, shift_array| %>
       <tr>
         <td>
-          <%=shift.category %>
+          <%=metashift.category %>
         </td>
         <td>
-          <%=shift.name %>
+          <%=metashift.name %>
         </td>
         <td>
-          <%=shift.description %>
+          <%=metashift.description %>
         </td>
         <td>
-          <%=shift.multiplier %>
+          <%=metashift.multiplier %>
         </td>
         <td>
-          <% shift.get_all_times.each do |time| %>
-            <%=simple_format(time + "\n") %>
+          <% if shift_array %>
+            <% shift_array.each do |shift| %>
+                <%= simple_format(shift.getTimeFormatted + "\n") %>
+            <% end %>
           <% end %>
         </td>
         <td>
-          <%=link_to('Add a time', new_timeslots_path(:id => shift.id))%>
+          <%=link_to('Add a time', new_timeslots_path(:id => metashift.id))%>
         </td>
       </tr>
     <% end %>

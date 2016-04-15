@@ -20,6 +20,6 @@ class MetashiftsController < ApplicationController
     end
     
     def metashift_params
-        params.require(:metashift).permit(:category, :description, :multiplier)
+        params.require(:metashift).permit(:category, :name, :description, :multiplier)
     end
 end

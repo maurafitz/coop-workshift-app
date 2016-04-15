@@ -145,7 +145,7 @@
 	      null,
 	      React.createElement(
 	        OverlayTrigger,
-	        { trigger: 'click', placement: 'left',
+	        { trigger: 'focus', placement: 'left',
 	          overlay: React.createElement(
 	            Popover,
 	            { title: this.props.rowData.shift,
@@ -270,8 +270,8 @@
 	//"order" :3
 	//},
 	{
-	  "columnName": "user",
-	  "displayName": "User",
+	  "columnName": "user_full_name",
+	  "displayName": "Member(s) Assigned",
 	  "order": 4,
 	  "customComponent": UserComponent,
 	  "extraProp": "this is a custom prop"
@@ -291,7 +291,7 @@
 	  "customComponent": EditShiftComponent
 	}];
 	
-	var columns = ['category', 'name', 'user', 'time', 'description'];
+	var columns = ['category', 'name', 'user_full_name', 'time', 'description'];
 	
 	var WorkShiftTable = React.createClass({
 	  displayName: 'WorkShiftTable',
@@ -331,7 +331,8 @@
 	        "name": shift.metashift.name,
 	        "time": moment(shift.start_time).format('dddd, h:mm a') + " - " + moment(shift.end_time).format('h:mm a'),
 	        "description": shift.metashift.description,
-	        "shift_id": shift.id
+	        "shift_id": shift.id,
+	        "user_full_name": user_hash.full_name
 	      });
 	    }
 	
@@ -426,6 +427,7 @@
 	        columnMetadata: columnMeta,
 	        columns: columns,
 	        showFilter: true,
+	        resultsPerPage: 100,
 	        editMode: "random string" }),
 	      React.createElement('br', null),
 	      saveButton,

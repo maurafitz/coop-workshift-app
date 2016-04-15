@@ -61,7 +61,7 @@ DescriptionComponent = React.createClass({
   render: function(){
     return (
       <div>
-        <OverlayTrigger trigger="click" placement="left" 
+        <OverlayTrigger trigger="focus" placement="left" 
             overlay={<Popover title={this.props.rowData.shift} 
             id={this.props.rowData.shift_id + "he"}>{this.props.rowData.description}</Popover>}>
           <Button color="blue" type="button">Description</Button>
@@ -173,8 +173,8 @@ var columnMeta = [
   //"order" :3
   //},
   {
-  "columnName": "user",
-  "displayName": "User",
+  "columnName": "user_full_name",
+  "displayName": "Member(s) Assigned",
   "order": 4,
   "customComponent": UserComponent,
   "extraProp": "this is a custom prop"
@@ -199,7 +199,7 @@ var columnMeta = [
 ];
 
 var columns = [
-  'category', 'name', 'user', 'time', 'description' 
+  'category', 'name', 'user_full_name', 'time', 'description' 
   ];
 
 
@@ -242,7 +242,8 @@ var WorkShiftTable = React.createClass({
         "time": moment(shift.start_time).format('dddd, h:mm a') + " - " +
           moment(shift.end_time).format('h:mm a'), 
         "description": shift.metashift.description,
-        "shift_id": shift.id
+        "shift_id": shift.id,
+        "user_full_name": user_hash.full_name
       })
     }
     
@@ -325,6 +326,7 @@ var WorkShiftTable = React.createClass({
         columnMetadata={columnMeta}
         columns={columns}
         showFilter={true}
+        resultsPerPage={100}
         editMode={"random string"}/>
         <br></br>
         {saveButton}

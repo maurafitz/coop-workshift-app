@@ -30,10 +30,10 @@ Feature: Set and Edit User Preferences for Schedule
     | Friday      | 7pm-11pm           | Not Preferred |
     | Saturday    | 8am-11pm           | Not Preferred |
     | Sunday      | 8am-11pm           | Not Preferred |
-    # Then I should see "Available" "21" times
-    # And I should see "Unavailable" "34" times
-    # And I should see "Not Preferred" "45" times
-    # And I should see "Unsure" "12" times
+    Then I should see an "Available" status "21" times
+    And I should see an "Unavailable" status "34" times
+    And I should see a "Not Preferred" status "45" times
+    And I should see an "Unsure" status "12" times
     # When I fill in "Notes" with "I have nothing to say"
     And I click "Save"
     Then I should be on my profile page
@@ -54,9 +54,9 @@ Feature: Set and Edit User Preferences for Schedule
     | Monday      | 8am-6pm            | Unavailable   |
     | Monday      | 7pm-11pm           | Not Preferred |
     When I go to the edit preferences page
-    Then I should see "Unavailable" "11" times
-    And I should see "Not Preferred" "5" times
-    And I should see "Unavailable" in the availability box for "Monday", "8am"
+    Then I should see an "Unavailable" status "11" times
+    And I should see a "Not Preferred" status "5" times
+    # And I should see "Unavailable" in the availability box for "Monday", "8am"
     When I select the following time preferences:
     | day         | times              | availability  |
     | Monday      | 8am-6pm            | Available     |

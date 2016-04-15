@@ -4,6 +4,37 @@ Given /^I have not saved any preferences$/ do
   @availability = {}
 end
 
+Given /^I have not saved any shift preferences$/ do
+  # @current_user.preferences = nil
+  # @current_user.save
+end
+
+Given /^I have not saved any time preferences$/ do
+  # @current_user.avails = nil
+  # @current_user.save
+end
+
+
+Given /^I have saved the following time preferences:$/ do |fields|
+  @availability = {}
+  set_mappings
+  fields.hashes.each do |availability_hash|
+    day = @day_mapping[availability_hash[:day]]
+    time_blocks = availability_hash[:times].split(",")
+    availability_status = availability_hash[:availability]
+    
+    for time_block in time_blocks do
+      time_block =~ /(?: )?(.*)-(.*)/
+      start_time, end_time = @time_mapping[$1], @time_mapping[$2] 
+      for hour in start_time..end_time do
+        a = Avail.create({:day => day, :hour => hour, :status => availability_status})
+        a.user = @current_user
+        a.save
+      end
+    end
+  end
+end
+
 When /^I fill in the following rankings:$/ do |fields|
   categories = @current_unit.get_all_metashift_categories
   fields.rows_hash.each do |name, value|
@@ -68,6 +99,20 @@ Then(/^my schedule preferences should be saved$/) do
       expect(status).to eq(@availability[day][hour])
     end
   end
+end
+
+Then(/^my availability for "([^"]*)", "([^"]*)" should be "([^"]*)"$/) do |day, hour, status|
+  expect(@current_user.avails.where(:day => day, :hour => hour).first.status).to eq(status)
+end
+
+Then(/^I should see a(?:n)? "([^"]*)" status "([^"]*)" times$/) do |status, num|
+  status_mapping = {
+    "Available" => "btn-success",
+    "Unavailable" => "btn-danger",
+    "Not Preferred" => "btn-warning",
+    "Unsure" => "btn-info"
+  }
+  expect(page.all(".#{status_mapping[status]}").length).to eq(num.to_i)
 end
 
 When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |button, metashift|

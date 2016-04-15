@@ -69,7 +69,7 @@ end
 ########## WHAT I SHOULD SEE ON PAGE ##########
 Then(/^I should see "([^"]*)" "(.+)" times$/) do |text, num|
   number = num.to_i
-  page.should have_content(text, :count => number)
+  expect(page).to have_content(text, :count => number)
 end
 
 

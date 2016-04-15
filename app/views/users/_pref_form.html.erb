@@ -16,11 +16,11 @@
             </div>
           </td>
           <td>
-            <div id="accordion" role="tablist" aria-multiselectable="true">
+            <div id="<%=convert_to_id(category).reverse%>" role="tablist" aria-multiselectable="true">
               <div class="panel panel-default no-margin">
                 <div class="panel-heading" role="tab" id="headingOne">
                   <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<%=convert_to_id category%>" aria-expanded="true" aria-controls="<%=convert_to_id category%>" >
+                    <a role="button" data-toggle="collapse" data-parent="#<%=convert_to_id(category).reverse%>" href="#<%=convert_to_id category%>" aria-expanded="true" aria-controls="<%=convert_to_id category%>" >
                        <%=category %> 
                     </a>
                   </h4>

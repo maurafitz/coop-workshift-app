@@ -1,7 +1,7 @@
-Feature: Adding Users by CSV Upload
+Feature: Workshift Manager: Add Users by CSV Upload
     As a work-shift manager
     In order to ease the process of creating user accounts
-    I want to be able to upload a csv file with all my members
+    I want to be able to upload a csv file with all my members.
     
 Background:
   Given I am logged in as an admin
@@ -33,7 +33,7 @@ Scenario: an admin tries to add member accounts manually
 Scenario: an admin tries to import no file
   When I press "Import"
   Then I should be on the create members page
-  # And I should see "You must select a file to upload."
+  And I should see "You must select a file to upload."
 
   
   

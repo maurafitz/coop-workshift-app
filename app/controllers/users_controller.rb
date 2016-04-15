@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       new_users = User.import(params[:file])
       @users_uploaded += new_users
     else
-      flash[:notice] = "No file specified."
+      flash[:danger] = "You must select a file to upload."
       redirect_to '/signup'
     end
   end

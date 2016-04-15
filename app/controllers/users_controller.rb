@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by_id(params[:id])
   end
-  
+
   def edit_email
     if (defined? params[:user] and defined? params[:user][:email])
       user = User.find_by_id(params[:id])
@@ -78,7 +78,7 @@ class UsersController < ApplicationController
     end
     redirect_to user_profile_path
   end
-  
+
   def edit_password
     if (defined? params[:name] and defined? params[:password] and defined? params[:password_confirmation] and defined? User.find_by_id(params[:id]))
       user = User.find_by_id(params[:id])
@@ -92,15 +92,89 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
+  $day_mapping = {
+    0=> "Monday",
+    1=> "Tuesday",
+    2=> "Wednesday",
+    3=> "Thursday",
+    4=> "Friday",
+    5=> "Saturday",
+    6=> "Sunday"
+  }
+  
   def new_preferences
+<<<<<<< HEAD
     if current_user.id != params[:id].to_i
       redirect_to '/'
     end
+=======
+    @new = true
     @user = current_user
+    @day_mapping = $day_mapping
     @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
         metashift.category}
   end
   
+  def edit_preferences
+    @new = false
+>>>>>>> 9be8b6cff547ebd625c706892db88f50664bcd4a
+    @user = current_user
+    @day_mapping = $day_mapping
+    @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
+        metashift.category}
+    @avail_dic = {}
+    @user.avails.each do |avail| 
+      @avail_dic[avail.day.to_s + "," + avail.hour.to_s] = avail.status
+    end
+    @cat_dict = {}; 
+    @meta_dict = {}; 
+    @user.preferences.each do |pref|
+      @meta_dict[pref.metashift.id] = pref.rating
+      cat = pref.metashift.category
+      if !(@cat_dict.key?(cat))
+        @cat_dict[cat] = pref.cat_rating
+      end
+    end
+  end
+  
+  def set_pref_and_avail
+    #Saving Preferences
+    categories = params["category"]
+    meta = params["meta"]
+    meta.each do |id, rank|
+      ms = Metashift.find_by_id(id.to_i)
+      rank = rank.to_i
+      pref = Preference.new
+      cat = categories[ms.category].to_i
+      if cat != 0
+        pref.cat_rating = cat
+      else
+        pref.cat_rating = 3
+      end
+      if rank == 0
+        rank = pref.cat_rating
+      end
+      pref.rating = rank
+      pref.metashift = ms
+      pref.user = current_user
+      pref.save
+    end
+    #Saving Avails
+    avail = params["avail"]
+    avail.each do |datetime, status|
+      day, time = datetime.split(",")
+      a = Avail.new
+      a.user = current_user
+      a.hour = time.to_i
+      a.day = day.to_i
+      a.status = status
+      a.save
+    end
+    flash[:success] = "Your preferences have been saved"
+    redirect_to user_profile_path
+  end
+  
+<<<<<<< HEAD
   def preference_access
     if not @current_user.is_ws_manager?
       redirect_to '/'
@@ -116,6 +190,44 @@ class UsersController < ApplicationController
       user.update_attribute(:preference_open, false == user.preference_open)
     end
   end
+=======
+  def edit_pref_and_avail
+    categories = params["category"]
+    meta = params["meta"]
+    meta.each do |id, rank|
+      ms = Metashift.find_by_id(id.to_i)
+      rank = rank.to_i
+      pref = Preference.where(user: current_user).where(metashift: ms).first
+      cat = categories[ms.category].to_i
+      if cat != 0
+        pref.cat_rating = cat
+      else
+        pref.cat_rating = 3
+      end
+      if rank == 0
+        rank = pref.cat_rating
+      end
+      pref.rating = rank
+      pref.metashift = ms
+      pref.user = current_user
+      pref.save
+    end
+    #Saving Avails
+    avail = params["avail"]
+    avail.each do |datetime, status|
+      day, time = datetime.split(",")
+      a = Avail.where(user:current_user).where(day: day.to_i).where(hour: time.to_i).first
+      a.user = current_user
+      a.hour = time.to_i
+      a.day = day.to_i
+      a.status = status
+      a.save
+    end
+    flash[:success] = "Your preferences have been edited successfully"
+    redirect_to user_profile_path
+  end
+
+>>>>>>> 9be8b6cff547ebd625c706892db88f50664bcd4a
   
 private
 

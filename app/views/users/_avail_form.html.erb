@@ -1,0 +1,28 @@
+<h3>Set Your Availability</h3>
+  <table class="table table-striped table-condensed table-bordered table-hover table-responsive table-fixed-header">
+    <thead class="header">
+      <tr>
+        <th></th>
+        <% (0...7).each do |i| %>
+          <th style="width: 13%"><%= @day_mapping[i] %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% (8...24).each do |time| %>
+        <tr>
+          <th> <%= convert_to_time(time) %> </th>
+          <% (0...7).each do |day| %>
+            <td>
+              <select data-status="<%= @avail_dic[day.to_s + ',' + time.to_s] if !@avail_dic.blank? %>" name="avail[<%=day.to_s + "," + time.to_s %>]" class="selectpicker" data-width="100%" title="..." required>
+                <option title="<div style='vertical-align:middle;'><span class='glyphicon glyphicon-plus-sign' aria-hidden='true'></span></div>">Available</option>
+                <option title="<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span>">Not Preferred</option>
+                <option title="<span class='glyphicon glyphicon-remove-sign' aria-hidden='true'></span>">Unavailable</option>
+                <option title="<span class='glyphicon glyphicon-question-sign' aria-hidden='true'></span>">Unsure</option>
+              </select>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

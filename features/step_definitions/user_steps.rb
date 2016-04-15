@@ -69,10 +69,14 @@ And /^I should not be logged in$/ do
 end
 
 ### USER ASSOCIATIONS ### 
-And /^I belong to "Cloyne"$/ do
-  @current_unit = Unit.create!(:name => "Cloyne")
+And /^I belong to "(.*)"$/ do |coop_unit|
+  @current_unit = Unit.create!(:name => coop_unit)
   @current_user.unit = @current_unit
   @current_user.save
+end
+
+And /^I am a member of "(.*)"$/ do |house|
+  step %Q{I belong to "#{house}"}
 end
 
 Given(/^"([^"]*)" is assigned the following shifts:$/) do |first_name, shifts_table|

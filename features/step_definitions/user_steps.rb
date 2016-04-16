@@ -1,8 +1,6 @@
 ### EXISTENCE OF USERS ###
 Given /the following users exist/ do |users_table|
   users_table.hashes.each do |user|
-    # each returned element will be a hash whose key is the table header.
-    # you should arrange to add that user to the database here.
     User.create!(user)
   end
 end
@@ -16,7 +14,6 @@ Given /^I am the following user:$/ do |user_table|
     @current_user = User.create!(user)
   end
 end
-
 
 ### LOGGING IN USERS ###
 def simulate_login(user)
@@ -58,7 +55,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^"(.*)" is logged in$/ do |first_name|
-  user = User.find_by_first_name(first_name)
+  user = @all_users[first_name]
   simulate_login(user)
 end
 

@@ -14,7 +14,7 @@ Feature: Edit User Profile
     When I fill in "Email" with "ryanriddle@berkeley.edu"
     And I click "Update Email"
     Then I should be on my profile page
-    Then I should see "ryanriddle@berkeley.edu"
+    And I should see "ryanriddle@berkeley.edu"
     And I should not see "ry@berkeley.edu"
     And I should see "Your email has been updated."
     

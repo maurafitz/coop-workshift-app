@@ -75,9 +75,9 @@ end
 
 Then(/^I should see a user table$/) do
   if page.respond_to? :should
-    page.should have_content("Name")
-    page.should have_content("Email")
-    page.should have_content("Password")
+    expect(page).to have_content("Name")
+    expect(page).to have_content("Email")
+    expect(page).to have_content("Password")
   else
     assert page.has_content?("Name")
     assert page.has_content?("Password")

@@ -19,19 +19,6 @@ Given(/^none of the workshifts exists$/) do
      row.should have_content(hourValue)
  end
 
-And /^I should see "(.+)" in the row for "(.+)"$/ do |name, task|
-    row = find('tr', text: task)
-    expect(row).to have_content(name)
-end
-
-And /^I click "(.+)" in the row for "(.+)"$/ do |button, task|
-    #find('tr', text: task).click_link("Description")
-    # within :xpath, "//tr[td = 'Kitchen']/td/div/button" do
-    #     click_link 'Description'
-    #end
-end
-
-
 And /^I follow edit for "(.*)"$/ do |text|
     within :xpath, "//table//tr[td[contains(.,\"#{text}\")]]" do
         click_link 'Edit'

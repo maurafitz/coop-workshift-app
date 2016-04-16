@@ -114,6 +114,11 @@ Then /^I should see the following: (.*)$/ do |list|
   end
 end
 
+And /^I should see "(.+)" in the row for "(.+)"$/ do |name, row_text|
+  row = find('tr', text: row_text)
+  expect(row).to have_content(name)
+end
+
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
@@ -253,6 +258,10 @@ When(/^(?:|I )click "([^"]*)"$/) do |button|
     click_link(button)
   end
   sleep 0.5
+end
+
+And /^I click "(.+)" in the row for "(.+)"$/ do |button, row_text|
+  find('tr', text: row_text).click_button("Description")
 end
 
 When /^I select "([^"]*)" as the (.+) "([^"]*)"(?: date)?$/ do |date, model, selector|

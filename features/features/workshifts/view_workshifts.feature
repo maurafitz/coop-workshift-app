@@ -27,11 +27,12 @@ Feature: View Workshift Table
     And I should see "Maura Fitz" in the row for "Head Cook"
     And I should see "Maura Fitz" in the row for "Waste Reduction Coordinator"
 
-  @wip @javascript
+  @javascript
   Scenario: A user can click to view a workshift description
+    Then I should not see "Lead a team in cooking meals."
     When I click "Description" in the row for "Head Cook"
-    Then I see the page
     Then I should see "Lead a team in cooking meals."
+    And I should not see "Coordinate waste reduction. Go to CO."
 
  Scenario: A regular user can't edit workshifts
     Then I should see "Listing Shifts"

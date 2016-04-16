@@ -21,7 +21,7 @@ Given(/^none of the workshifts exists$/) do
 
 And /^I should see "(.+)" in the row for "(.+)"$/ do |name, task|
     row = find('tr', text: task)
-    row.should have_content(name)
+    expect(row).to have_content(name)
 end
 
 And /^I click "(.+)" in the row for "(.+)"$/ do |button, task|

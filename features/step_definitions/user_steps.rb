@@ -55,6 +55,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^"(.*)" is logged in$/ do |first_name|
+  pending
   user = @all_users[first_name]
   simulate_login(user)
 end
@@ -77,6 +78,16 @@ end
 
 And /^I am a member of "(.*)"$/ do |house|
   step %Q{I belong to "#{house}"}
+end
+
+Given(/^I am assigned the following shifts:$/) do |shifts_table|
+  shifts_table.hashes.each do |shift|
+    metashift_id = shift[:metashift_id]
+    shift.delete(:metashift_id)
+    shift = @current_user.shifts.create!(shift)
+    shift.metashift = Metashift.find(metashift_id)
+    shift.save
+  end
 end
 
 Given(/^"([^"]*)" is assigned the following shifts:$/) do |first_name, shifts_table|

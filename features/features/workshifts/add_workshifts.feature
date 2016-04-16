@@ -1,7 +1,7 @@
-Feature: Adding workshifts
-    As a workshift manager,
-    In order to set the types of shifts that my house needs completed,
-    I would like to be able to upload a CSV file with the workshift information.
+Feature: Workshift Manager: Add Workshifts
+  As a workshift manager,
+  In order to set the types of shifts that my house needs completed,
+  I would like to be able to upload a CSV file with the workshift information.
     
 Background:
   Given I am logged in as a workshift manager

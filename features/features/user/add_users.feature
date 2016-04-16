@@ -1,4 +1,4 @@
-Feature: Workshift Manager: Add Users by CSV Upload
+Feature: Workshift Manager: Add Users
     As a work-shift manager
     In order to ease the process of creating user accounts
     I want to be able to upload a csv file with all my members.

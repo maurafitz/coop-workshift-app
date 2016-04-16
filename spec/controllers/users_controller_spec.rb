@@ -72,7 +72,7 @@ RSpec.describe UsersController, type: :controller do
         
         it 'should flash a message if no file is provided' do
             post :upload
-            expect(flash[:notice]).to be_present
+            expect(flash[:danger]).to be_present
         end
         
         it 'should call a user method if a file is provided' do

@@ -85,7 +85,7 @@ Given(/^"([^"]*)" is assigned the following shifts:$/) do |first_name, shifts_ta
     metashift_id = shift[:metashift_id]
     shift.delete(:metashift_id)
     shift = user.shifts.create!(shift)
-    shift.metashift_id = metashift_id
+    shift.metashift = Metashift.find(metashift_id)
     shift.save
   end
 end

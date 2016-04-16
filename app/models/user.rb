@@ -15,9 +15,7 @@ class User < ActiveRecord::Base
     }
     
     def self.import(file)
-        # puts file
         spreadsheet = open_spreadsheet(file)
-        # puts spreadsheet.info
         header = spreadsheet.row(1)
         added = []
         (2..spreadsheet.last_row).each do |i|
@@ -59,7 +57,6 @@ class User < ActiveRecord::Base
                         }
         # mg_client.send_message(Rails.application.secrets.domain, message_params)
       else
-        # puts "Couldnt find user"
       end
     end
     

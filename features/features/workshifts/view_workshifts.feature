@@ -13,11 +13,14 @@ Feature: View Workshift Table
     Then I should see "Listing Shifts"
     And I should see a workshift table
     And I should see "Maura Fitz" in the row for "Kitchen"
+    # And I should see "Maura Fitz" in the row for "Head Cook"
 
+  @wip
   Scenario: A user can click to view a workshift description
 #    When I click "Description" in the row for "Kitchen"
     #Then I should see "Sweeping the kitchen floors"
 
+ @wip
  Scenario: A regular user can't edit workshifts
     Then I should see "Listing Shifts"
     And I should not see "Edit"

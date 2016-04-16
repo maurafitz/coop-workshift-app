@@ -14,7 +14,7 @@ class MetashiftsController < ApplicationController
           @metashifts_uploaded = new_shifts
           render 'shifts/upload'
         else
-          flash[:notice] = "You must select a file to upload."
+          flash[:danger] = "You must select a file to upload."
           redirect_to '/shifts/new'
         end
     end

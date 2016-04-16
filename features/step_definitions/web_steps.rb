@@ -87,10 +87,10 @@ end
 
 Then(/^I should see a workshift table$/) do
   if page.respond_to? :should
-    page.should have_content("Category")
-    page.should have_content("Name")
-    page.should have_content("Description")
-    page.should have_content("Time")
+    expect(page).to have_content("Category")
+    expect(page).to have_content("Name")
+    expect(page).to have_content("Description")
+    expect(page).to have_content("Time")
   else
     assert page.has_content?("Category")
     assert page.should have_content("Name")

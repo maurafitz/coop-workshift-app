@@ -1,7 +1,8 @@
+@wip
 Feature: Sign-off a shift
   As a member of a coop,
   In order to get credit for the shifts I work,
-  I would like to get signed off online by another member
+  I would like to get signed off online by another member.
   
   Background:
     Given the following users exist:

@@ -19,7 +19,7 @@ Feature: Edit User Profile
     And I should see "Your email has been updated."
     
   Scenario: A member changes their password correctly
-    # When I fill in "Current Password" with "password"
+    When I fill in "Current Password" with "password"
     And I fill in "New Password" with "Ryan1"
     And I fill in "New Password Confirmation" with "Ryan1"
     When I click "Update Password"
@@ -27,17 +27,17 @@ Feature: Edit User Profile
     And I should see "Your password has been updated."
     
   Scenario: A member changes their password without authorization
-    # When I fill in "Current Password" with "invalid"
+    When I fill in "Current Password" with "invalid"
     And I fill in "New Password" with "Ryan1"
     And I fill in "New Password Confirmation" with "Ryan1"
     When I click "Update Password"
-    # Then I should be on my edit profile page
-    # And I should see "Invalid password."
+    Then I should be on my edit profile page
+    And I should see "Invalid current password."
     
   Scenario: A member changes their password incorrectly  
-    # When I fill in "Current Password" with "password"
+    When I fill in "Current Password" with "password"
     And I fill in "New Password" with "Ryan1"
     And I fill in "New Password Confirmation" with "Ryan2"
     When I click "Update Password"
-    # Then I should be on my edit profile page
-    # And I should see "New passwords don't match."
+    Then I should be on my edit profile page
+    And I should see "New passwords don't match."

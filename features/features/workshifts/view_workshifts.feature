@@ -20,6 +20,7 @@ Feature: View Workshift Table
     | 5am           | 11am         | May 18, 2016  | 3            |
     And I am on the view workshifts page
   
+  # @wip
   @javascript
   Scenario: A regular user can see all workshift slots for the semester
     Then I should see "Listing Shifts"

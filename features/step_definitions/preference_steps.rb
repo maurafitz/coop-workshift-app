@@ -4,18 +4,26 @@ Given /^I have not saved any preferences$/ do
   @availability = {}
 end
 
-Given /^I have not saved any shift preferences$/ do
-  # @current_user.preferences = nil
-  # @current_user.save
+Given /^I have saved the following shift preferences:$/ do |fields|
+  step %Q{I have not saved any preferences}
+  step %Q{I go to the set preferences page}
+  categories = @current_unit.get_all_metashift_categories
+  fields.rows_hash.each do |name, value|
+    if categories.include?(name)
+      @category_rankings[name] = value.to_i
+      name = "category[#{convert_to_id name}]"
+    else
+      @shift_rankings[name] = value.to_i
+      name = "meta[#{Metashift.find_by_name(name).id}]"
+    end
+    step %Q{I fill in "#{value}" for "#{name}"}
+  end
+  sleep 2
+  step %Q{I click "Save"}
 end
-
-Given /^I have not saved any time preferences$/ do
-  # @current_user.avails = nil
-  # @current_user.save
-end
-
 
 Given /^I have saved the following time preferences:$/ do |fields|
+  step %Q{I go to the set preferences page}
   @availability = {}
   set_mappings
   fields.hashes.each do |availability_hash|
@@ -27,12 +35,15 @@ Given /^I have saved the following time preferences:$/ do |fields|
       time_block =~ /(?: )?(.*)-(.*)/
       start_time, end_time = @time_mapping[$1], @time_mapping[$2] 
       for hour in start_time..end_time do
-        a = Avail.create({:day => day, :hour => hour, :status => availability_status})
-        a.user = @current_user
-        a.save
+        if not @availability[day]
+          @availability[day] = {}
+        end
+        @availability[day][hour] = availability_status
+        step %Q{I select "#{availability_status}" for "#{"avail[#{day},#{hour}]"}"}
       end
     end
   end
+  step %Q{I click "Save"}
 end
 
 When /^I fill in the following rankings:$/ do |fields|
@@ -122,10 +133,6 @@ Then(/^I should see a(?:n)? "([^"]*)" status "([^"]*)" times$/) do |status, num|
   }
   expect(page.all(".#{status_mapping[status]}").length).to eq(num.to_i)
 end
-
-#When(/^I click "([^"]*)" in the row for "([^"]*)"$/) do |button, metashift|
- # pending # Write code here that turns the phrase above into concrete actions
-#end
 
 ### HELPER METHODS ###
 def convert_to_id value

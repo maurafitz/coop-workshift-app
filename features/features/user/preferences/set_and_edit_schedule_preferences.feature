@@ -47,17 +47,10 @@ Feature: Set and Edit User Preferences for Schedule
     Then I should see "Error, you must fill in all the boxes."
     
   Scenario: A user edits their time preferences
-    # Given I have saved the following time preferences:
-    # | day         | times              | availability  |
-    # | Monday      | 8am-6pm            | Unavailable   |
-    # | Monday      | 7pm-11pm           | Not Preferred |
-    Given I have not saved any preferences
-    When I go to the set preferences page
-    And I select the following time preferences:
+    Given I have saved the following time preferences:
     | day         | times              | availability  |
     | Monday      | 8am-6pm            | Unavailable   |
     | Monday      | 7pm-11pm           | Not Preferred |
-    And I click "Save"
     When I go to the edit preferences page
     Then I should see an "Unavailable" status "11" times
     And I should see a "Not Preferred" status "5" times

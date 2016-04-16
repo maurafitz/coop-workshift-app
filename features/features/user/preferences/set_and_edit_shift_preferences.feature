@@ -1,8 +1,8 @@
 @javascript
-Feature: Set User Preferences for Workshifts
+Feature: Set and Edit User Preferences for Workshifts
   As a co-op member
   In order to be assigned shifts that I like
-  I would like to be able to set my shift preferences for the semester.
+  I would like to be able to set and edit my shift preferences for the semester.
   
   Background:
     Given I am logged in
@@ -61,11 +61,9 @@ Feature: Set User Preferences for Workshifts
     Then I should be on the set preferences page
     
   Scenario: A user edits their workshift preferences
-    Given I have not saved any preferences
-    And I fill in the following rankings:
+    Given I have saved the following shift preferences:
     | Kitchen         | 4       |
     | Garbage         | 2       |
-    And I click "Save"
     When I go to the edit preferences page
     Then I should see the following: "4", "2" 
     When I click "Kitchen"

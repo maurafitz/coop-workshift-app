@@ -20,7 +20,8 @@ Feature: View Workshift Table
     | 5am           | 11am         | May 18, 2016  | 3            |
     And I am on the view workshifts page
   
-  @wip # passes on c9
+  # passes on c9
+  @wip 
   @javascript
   Scenario: A regular user can see all workshift slots for the semester
     Then I should see "Listing Shifts"
@@ -28,7 +29,8 @@ Feature: View Workshift Table
     And I should see "Maura Fitz" in the row for "Head Cook"
     And I should see "Maura Fitz" in the row for "Waste Reduction Coordinator"
 
-  @wip # passes on c9
+  # passes on c9
+  @wip 
   @javascript
   Scenario: A user can click to view a workshift description
     Then I should not see "Lead a team in cooking meals."

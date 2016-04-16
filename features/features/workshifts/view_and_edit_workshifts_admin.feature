@@ -8,7 +8,8 @@ Feature: Workshift Manager: View and Edit Workshifts
     Given some workshifts have been created for the semester
     And I am on the view workshifts page
   
-  @wip # passes on c9
+  # passes on c9
+  @wip 
   Scenario: A member views workshifts for the semester but cannot edit
     Given I am logged in as a member
     And I am on the view workshifts page

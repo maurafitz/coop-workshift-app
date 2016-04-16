@@ -1,5 +1,5 @@
 @javascript
-Feature: View and Edit Workshifts
+Feature: Workshift Manager: View and Edit Workshifts
   As a work-shift manager,
   In order to keep workshift information up-to-date and prevent changes by non-admins,
   I would like to view and edit workshift attributes.
@@ -8,7 +8,7 @@ Feature: View and Edit Workshifts
     Given some workshifts have been created for the semester
     And I am on the view workshifts page
   
-  
+  @wip
   Scenario: A member views workshifts for the semester but cannot edit
     Given I am logged in as a member
     And I am on the view workshifts page

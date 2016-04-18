@@ -177,14 +177,9 @@ class UsersController < ApplicationController
     avail = params["avail"]
     avail.each do |datetime, status|
       day, time = datetime.split(",")
-      a = Avail.new
-      if a
-        a.user = current_user
-        a.hour = time.to_i
-        a.day = day.to_i
-        a.status = status
-        a.save
-      end
+      a = Avail.create(:hour => time.to_i, :day => day.to_i, :status => status)
+      a.user = current_user
+      a.save
     end
     current_user.notes = params["notes"]
     current_user.save

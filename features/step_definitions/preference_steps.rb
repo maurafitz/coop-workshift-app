@@ -4,33 +4,47 @@ Given /^I have not saved any preferences$/ do
   @availability = {}
 end
 
-Given /^I have saved the following shift preferences:$/ do |fields|
+Given /^I have saved the following shift preferences:$/ do |rankings|
   step %Q{I have not saved any preferences}
   step %Q{I go to the set preferences page}
-  categories = @current_unit.get_all_metashift_categories
-  fields.rows_hash.each do |name, value|
-    if categories.include?(name)
-      @category_rankings[name] = value.to_i
-      name = "category[#{convert_to_id name}]"
-    else
-      @shift_rankings[name] = value.to_i
-      name = "meta[#{Metashift.find_by_name(name).id}]"
-    end
-    step %Q{I fill in "#{value}" for "#{name}"}
-  end
-  sleep 2
+  fill_in_rankings rankings
   step %Q{I click "Save"}
 end
 
-Given /^I have saved the following time preferences:$/ do |fields|
+When /^I fill in the following rankings:$/ do |rankings|
+  fill_in_rankings rankings
+end
+
+def fill_in_rankings rankings
+  categories = @current_unit.get_all_metashift_categories
+  rankings.rows_hash.each do |shift, rank|
+    if categories.include?(shift)
+      @category_rankings[shift] = rank.to_i
+      shift = "category[#{convert_to_id shift}]"
+    else
+      @shift_rankings[shift] = rank.to_i
+      shift = "meta[#{Metashift.find_by_name(shift).id}]"
+    end
+    step %Q{I fill in "#{rank}" for "#{shift}"}
+  end
+  sleep 2
+end
+
+Given /^I have saved the following time preferences:$/ do |availability|
+  step %Q{I have not saved any preferences}
   step %Q{I go to the set preferences page}
-  @availability = {}
+  fill_out_availability availability
+  step %Q{I click "Save"}
+end
+  
+And /^I select the following time preferences:$/ do |availability|
+  fill_out_availability availability
+end
+
+def fill_out_availability availability
   set_mappings
-  fields.hashes.each do |availability_hash|
-    day = @day_mapping[availability_hash[:day]]
-    time_blocks = availability_hash[:times].split(",")
-    availability_status = availability_hash[:availability]
-    
+  availability.hashes.each do |availability_hash|
+    day, time_blocks, availability_status = get_availability availability_hash
     for time_block in time_blocks do
       time_block =~ /(?: )?(.*)-(.*)/
       start_time, end_time = @time_mapping[$1], @time_mapping[$2] 
@@ -43,22 +57,6 @@ Given /^I have saved the following time preferences:$/ do |fields|
       end
     end
   end
-  step %Q{I click "Save"}
-end
-
-When /^I fill in the following rankings:$/ do |fields|
-  categories = @current_unit.get_all_metashift_categories
-  fields.rows_hash.each do |name, value|
-    if categories.include?(name)
-      @category_rankings[name] = value.to_i
-      name = "category[#{convert_to_id name}]"
-    else
-      @shift_rankings[name] = value.to_i
-      name = "meta[#{Metashift.find_by_name(name).id}]"
-    end
-    step %Q{I fill in "#{value}" for "#{name}"}
-  end
-  sleep 2
 end
 
 Then(/^my shift preferences should be saved$/) do
@@ -73,27 +71,6 @@ Then(/^my shift preferences should be saved$/) do
       expect(ranking).to eq(@category_rankings[metashift.category])
     else
       expect(ranking).to eq(3)
-    end
-  end
-end
-  
-And /^I select the following time preferences:$/ do |fields|
-  set_mappings
-  fields.hashes.each do |availability_hash|
-    day = @day_mapping[availability_hash[:day]]
-    time_blocks = availability_hash[:times].split(",")
-    availability_status = availability_hash[:availability]
-    
-    for time_block in time_blocks do
-      time_block =~ /(?: )?(.*)-(.*)/
-      start_time, end_time = @time_mapping[$1], @time_mapping[$2] 
-      for hour in start_time..end_time do
-        if not @availability[day]
-          @availability[day] = {}
-        end
-        @availability[day][hour] = availability_status
-        step %Q{I select "#{availability_status}" for "#{"avail[#{day},#{hour}]"}"}
-      end
     end
   end
 end
@@ -113,16 +90,15 @@ Then(/^my schedule preferences should be saved$/) do
   end
 end
 
-Then(/^my availability for "([^"]*)", "([^"]*)" should be "([^"]*)"$/) do |day, hour, status|
-  set_mappings
-  expect(@current_user.avails.where(:day => @day_mapping[day], :hour => @time_mapping[hour]).first.status).to eq(status)
-end
-
 And /^my ranking for "([^"]*)" should be "([^"]*)"$/ do |metashift, rank|
   metashift = Metashift.find_by_name(metashift)
   expect(@current_user.preferences.where(:metashift => metashift).first.rating).to eq(rank.to_i)
 end
 
+Then(/^my availability for "([^"]*)", "([^"]*)" should be "([^"]*)"$/) do |day, hour, status|
+  set_mappings
+  expect(@current_user.avails.where(:day => @day_mapping[day], :hour => @time_mapping[hour]).first.status).to eq(status)
+end
 
 Then(/^I should see a(?:n)? "([^"]*)" status "([^"]*)" times$/) do |status, num|
   status_mapping = {
@@ -135,6 +111,13 @@ Then(/^I should see a(?:n)? "([^"]*)" status "([^"]*)" times$/) do |status, num|
 end
 
 ### HELPER METHODS ###
+def get_availability availability_hash
+  day = @day_mapping[availability_hash[:day]]
+  time_blocks = availability_hash[:times].split(",")
+  availability_status = availability_hash[:availability]
+  return day, time_blocks, availability_status
+end
+
 def convert_to_id value
     value.gsub(/ /, "_")
 end 

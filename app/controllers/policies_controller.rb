@@ -5,7 +5,7 @@ class PoliciesController < ApplicationController
   def show
     set_policy
     if not @policy
-      if @current_user.is_ws_manager?
+      if admin_rights?
         redirect_to new_policy_path
       else
         flash[:info] = "The policies have not been set for this semester."
@@ -16,7 +16,7 @@ class PoliciesController < ApplicationController
 
   # GET /policies/new
   def new
-    if @current_user.is_ws_manager?
+    if admin_rights?
       if set_policy
         flash[:notice] = "Your policies have already been set for this semester. Edit your policies below."
         redirect_to edit_policy_path
@@ -33,7 +33,7 @@ class PoliciesController < ApplicationController
 
   # GET /policies/edit
   def edit
-    if @current_user.is_ws_manager?
+    if admin_rights?
       set_policy
       if not @policy
         flash[:info] = "You have not set the policies for this semester. Set your policies below."

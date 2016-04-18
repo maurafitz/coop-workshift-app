@@ -10,6 +10,6 @@
 </div>
 
 <%### ADMIN ONLY ###%>
-<% if @current_user.is_ws_manager? %>
+<% if admin_rights? %>
     <%= link_to 'Edit', edit_policy_path %>
 <% end %>

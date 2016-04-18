@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def new
-    if not @current_user.is_ws_manager?
+    if not admin_rights?
       redirect_to '/'
     end
   end
@@ -193,7 +193,7 @@ class UsersController < ApplicationController
   end
   
   def preference_access
-    if not @current_user.is_ws_manager?
+    if not admin_rights?
       redirect_to '/'
     end
     @users = User.all

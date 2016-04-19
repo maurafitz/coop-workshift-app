@@ -135,22 +135,14 @@ class UsersController < ApplicationController
     @user = current_user
     @day_mapping = $day_mapping
     @metashifts_by_category = current_unit.get_metashifts_by_category
-    
     @avail_dic = Avail.get_availability_mapping @user.avails
-    
-    # @avail_dic = {}
-    # @user.avails.each do |avail| 
-    #   @avail_dic[avail.day.to_s + "," + avail.hour.to_s] = avail.status
-    # end
-    puts @avail_dic
-    
     @cat_dict = {}; 
     @meta_dict = {}; 
-    @user.preferences.each do |pref|
-      @meta_dict[pref.metashift.id] = pref.rating
-      cat = pref.metashift.category
-      if !(@cat_dict.key?(cat))
-        @cat_dict[cat] = pref.cat_rating
+    @user.preferences.each do |preference|
+      @meta_dict[preference.metashift.id] = preference.rating
+      category = preference.metashift.category
+      if !(@cat_dict.key?(category))
+        @cat_dict[category] = preference.cat_rating
       end
     end
   end

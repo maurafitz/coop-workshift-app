@@ -20,20 +20,14 @@ Feature: View Workshift Table
     | 5am           | 11am         | May 18, 2016  | 3            |
     And I am on the view workshifts page
   
-  # passes on c9
-  # @wip 
-  @local
-  @javascript
+  @local @javascript
   Scenario: A regular user can see all workshift slots for the semester
     Then I should see "Listing Shifts"
     And I should see a workshift table
     And I should see "Maura Fitz" in the row for "Head Cook"
     And I should see "Maura Fitz" in the row for "Waste Reduction Coordinator"
 
-  # passes on c9
-  # @wip 
-  @local
-  @javascript
+  @local @javascript
   Scenario: A user can click to view a workshift description
     Then I should not see "Lead a team in cooking meals."
     When I click "Description" in the row for "Head Cook"

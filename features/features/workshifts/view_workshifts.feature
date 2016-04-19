@@ -21,7 +21,8 @@ Feature: View Workshift Table
     And I am on the view workshifts page
   
   # passes on c9
-  @wip 
+  # @wip 
+  @local
   @javascript
   Scenario: A regular user can see all workshift slots for the semester
     Then I should see "Listing Shifts"
@@ -30,7 +31,8 @@ Feature: View Workshift Table
     And I should see "Maura Fitz" in the row for "Waste Reduction Coordinator"
 
   # passes on c9
-  @wip 
+  # @wip 
+  @local
   @javascript
   Scenario: A user can click to view a workshift description
     Then I should not see "Lead a team in cooking meals."

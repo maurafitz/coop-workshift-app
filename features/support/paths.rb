@@ -21,7 +21,7 @@ module NavigationHelpers
       
     ### WORKSHIFT MANAGER ###
     when /^the create members\s?page$/
-      '/signup'      
+      signup_path      
     when /^the view weekly history page$/
       '/'
       

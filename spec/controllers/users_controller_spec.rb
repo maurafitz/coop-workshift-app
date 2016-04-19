@@ -34,7 +34,7 @@ RSpec.describe UsersController, type: :controller do
                 :email => 'ehjd@gmail.com',
                 :permissions => User::PERMISSION[:member]
                 }
-                expect(response).to redirect_to(signup_path)
+                expect(response).to redirect_to(new_user_path)
             end
         end
         
@@ -67,7 +67,7 @@ RSpec.describe UsersController, type: :controller do
         
         it 'should redirect if no file is provided' do
             post :upload
-            expect(response).to redirect_to(signup_path)
+            expect(response).to redirect_to(new_user_path)
         end
         
         it 'should flash a message if no file is provided' do

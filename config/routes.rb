@@ -15,8 +15,7 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
   #get  'auth/failure' => 'sessions#failure'
 
-  get '/signup' => 'users#new'
-  # get '/users/new' => 'users#new'
+  # get '/signup' => 'users#new'
   post '/users' => 'users#create'
   post '/users/confirm' => 'users#confirm_users', as: 'confirm_users'
   post '/users/upload' => 'users#upload', as: 'csv_upload'

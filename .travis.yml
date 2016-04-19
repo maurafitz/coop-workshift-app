@@ -2,17 +2,17 @@ language: ruby
 rvm:
   - 2.2.2
 
-# script:
-#   - bundle exec rspec
-#   - bundle exec cucumber --tags ~@local
+script:
+  - bundle exec rspec
+  - bundle exec rake cucumber --tags ~@local
 
-task :travis do
-  ["rspec spec", "rake cucumber --tags ~@local"].each do |cmd|
-    puts "Starting to run #{cmd}..."
-    system("export DISPLAY=:99.0 && bundle exec #{cmd}")
-    raise "#{cmd} failed!" unless $?.exitstatus == 0
-  end
-end
+# task :travis do
+#   ["rspec spec", "rake cucumber --tags ~@local"].each do |cmd|
+#     puts "Starting to run #{cmd}..."
+#     system("export DISPLAY=:99.0 && bundle exec #{cmd}")
+#     raise "#{cmd} failed!" unless $?.exitstatus == 0
+#   end
+# end
 
 
 # after_success:

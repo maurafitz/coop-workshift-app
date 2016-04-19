@@ -66,6 +66,9 @@ class UsersController < ApplicationController
   end
   
   def edit
+    if current_user.id != params[:id].to_i
+      redirect_to '/'
+    end
     @user = User.find_by_id(params[:id])
   end
 

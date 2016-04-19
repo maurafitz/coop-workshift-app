@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
   end
   helper_method :admin_rights?
   
+  def current_unit
+    @current_user.unit
+  end
+  
   def convert_to_id value
     value.gsub(/ /, "_")
   end 

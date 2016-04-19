@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect_to '/'
     else
-      redirect_to '/signup'
+      redirect_to signup_path
     end
   end
   
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
       @users_uploaded += new_users
     else
       flash[:danger] = "You must select a file to upload."
-      redirect_to '/signup'
+      redirect_to signup_path
     end
   end
   

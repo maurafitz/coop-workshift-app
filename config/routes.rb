@@ -17,9 +17,9 @@ Rails.application.routes.draw do
 
   # get '/signup' => 'users#new'
   post '/users' => 'users#create'
-  post '/users/confirm' => 'users#confirm_users', as: 'confirm_users'
   post '/users/upload' => 'users#upload', as: 'csv_upload'
   post '/users/add' => 'users#add_user', as: 'add_user'
+  post '/users/confirm' => 'users#confirm_users', as: 'confirm_users'
   get '/users/:id' => 'users#profile', as: 'user_profile'
   get '/users/:id/edit' => 'users#edit_profile', as: 'edit_profile'
   post '/users/:id/edit/email' => 'users#edit_email', as: 'edit_email'

@@ -4,7 +4,7 @@ rvm:
 
 script:
   - bundle exec rspec
-  - bundle exec rake cucumber --tags ~@local
+  - bundle exec cucumber --tags ~@local
 
 # task :travis do
 #   ["rspec spec", "rake cucumber --tags ~@local"].each do |cmd|

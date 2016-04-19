@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
   def current_unit
     @current_user.unit
   end
+  helper_method :current_unit
   
   def convert_to_id value
     value.gsub(/ /, "_")

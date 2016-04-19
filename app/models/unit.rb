@@ -12,4 +12,8 @@ class Unit < ActiveRecord::Base
       end
       categories
     end
+    
+    def get_metashifts_by_category
+      self.metashifts.group_by {|metashift| metashift.category}
+    end
 end

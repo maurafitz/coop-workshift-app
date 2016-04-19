@@ -76,6 +76,10 @@ class User < ActiveRecord::Base
       return x
     end
     
+    def has_saved_availability?
+      self.avails.length > 0
+    end
+    
     def is_ws_manager?
       permissions == PERMISSION[:ws_manager]
     end

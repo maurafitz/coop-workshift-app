@@ -115,7 +115,7 @@ class UsersController < ApplicationController
   def new_preferences
     if current_user.id != params[:id].to_i
       redirect_to '/'
-    elsif current_user.avails.length != 0
+    elsif current_user.has_saved_availability?
       flash[:warning] = "You have already set your preferences. Edit them here."
       redirect_to edit_preferences_path
     end
@@ -123,24 +123,27 @@ class UsersController < ApplicationController
     @new = true
     @user = current_user
     @day_mapping = $day_mapping
-    @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
-        metashift.category}
+    @metashifts_by_category = current_unit.get_metashifts_by_category
   end
   
   def edit_preferences
-    if current_user.avails.length == 0
+    if not current_user.has_saved_availability? 
       flash[:warning] = "You have not yet set your preferences. Please set them here."
       redirect_to new_preferences_path
     end
     @new = false
     @user = current_user
     @day_mapping = $day_mapping
-    @metashifts_by_category = @user.unit.metashifts.group_by {|metashift| 
-        metashift.category}
-    @avail_dic = {}
-    @user.avails.each do |avail| 
-      @avail_dic[avail.day.to_s + "," + avail.hour.to_s] = avail.status
-    end
+    @metashifts_by_category = current_unit.get_metashifts_by_category
+    
+    @avail_dic = Avail.get_availability_mapping @user.avails
+    
+    # @avail_dic = {}
+    # @user.avails.each do |avail| 
+    #   @avail_dic[avail.day.to_s + "," + avail.hour.to_s] = avail.status
+    # end
+    puts @avail_dic
+    
     @cat_dict = {}; 
     @meta_dict = {}; 
     @user.preferences.each do |pref|

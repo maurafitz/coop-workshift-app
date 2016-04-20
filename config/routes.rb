@@ -27,9 +27,9 @@ Rails.application.routes.draw do
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
   get '/preference_access' => 'users#preference_access', as: 'preference_access'
-  post '/users/:id/pref/new' => 'users#set_pref_and_avail', as: 'submit_pref_set'
+  post '/users/:id/pref/new' => 'users#create_pref_and_avail', as: 'create_pref'
   get '/users/:id/pref/edit' => 'users#edit_preferences', as: 'edit_preferences'
-  post '/users/:id/pref/edit' => 'users#edit_pref_and_avail', as: 'submit_pref_edit'
+  post '/users/:id/pref/edit' => 'users#update_pref_and_avail', as: 'update_pref'
 
 
   get '/index' => 'workshift#index'

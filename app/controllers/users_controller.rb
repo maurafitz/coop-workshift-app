@@ -147,7 +147,7 @@ class UsersController < ApplicationController
     end
   end
   
-  def set_pref_and_avail
+  def create_pref_and_avail
     #Saving Preferences
     categories = params["category"]
     meta = params["meta"]
@@ -213,7 +213,7 @@ class UsersController < ApplicationController
     redirect_to '/preference_access'
   end
   
-  def edit_pref_and_avail
+  def update_pref_and_avail
     categories = params["category"]
     meta = params["meta"]
     meta.each do |id, rank|

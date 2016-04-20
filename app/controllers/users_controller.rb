@@ -149,8 +149,8 @@ class UsersController < ApplicationController
   
   def create_pref_and_avail
     #Saving Preferences
-    categories = params["category"]
-    meta = params["meta"]
+    categories = params[:category]
+    meta = params[:meta]
     meta.each do |id, rank|
       ms = Metashift.find_by_id(id.to_i)
       rank = rank.to_i

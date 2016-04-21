@@ -15,6 +15,10 @@ Given(/^I am the following user:$/) do |user_table|
   end
 end
 
+Given(/^I log out$/) do
+  pending
+end
+
 ### LOGGING IN USERS ###
 def simulate_login(user)
   visit path_to('the home page')

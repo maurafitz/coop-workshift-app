@@ -24,6 +24,8 @@ module NavigationHelpers
       new_user_path      
     when /^the view weekly history page$/
       '/'
+    when /^the manage users page$/
+      '/'
       
     #### USERS ####
     when /^my profile page$/

@@ -4,6 +4,7 @@ Given /^I have not saved any preferences$/ do
   @availability = {}
 end
 
+
 Given /^I have saved the following shift preferences:$/ do |rankings|
   step %Q{I have not saved any preferences}
   step %Q{I go to the set preferences page}

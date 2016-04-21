@@ -12,10 +12,10 @@ Feature: Workshift Manager: Assign Workshifts
     | Kitchen       | Head Cook         | 2  |
     | Garbage       | TRC               | 3  |
     And the following shifts exist:
-    | time_blocks                              | metashift   | days      |
-    | 5am-11am, 12pm-3pm, 4pm-7pm, 8pm-10pm    | Dishes      | M,T,W,R,F |
-    | 8am-11am, 1pm-4pm, 5pm-8pm               | Head Cook   | M,T,W,R,F |
-    | 4pm-7pm                                  | TRC         | M,W,F     |
+    | metashift   | days      | time_blocks                              |
+    | Dishes      | M,T,W,R,F | 5am-11am, 12pm-3pm, 4pm-7pm, 8pm-10pm    |
+    | Head Cook   | M,T,W,R,F | 8am-11am, 1pm-4pm, 5pm-8pm               |
+    | TRC         | M,W,F     | 4pm-7pm                                  |
     And the following users are members of "Cloyne":
     | first_name      | last_name     | email                     |   password     |    permissions   |
     | Eric            | Nelson        | ericn@berkeley.edu        |   bunnny       |      0           |

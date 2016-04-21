@@ -16,7 +16,15 @@ Given(/^I am the following user:$/) do |user_table|
 end
 
 Given(/^I log out$/) do
+  simulate_logout
+end
+
+def simulate_logout(user)
   pending
+  visit path_to('the home page')
+  click_link("#{user.full_name}")
+  click_button("Sign Out")
+  @current_user = nil
 end
 
 ### LOGGING IN USERS ###

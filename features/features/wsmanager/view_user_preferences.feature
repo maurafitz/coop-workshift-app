@@ -1,5 +1,5 @@
 @javascript
-Feature: View and Edit User Preferences
+Feature: View User Preferences
  As a work-shift manager
  In order to schedule the semester's shifts in a fair way
  I would like to be able to view each of my members' work-shift and schedule preferences.
@@ -24,7 +24,7 @@ Feature: View and Edit User Preferences
     | Garbage         | 2       |
    And I log out
    
-   
+  @wip 
   Scenario: A workshift manager searches and views a valid user
     Given I am logged in as a workshift manager
     And I am on the manage users page
@@ -32,14 +32,14 @@ Feature: View and Edit User Preferences
     Then I should see an "Available" status "11" times
     Then I should see a "Not Preferred" status "4" times
     
-    
+  @wip
   Scenario: A workshift manager searches for a non-existent user
     Given I am logged in as a workshift manager
     And I am on the manage users page
     And I fill in Member with "Bobo"
     Then I should not see "Bobo"
 
-
+  @wip
   Scenario: A user should not be able to see the manage users page
     Given I am logged in as a member
     And I go to the manage users page

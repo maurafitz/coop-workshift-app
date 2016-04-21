@@ -5,23 +5,17 @@ class Preference < ActiveRecord::Base
   DEFAULT_RANK = 3
   
   def set_rankings cat_rank, ms_rank
-    if cat_rank != 0 and ms_rank == 0
-      self.rating = cat_rating
-    else
-      self.rating = ms_rank
-    end
+    self.rating = ms_rank
     self.cat_rating = cat_rank
   end
   
   def get_ranking
     if self.ranking != 0
       self.ranking
+    elsif self.cat_rating != 0
+      self.cat_rating
     else
       DEFAULT_RANK
     end
-  end
-  
-  def get_raw_ranking
-    
   end
 end

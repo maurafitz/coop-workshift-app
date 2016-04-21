@@ -9,3 +9,4 @@ exclude_paths:
 - "**.js"
 - "Gemfile.lock"
 - "db/seeds.rb"
+- "coverage/assets/0.10.0/application.css"

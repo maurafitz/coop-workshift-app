@@ -8,3 +8,4 @@ exclude_paths:
 - "bower_components/**/*"
 - "**.js"
 - "Gemfile.lock"
+- "db/seeds.rb"

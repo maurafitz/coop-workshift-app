@@ -71,9 +71,11 @@ end
 Then(/^my shift preferences should be saved$/) do
   db_preferences = {}
   @current_user.preferences.each do |preference|
-    db_preferences[Metashift.find_by_id(preference.metashift_id)] = preference.rating
+    db_preferences[Metashift.find_by_id(preference.metashift_id)] = preference.get_rating
   end
   db_preferences.each do |metashift, ranking|
+    # puts metashift.name
+    # puts ranking
     if @shift_rankings.key?(metashift.name)
       expect(ranking).to eq(@shift_rankings[metashift.name])
     elsif @category_rankings.key?(metashift.category)

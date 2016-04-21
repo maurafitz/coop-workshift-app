@@ -158,7 +158,7 @@ class UsersController < ApplicationController
       rank = rank.to_i
       pref = Preference.new
       if pref and ms
-        pref.set_rankings categories[ms.category].to_i, rank
+        pref.set_ratings categories[ms.category].to_i, rank
         pref.metashift = ms
         pref.user = current_user
         pref.save
@@ -214,7 +214,7 @@ class UsersController < ApplicationController
       rank = rank.to_i
       pref = Preference.where(user: current_user).where(metashift: ms).first
       if pref and ms
-        pref.set_rankings categories[ms.category].to_i, rank
+        pref.set_ratings categories[ms.category].to_i, rank
         pref.metashift = ms
         pref.user = current_user
         pref.save

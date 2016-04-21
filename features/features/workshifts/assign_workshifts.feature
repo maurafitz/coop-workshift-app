@@ -1,3 +1,4 @@
+@wip
 Feature: Workshift Manager: Assign Workshifts
   As a work-shift manager
   In order for members to know when, where, and how they need to work,
@@ -23,7 +24,7 @@ Feature: Workshift Manager: Assign Workshifts
     And I am on the assign workshifts page
     
   Scenario: An admin assigns workshifts to a member 
-    Then I should see "38" workshift slots
+    Then I should see "38" shift slots
     When I fill in "Giorgia Willits" for "Dishes, Monday, 5am-11am"
     And I fill in "Eric Nelson" for "Head Cook, Tuesday, 8am-11am"
     And I click "Save"

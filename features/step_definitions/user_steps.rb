@@ -54,7 +54,7 @@ Given(/^I am logged in$/) do
   simulate_login(@current_user)
 end
 
-Given(/^"(.*)" is logged in$/) do |first_name|
+Given(/^I am logged in as "(.*)"$/) do |first_name|
   pending
   user = @all_users[first_name]
   simulate_login(user)
@@ -79,6 +79,15 @@ And(/^I am a member of "(.*)"$/) do |house|
   step %Q{I belong to "#{house}"}
 end
 
+Given(/^the following users are members of "([^"]*)":$/) do |coop_unit, users_table|
+  unit = Unit.create!(:name => coop_unit)
+  users_table.hashes.each do |user|
+    user = User.create!(user)
+    user.unit = unit
+    user.save
+  end
+end
+
 Given(/^I am assigned the following shifts:$/) do |shifts_table|
   shifts_table.hashes.each do |shift|
     metashift_id = shift[:metashift_id]
@@ -98,6 +107,27 @@ Given(/^"([^"]*)" is assigned the following shifts:$/) do |first_name, shifts_ta
     shift.metashift = Metashift.find(metashift_id)
     shift.save
   end
+end
+
+Then(/^"([^"]*)" should be assigned the shift "([^"]*)"$/) do |first_name, shift_info|
+  pending # need to be able to get shift by day (ex. Monday)
+  user = User.find_by_first_name(first_name)
+  shift = get_shift shift_info
+  expect(shift.user).to be(user)
+end
+
+Then(/^no one should be assigned to the shift "([^"]*)"$/) do |shift|
+  pending # need to be able to get shift by day (ex. Monday), check what unasigned shift.user is
+  shift = get_shift shift_info
+  expect(shift.user).to be nil
+end
+
+def get_shift shift_info
+  pending # need to be able to get shift by day (ex. Monday)
+  shift =~ /^(.*), (.*), (.*)-(.*)$/
+  shift_name, day, start_time, end_time = $1, $2, $3, $4
+  metashift = Metashift.find_by_name(shift_name)
+  shift = metashift.shifts.where('start_time = #{start_time} and end_time = #{end_time}')
 end
 
 ### USER ACCESS ### 

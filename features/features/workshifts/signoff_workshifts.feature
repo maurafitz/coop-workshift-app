@@ -28,7 +28,7 @@ Feature: Sign-off a shift
     
   @wip
   Scenario: A member signs off another member while signed in
-    Given "Eric" is logged in
+    Given I am logged in as "Eric"
     And I am on the home page
     Then I should see the following: "Workshifter", "Notes"
     And I should not see the following: "Verifier", "Password", "Special Shift"
@@ -74,13 +74,3 @@ Feature: Sign-off a shift
     Given "Maura" is logged in
     And I am on the home page
     Then I should see the following: "Workshifter", "Notes", "Special Shift", "Recent online signoffs", "View Workshifts and Descriptions"
-    
-# homepage
-# if you are signed in
-#     pwd not required for signoff
-# if you are not signed in
-#     username and pwd required to sign off (but this does not sign the user in)
-# if user is a manager or workshift manager
-#     show special shift signoff ability
-#     show recent online signoffs
-#     view workshifts and descriptions link

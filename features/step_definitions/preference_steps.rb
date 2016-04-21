@@ -1,18 +1,22 @@
-Given /^I have not saved any preferences$/ do
+Given(/^I have not saved any preferences$/) do
   @category_rankings = {}
   @shift_rankings = {}
   @availability = {}
 end
 
 
-Given /^I have saved the following shift preferences:$/ do |rankings|
+Given(/^I have saved the following shift preferences:$/) do |rankings|
   step %Q{I have not saved any preferences}
   step %Q{I go to the set preferences page}
   fill_in_rankings rankings
   step %Q{I click "Save"}
 end
 
-When /^I fill in the following rankings:$/ do |rankings|
+Given(/^"([^"]*)" has set their preferences as:$/) do |first_name, preferences|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I fill in the following rankings:$/) do |rankings|
   fill_in_rankings rankings
 end
 
@@ -31,14 +35,18 @@ def fill_in_rankings rankings
   sleep 2
 end
 
-Given /^I have saved the following time preferences:$/ do |availability|
+Given(/^I have saved the following time preferences:$/) do |availability|
   step %Q{I have not saved any preferences}
   step %Q{I go to the set preferences page}
   fill_out_availability availability
   step %Q{I click "Save"}
 end
+
+Given(/^"([^"]*)" has set the following availability:$/) do |first_name, availability|
+  pending # Write code here that turns the phrase above into concrete actions
+end
   
-And /^I select the following time preferences:$/ do |availability|
+And(/^I select the following time preferences:$/) do |availability|
   fill_out_availability availability
 end
 
@@ -91,7 +99,7 @@ Then(/^my schedule preferences should be saved$/) do
   end
 end
 
-And /^my ranking for "([^"]*)" should be "([^"]*)"$/ do |metashift, rank|
+And(/^my ranking for "([^"]*)" should be "([^"]*)"$/) do |metashift, rank|
   metashift = Metashift.find_by_name(metashift)
   expect(@current_user.preferences.where(:metashift => metashift).first.rating).to eq(rank.to_i)
 end

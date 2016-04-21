@@ -6,6 +6,8 @@ RSpec.describe PoliciesController, type: :controller do
         @policy = double("Policy")
         @admin = double("Admin", :unit => @unit, :is_ws_manager? => true)
         @member = double("Member", :unit => @unit, :is_ws_manager? => false)
+        @params = {"policy"=>{"first_day"=>"2016-04-28", "last_day"=>"2016-06-13", 
+                        "fine_days"=>"April 12, 2016; April 13, 2016", "fine_amount"=>"30", "market_sell_by"=>"3"}}
     end
     describe "creating a semester policy" do 
         context "when the current user is an admin" do
@@ -32,12 +34,10 @@ RSpec.describe PoliciesController, type: :controller do
                 it "should save the policy and assign to the current user's unit" do
                     expect(Policy).to receive(:create!)
                     expect(@unit).to receive(:policy=)
-                    post :create, { "policy"=>{"first_day"=>"2016-04-28", "last_day"=>"2016-06-13", 
-                        "fine_days"=>"April 12, 2016; April 13, 2016", "fine_amount"=>"30", "market_sell_by"=>"3"}}
+                    post :create, @params
                 end
                 it "should redirect to the view policy page" do
-                    post :create,  { "policy"=>{"first_day"=>"2016-04-28", "last_day"=>"2016-06-13", 
-                        "fine_days"=>"April 12, 2016; April 13, 2016", "fine_amount"=>"30", "market_sell_by"=>"3"}}
+                    post :create, @params
                     expect(response).to redirect_to(policy_path)
                 end
             end
@@ -121,12 +121,10 @@ RSpec.describe PoliciesController, type: :controller do
                 end
                 it "should update the attributes of the policy" do
                     expect(@policy).to receive(:update_attributes!)
-                    post :update, { "policy"=>{"first_day"=>"2016-04-28", "last_day"=>"2016-06-13", 
-                        "fine_days"=>"April 12, 2016; April 13, 2016", "fine_amount"=>"30", "market_sell_by"=>"3"}}
+                    post :update, @params
                 end
                 it "should redirect to the view policy page" do
-                    post :update, { "policy"=>{"first_day"=>"2016-04-28", "last_day"=>"2016-06-13", "fine_days"=>"April 12, 2016; April 13, 2016", "fine_amount"=>"30", "market_sell_by"=>"3"}}
-                    expect(response).to redirect_to(policy_path)
+                    post :update, @params
                 end
             end
         end
@@ -134,8 +132,7 @@ RSpec.describe PoliciesController, type: :controller do
             it "should redirect to the view policy page" do
                 allow(User).to receive(:find_by_id).and_return(@member)
                 allow(@unit).to receive(:policy).and_return(@policy)
-                post :update,  { "policy"=>{"first_day"=>"2016-04-28", "last_day"=>"2016-06-13", 
-                        "fine_days"=>"April 12, 2016; April 13, 2016", "fine_amount"=>"30", "market_sell_by"=>"3"}}
+                post :update, @params
                 expect(response).to redirect_to(policy_path)
             end
         end

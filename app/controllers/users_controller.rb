@@ -171,11 +171,8 @@ class UsersController < ApplicationController
     avail = params["avail"]
     avail.each do |datetime, status|
       day, time = datetime.split(",")
-      a = Avail.where(user:current_user).where(day: day.to_i).where(hour: time.to_i).first
+      a = Avail.where(user: current_user).where(day: day.to_i).where(hour: time.to_i).first
       if a
-        a.user = current_user
-        a.hour = time.to_i
-        a.day = day.to_i
         a.status = status
         a.save
       end

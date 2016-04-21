@@ -12,7 +12,7 @@
         <tr class="pref_meta">
           <td style="width:50px;">
             <div class="form-group">
-            <input value="<%= @cat_dict[metashifts[0].category] if not @new %>" id="<%=category.reverse%>" name="category[<%= category %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
+            <input value="<%= @cat_dict[category] if ((not @new) and  @cat_dict.key?(category))%>" id="<%=category.reverse%>" name="category[<%= category %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
             </div>
           </td>
           <td>
@@ -40,7 +40,7 @@
                           <tr>
                             <td style="width:50px;">
                               <div class="form-group">
-                                <input value="<%=@meta_dict[metashift.id] if not @new%>" id="<%=metashift.id%>" name="meta[<%= metashift.id %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
+                                <input value="<%=@meta_dict[metashift.id] if ((not @new) and @meta_dict.key?(metashift.id))%>" id="<%=metashift.id%>" name="meta[<%= metashift.id %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
                               </div>                            
                             </td>
                             <td><%=metashift.name %></td>

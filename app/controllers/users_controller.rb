@@ -139,10 +139,12 @@ class UsersController < ApplicationController
     @cat_dict = {}; 
     @meta_dict = {}; 
     @user.preferences.each do |preference|
-      @meta_dict[preference.metashift.id] = preference.rating
+      if preference.rating != 0
+        @meta_dict[preference.metashift.id] = preference.rating
+      end
       category = preference.metashift.category
-      if !(@cat_dict.key?(category))
-        @cat_dict[category] = preference.cat_rating
+      if !(@cat_dict.key?(category)) and preference.cat_rating != 0
+          @cat_dict[category] = preference.cat_rating
       end
     end
   end
@@ -156,16 +158,7 @@ class UsersController < ApplicationController
       rank = rank.to_i
       pref = Preference.new
       if pref and ms
-        cat = categories[ms.category].to_i
-        if cat != 0
-          pref.cat_rating = cat
-        else
-          pref.cat_rating = 3
-        end
-        if rank == 0
-          rank = pref.cat_rating
-        end
-        pref.rating = rank
+        pref.set_rankings categories[ms.category].to_i, rank
         pref.metashift = ms
         pref.user = current_user
         pref.save
@@ -221,16 +214,7 @@ class UsersController < ApplicationController
       rank = rank.to_i
       pref = Preference.where(user: current_user).where(metashift: ms).first
       if pref and ms
-        cat = categories[ms.category].to_i
-        if cat != 0
-          pref.cat_rating = cat
-        else
-          pref.cat_rating = 3
-        end
-        if rank == 0
-          rank = pref.cat_rating
-        end
-        pref.rating = rank
+        pref.set_rankings categories[ms.category].to_i, rank
         pref.metashift = ms
         pref.user = current_user
         pref.save

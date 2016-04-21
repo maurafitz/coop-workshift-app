@@ -18,20 +18,4 @@ class Preference < ActiveRecord::Base
       DEFAULT_RANK
     end
   end
-  
-  def self.has_set_category(preference=nil)
-    if preference and preference.cat_rating != 0
-      true
-    else
-      false
-    end
-  end
-  
-  def self.has_set_preference(preference=nil)
-    if preference and preference.rating != 0
-      true
-    else
-      false
-    end
-  end
 end

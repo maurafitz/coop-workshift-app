@@ -150,20 +150,7 @@ class UsersController < ApplicationController
   end
   
   def create_pref_and_avail
-    #Saving Preferences
-    categories = params[:category]
-    meta = params[:meta]
-    meta.each do |id, rank|
-      ms = Metashift.find_by_id(id.to_i)
-      rank = rank.to_i
-      pref = Preference.new
-      if pref and ms
-        pref.set_ratings categories[ms.category].to_i, rank
-        pref.metashift = ms
-        pref.user = current_user
-        pref.save
-      end
-    end
+    save_preferences :create
     #Saving Avails
     avail = params["avail"]
     avail.each do |datetime, status|
@@ -175,6 +162,27 @@ class UsersController < ApplicationController
     current_user.notes = params["notes"]
     current_user.save
     flash[:success] = "Your preferences have been saved"
+    redirect_to user_profile_path
+  end
+  
+  def update_pref_and_avail
+    save_preferences :update
+    #Saving Avails
+    avail = params["avail"]
+    avail.each do |datetime, status|
+      day, time = datetime.split(",")
+      a = Avail.where(user:current_user).where(day: day.to_i).where(hour: time.to_i).first
+      if a
+        a.user = current_user
+        a.hour = time.to_i
+        a.day = day.to_i
+        a.status = status
+        a.save
+      end
+    end
+    current_user.notes = params["notes"]
+    current_user.save
+    flash[:success] = "Your preferences have been edited successfully"
     redirect_to user_profile_path
   end
   
@@ -206,40 +214,6 @@ class UsersController < ApplicationController
     redirect_to '/preference_access'
   end
   
-  def update_pref_and_avail
-    categories = params["category"]
-    meta = params["meta"]
-    meta.each do |id, rank|
-      ms = Metashift.find_by_id(id.to_i)
-      rank = rank.to_i
-      pref = Preference.where(user: current_user).where(metashift: ms).first
-      if pref and ms
-        pref.set_ratings categories[ms.category].to_i, rank
-        pref.metashift = ms
-        pref.user = current_user
-        pref.save
-      end
-    end
-    #Saving Avails
-    avail = params["avail"]
-    avail.each do |datetime, status|
-      day, time = datetime.split(",")
-      a = Avail.where(user:current_user).where(day: day.to_i).where(hour: time.to_i).first
-      if a
-        a.user = current_user
-        a.hour = time.to_i
-        a.day = day.to_i
-        a.status = status
-        a.save
-      end
-    end
-    current_user.notes = params["notes"]
-    current_user.save
-    flash[:success] = "Your preferences have been edited successfully"
-    redirect_to user_profile_path
-  end
-
-  
 private
 
   def get_current_uploaded ids
@@ -255,4 +229,25 @@ private
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :permissions, :password, :password_confirmation, :avatar, :change_preference_for_id)
   end
+  
+  def save_preferences mode
+    categories = params[:category]
+    meta = params[:meta]
+    meta.each do |id, rank|
+      ms = Metashift.find_by_id(id.to_i)
+      rank = rank.to_i
+      if mode == :create
+        pref = Preference.new
+      elsif mode == :update
+        pref = Preference.where(user: current_user).where(metashift: ms).first
+      end
+      if pref and ms
+        pref.set_ratings categories[ms.category].to_i, rank
+        pref.metashift = ms
+        pref.user = current_user
+        pref.save
+      end
+    end
+  end
+  
 end

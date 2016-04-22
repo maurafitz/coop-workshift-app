@@ -10,9 +10,14 @@ class MetashiftsController < ApplicationController
     
     def upload
         if (not params[:file].blank?)
-          new_shifts = Metashift.import(params[:file])
-          @metashifts_uploaded = new_shifts
-          render 'shifts/upload'
+          begin
+            new_shifts = Metashift.import(params[:file])
+            @metashifts_uploaded = new_shifts
+            render 'shifts/upload'
+          rescue Exception => e
+            flash[:danger] = e.message
+            redirect_to create_shifts_path
+          end
         else
           flash[:danger] = "You must select a file to upload."
           redirect_to '/shifts/new'

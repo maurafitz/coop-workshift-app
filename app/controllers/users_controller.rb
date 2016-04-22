@@ -102,16 +102,6 @@ class UsersController < ApplicationController
     redirect_to edit_profile_path
   end
   
-  $day_mapping = {
-    0=> "Monday",
-    1=> "Tuesday",
-    2=> "Wednesday",
-    3=> "Thursday",
-    4=> "Friday",
-    5=> "Saturday",
-    6=> "Sunday"
-  }
-  
   def new_preferences
     if current_user.id != params[:id].to_i
       redirect_to '/'
@@ -122,7 +112,7 @@ class UsersController < ApplicationController
     
     @new = true
     @user = current_user
-    @day_mapping = $day_mapping
+    @day_mapping = Preference.day_mapping
     @metashifts_by_category = current_unit.get_metashifts_by_category
   end
   
@@ -133,7 +123,7 @@ class UsersController < ApplicationController
     end
     @new = false
     @user = current_user
-    @day_mapping = $day_mapping
+    @day_mapping = Preference.day_mapping
     @metashifts_by_category = current_unit.get_metashifts_by_category
     @avail_dic = Avail.get_availability_mapping @user.avails
     @cat_dict = {}; 

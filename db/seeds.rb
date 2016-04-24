@@ -122,6 +122,3 @@ shifts = [{:start_time => DateTime.strptime("09/02/2009 17:00", "%m/%d/%Y %H:%M"
 shifts.each do |shift|
           Shift.create!(shift)
 end
-
-Metashift.destroy_all
-Shift.destroy_all

@@ -1,0 +1,8 @@
+<!-- app/views/users/preference_access.html.erb -->
+<!DOCTYPE html>
+<html>
+<%= link_to 'Open Workshift Preference Form for Everyone', admin_view_user_path(:change_preference_for_id => "all"), :class=>"btn btn-theme" %>
+<%= link_to 'Close Workshift Preference Form for Everyone', admin_view_user_path(:change_preference_for_id => "none"), :class=>"btn btn-theme" %>
+
+
+</html>

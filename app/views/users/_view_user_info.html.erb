@@ -1,0 +1,14 @@
+<h2> <%= @user.full_name %> </h2>
+
+<div class="row" style="margin-bottom:20px;">
+  <div class="col-md-2"><h4>Email</h4></div>
+  <div class="col-md-4" style="margin-top:10px;"><%= @user.email %></div>
+</div>
+<div class="row" style="margin-top: 20px; margin-bottom:20px;">
+  <div class="col-md-2"><h4>Can see preference form: </h4></div>
+  <div class="col-md-4" style="margin-top:10px;"><%= @user.preference_open %></div>
+</div>
+
+<%= link_to 'Toggle Preference Form for ' + @user.full_name, admin_view_user_path(:change_preference_for_id => @user.id), :class=>"btn btn-theme" %>
+
+<%= link_to('Edit Profile', edit_profile_path(:id => @user.id), :class => 'btn btn-theme') %>

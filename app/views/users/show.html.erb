@@ -48,15 +48,6 @@
                       </tr>
                     </tbody>
                   </table>
-                  <% if current_user.preferences.length == 0 %>
-                    <div class ="btn btn-link pull-right">
-                      <%= link_to('Select Workshifts Preference', new_preferences_path) if @user.preference_open %>
-                    </div>
-                  <% else %>
-                    <div class ="btn btn-link pull-right">
-                      <%= link_to('Edit Workshifts Preferences', edit_preferences_path) if @user.preference_open %>
-                    </div>
-                  <% end %>
                 </div>
               </div>
           </div>

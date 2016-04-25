@@ -303,8 +303,8 @@ var WorkShiftTable = React.createClass({
               theme: 'relax', layout: 'topRight', type: 'success',
               timeout: 1000
         });
-        console.log('Update to DB works, now clearing dirty shifts');
         that.setState({dirtyShifts: []});
+        that.toggleEditMode();
       },
       error: function(msg){
         noty({text: msg.status+ ": " + msg.responseText,

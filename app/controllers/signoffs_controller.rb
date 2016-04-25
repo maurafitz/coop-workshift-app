@@ -41,4 +41,14 @@ class SignoffsController < ApplicationController
         end
         render json: json_info
     end
+    
+    def get_all_shifts
+        json_info = {}
+        metashifts = current_unit.metashifts
+        metashifts.each do |ms|
+            workshifts = ms.workshifts
+            
+        end
+        
+    end
 end

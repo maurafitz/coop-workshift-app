@@ -183,23 +183,26 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
+
   def admin_view_user
     @user = User.find_by_id(params[:id])
     @users = User.all
+
     if not admin_rights?
       redirect_to '/'
     end
+    @users = User.all
     if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "all")
       User.all.each do | u |
         u.update_attribute(:preference_open, true)
       end
-      redirect_to admin_view_user_path
+      redirect_to '/preference_access'
     end
     if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "none")
       User.all.each do | u |
         u.update_attribute(:preference_open, false)
       end
-      redirect_to admin_view_user_path
+      redirect_to '/preference_access'
     end
     user = User.find_by_id(params[:change_preference_for_id])
     if user == nil
@@ -209,37 +212,8 @@ class UsersController < ApplicationController
       user = User.find_by_id(params[:change_preference_for_id])
       user.update_attribute(:preference_open, false == user.preference_open)
     end
-    redirect_to admin_view_user_path
+    redirect_to '/preference_access'
   end
-  
-  # def preference_access
-  #   if not admin_rights?
-  #     redirect_to '/'
-  #   end
-  #   @user = User.all.first
-  #   @users = User.all
-  #   if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "all")
-  #     User.all.each do | u |
-  #       u.update_attribute(:preference_open, true)
-  #     end
-  #     redirect_to '/preference_access'
-  #   end
-  #   if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "none")
-  #     User.all.each do | u |
-  #       u.update_attribute(:preference_open, false)
-  #     end
-  #     redirect_to '/preference_access'
-  #   end
-  #   user = User.find_by_id(params[:change_preference_for_id])
-  #   if user == nil
-  #     return
-  #   end
-  #   if (defined? user and defined? params[:change_preference_for_id])
-  #     user = User.find_by_id(params[:change_preference_for_id])
-  #     user.update_attribute(:preference_open, false == user.preference_open)
-  #   end
-  #   redirect_to '/preference_access'
-  # end
   
 private
 

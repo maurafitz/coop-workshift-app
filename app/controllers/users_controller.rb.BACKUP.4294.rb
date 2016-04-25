@@ -183,9 +183,17 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
+<<<<<<< HEAD
+
   def admin_view_user
     @user = User.find_by_id(params[:id])
     @users = User.all
+
+=======
+  def admin_view_user
+    @user = User.find_by_id(params[:id])
+    @users = User.all
+>>>>>>> 313cc0d31cc16bc67e911157d1670f96dbf16ad7
     if not admin_rights?
       redirect_to '/'
     end

@@ -27,10 +27,12 @@ Rails.application.routes.draw do
   post '/users/:id/edit/permissions' => 'users#edit_permissions', as: 'edit_permissions'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
-  get '/preference_access' => 'users#preference_access', as: 'preference_access'
+  #get '/preference_access' => 'users#preference_access', as: 'preference_access'
+
   post '/users/:id/pref/new' => 'users#create_pref_and_avail', as: 'create_pref'
   get '/users/:id/pref/edit' => 'users#edit_preferences', as: 'edit_preferences'
   post '/users/:id/pref/edit' => 'users#update_pref_and_avail', as: 'update_pref'
+  get '/users/:id/admin_view_user' => 'users#admin_view_user', as: 'admin_view_user'
 
 
   post '/metashifts/create' => 'metashifts#create_metashift', as: 'create_metashift'

@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   resources :shifts
   resources :metashifts
   resources :workshifts

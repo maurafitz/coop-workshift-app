@@ -1,0 +1,17 @@
+<%=form_tag set_unit_path, :id => "unit_form", :class => "form-horizontal" do %>
+  <div class="form-group">
+    <label for="unit" class="col-sm-2 control-label">Unit</label>
+    <div class="col-sm-10">
+      <select id="unit" name="unit" class="selectpicker" data-live-search="true">
+        <% @all_units.each do |unit| %>
+          <option value="<%= unit.id %> ">
+            <%=unit.name %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-offset-2 col-sm-10">
+    <button type="submit" class="btn btn-theme">Save</button>
+  </div>
+<% end %>

@@ -200,6 +200,7 @@ class UsersController < ApplicationController
     end
     redirect_to '/preference_access'
   end
+
   
 private
 

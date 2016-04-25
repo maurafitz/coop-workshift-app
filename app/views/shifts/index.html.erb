@@ -1,8 +1,5 @@
-<h1>Listing Shifts</h1>
+<h1>All Shifts</h1>
 
-<!--<%= react_component 'WorkShiftTable', {:shifts => @serializedShifts}, :div %>-->
-<!--= @shifts.inspect-->
-<!--= @serializedShifts.inspect-->
 
 
 <%= content_tag :div, class: "temp_information", 
@@ -11,7 +8,7 @@ data: {temp: @serializedShifts, is_admin: admin_rights?,
 
 <% end %>
 
-<div id='work-shift-table'></div>
+<div id='shift-table'></div>
 
 <br>
-<%= link_to('New Shift', new_workshift_path) if admin_rights? %>
+<%= link_to('New Shift', new_shift_path) if admin_rights? %>

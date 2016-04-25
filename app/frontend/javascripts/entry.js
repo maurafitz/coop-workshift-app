@@ -13,6 +13,7 @@ var React = require('react');
 var ReactDOM = require('react-dom')
 
 var WST = require('./work_shift_table.js.jsx');
+var CONST = require('./constants')
 
 $.ajaxSetup({
   headers: {
@@ -20,16 +21,23 @@ $.ajaxSetup({
   }
 });
 
-
-if(document.getElementById('work-shift-table'))
+if(document.getElementById(CONST.WORKSHIFT_TABLE_ID))
 {
     var shifts = $('.temp_information').data('temp');
     var admin = $('.temp_information').data('is-admin');
     var allusers= $('.temp_information').data('allusers');
-    ReactDOM.render(<WST shifts={shifts} table_type={'WorkShiftTable'}
-                         admin={admin} allusers={allusers}/>, document.getElementById('work-shift-table'));
+    ReactDOM.render(<WST shifts={shifts} table_type={CONST.W_SHIFT_TABLE}
+                         admin={admin} allusers={allusers}/>, document.getElementById(CONST.WORKSHIFT_TABLE_ID));
 } 
-//ReactDOM.render(<WST/>, document.getElementById('work-shift-table'));
+
+if(document.getElementById(CONST.SHIFT_TABLE_ID))
+{
+    var shifts = $('.temp_information').data('temp');
+    var admin = $('.temp_information').data('is-admin');
+    var allusers= $('.temp_information').data('allusers');
+    ReactDOM.render(<WST shifts={shifts} table_type={CONST.SHIFT_TABLE}
+                         admin={admin} allusers={allusers}/>, document.getElementById(CONST.SHIFT_TABLE_ID));
+} 
 
 var app = new App();
 app.start();

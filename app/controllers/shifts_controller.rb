@@ -6,7 +6,7 @@ class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
   def index
-    @shifts = Workshift.all
+    @shifts = Shift.all
     @serializedShifts = json_shifts(@shifts)
     @allUsers = User.all.to_json
   end

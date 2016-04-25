@@ -324,7 +324,7 @@ var WorkShiftTable = React.createClass({
       error: function(msg){
         noty({text: msg.status+ ": " + msg.responseText,
               theme: 'relax', layout: 'topRight', type: 'error',
-              timeout: 2000
+              timeout: 5000
         });
       }
     });

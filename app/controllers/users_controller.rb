@@ -174,7 +174,7 @@ class UsersController < ApplicationController
   end
   
   def admin_view_user
-    @user = User.all.first
+    @user = User.find_by_id(params[:id])
     @users = User.all
     if not admin_rights?
       redirect_to '/'

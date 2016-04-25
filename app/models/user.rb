@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
           row = Hash[[header, spreadsheet.row(i)].transpose]
           user = find_by(email: row["email"]) || new
           user.attributes = row.to_hash.slice(*row.to_hash.keys)
+          user.permissions = PERMISSION[:member]
           user.password = User.random_pw
           if (not user.sent_confirmation) and user.save
             added += [user]
@@ -92,6 +93,10 @@ class User < ActiveRecord::Base
     def is_member?
       permissions == PERMISSION[:member]
     end 
+    
+    def self.getPermissionCode(role)
+      return PERMISSION[role.to_sym]
+    end
     
     def getPermission
       if is_member?

@@ -32,6 +32,12 @@ class UsersController < ApplicationController
     new_user = User.new
     new_user.update_attributes(user_params)
     new_user.update_attribute(:password, User.random_pw)
+    if (params[:user][:permissions] == "") 
+      new_user.permissions = User.getPermissionCode('member')
+    end
+    if (params[:user][:compensated_hours] == "")
+      new_user.compensated_hours = 0
+    end
     new_user.save
     @users_uploaded << new_user
     render "upload"
@@ -260,7 +266,7 @@ private
   end
   
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :permissions, :password, :password_confirmation, :avatar, :change_preference_for_id)
+    params.require(:user).permit(:first_name, :last_name, :email, :permissions, :password, :password_confirmation, :avatar, :change_preference_for_id, :compensated_hours)
   end
   
   def save_preferences mode

@@ -32,6 +32,7 @@
       <th>Email</th>
       <th>Password</th>
       <th>Permissions</th>
+      <th>Compensated Hours</th>
     </tr>
 
     <% @users_uploaded.each do |user| %>
@@ -48,6 +49,9 @@
         </td>
         <td>
           <%=user.permissions %>
+        </td>
+        <td> 
+          <%=user.compensated_hours %>
         </td>
       </tr>
     <% end %>

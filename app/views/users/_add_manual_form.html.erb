@@ -24,7 +24,10 @@
       </ul>
       </div>
     </div>
-
+    <div style="margin-top:20px; margin-bottom:20px;">
+      <%= label :user, :compensated_hours, 'Compensated Hours' %>
+      <%= text_field :user, "compensated_hours", class:"form-control" %>
+    </div>
   <%= render "add_hidden_ids" %>
   <button type="submit" class="btn btn-theme" id="submit_button">Add User</button>
   

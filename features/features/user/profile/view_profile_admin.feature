@@ -13,7 +13,7 @@ Feature: Workshift Manager: View User Profile
     Given I am on the home page
     When I follow "Profile"
     Then I should be on my profile page
-    Then I should see the following: "Hour Balance", "Fine Balance", "Permanent Shift Assignment", "Signoff History", "10", "0"
+    Then I should see the following: "Hour Balance", "Fine Balance", "Shift Assignment", "Signoff History", "10", "0"
     And I should see "Edit Profile"
     And I should see the following: "Create Users", "Create Workshifts", "Assign Workshifts", "View Weekly History"
     

@@ -147,6 +147,7 @@ w.user = c
 w.save
 
 ## SHIFTS ##
+<<<<<<< HEAD
 
 shifts = [
     {:date => "April 20, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
@@ -164,3 +165,11 @@ shifts.each do |shift|
     s = Shift.create(shift)
     shift_instances << s
 end
+=======
+shifts = [
+    {:date => "April 25, 2016"}
+    
+    
+    
+    ]
+>>>>>>> Switching to master to migrate

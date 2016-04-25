@@ -1,12 +1,42 @@
+<head>
+  <style>
+    .color_red { 
+      color: #E63946;
+    }
+    .color_green { 
+      color: #70AE6E;
+    }
+  </style>
+</head>
+
 <div class ="row">
     <div class ="col-md-8">
         <div class="spacing"></div>
             <h3> Profile </h4>
         <div class="hline"></div>
             <div class="panel-body">
+              
+              <div class="row" style="margin-bottom:20px">
+                <div class="col-md-3" align="center">
+                  <h4> Hours: </h4>
+                   <% if @user.hour_balance >= 0 %>
+                    <h1 class="color_green"><%= @user.hour_balance%></h2>
+                  <% else %>
+                    <h1 class="color_red"><%= @user.hour_balance%></h2>
+                  <% end %>
+                </div>
+                <div class="col-md-3" align="center">
+                  <h4> Fine Balance: </h4>
+                  <% if @user.fine_balance > 0 %>
+                    <h1 class="color_red"><%= number_to_currency(@user.fine_balance)%></h2>
+                  <% else %>
+                    <h1 class="color_green"><%= number_to_currency(@user.fine_balance)%></h2>
+                  <% end %>
+                </div>
+              </div>
+              
               <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> 
-                  
+                <div class="col-md-3 col-lg-3" align="center"> 
                   <%= image_tag(@user.avatar.url(:profile), :class => "img-circle img-responsive") %> 
                   <div style="padding-top: 10px;"></div>
                   <div class="hline"  style="margin-bottom: 10px;"></div>
@@ -40,23 +70,8 @@
                       <tr>
                         <td><b>Fine Balance:</b></td>    <td><%= @user.fine_balance %></td>
                       </tr>
-                      <tr>
-                        <td><b>Permanent Shift Assignment:</b> </td>     <td></td>
-                      </tr>
-                      <tr>
-                        <td><b>Shift Signoff History: </b></td>     <td></td>
-                      </tr>
                     </tbody>
                   </table>
-                  <% if current_user.preferences.length == 0 %>
-                    <div class ="btn btn-link pull-right">
-                      <%= link_to('Select Workshifts Preference', new_preferences_path) if @user.preference_open %>
-                    </div>
-                  <% else %>
-                    <div class ="btn btn-link pull-right">
-                      <%= link_to('Edit Workshifts Preferences', edit_preferences_path) if @user.preference_open %>
-                    </div>
-                  <% end %>
                 </div>
               </div>
           </div>
@@ -74,5 +89,77 @@
             <br> <%= link_to 'View Weekly History', '/'%> </br>
             <br> <%= link_to 'Open/Close Workshift Preference Form', '/preference_access' %> </br>
         <% end %>
+    </div>
+</div>
+
+<div class ="row">
+    <div class ="col-md-10">
+      <div class="spacing"></div>
+          <h4> Shift Assignment </h4>
+      <div class="hline"></div>
+      <table id="Workshifts_uploaded" class="table table-striped table-hover">
+        <tr>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Time</th>
+          <th>Description</th>
+          <th>Shift type</th>
+        </tr>
+        <% for n in 0...2 %>
+          <tr>
+            <td>
+              <%="Kitchen" %>
+            </td>
+            <td>
+              <%="Dishes" %>
+            </td>
+            <td>
+              <%="shift time" %>
+            </td>
+            <td>
+              <%="shift description" %>
+            </td>
+            <td>
+              <%="Permanent" %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+</div>
+
+<div class ="row">
+    <div class ="col-md-10">
+      <div class="spacing"></div>
+          <h4> Signoff History </h4>
+      <div class="hline"></div>
+      <table id="Workshifts_uploaded" class="table table-striped table-hover">
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Name</th>
+          <th>Completed</th>
+          <th>Signoff</th>
+        </tr>
+        <% for n in 0...5 %>
+          <tr>
+            <td>
+              <%="shift date" %>
+            </td>
+            <td>
+              <%="shift time" %>
+            </td>
+            <td>
+              <%="shift name" %>
+            </td>
+            <td>
+              <%="shift completed" %>
+            </td>
+            <td>
+              <%="shift signoff" %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
     </div>
 </div>

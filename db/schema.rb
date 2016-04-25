@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160424223804) do
     t.datetime "avatar_updated_at"
     t.boolean  "preference_open",     default: true
     t.string   "notes"
+    t.integer  "compensated_hours",   default: 0
   end
 
   create_table "workshifts", force: :cascade do |t|

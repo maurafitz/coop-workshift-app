@@ -3,8 +3,10 @@ Rails.application.routes.draw do
 
   resources :shifts
   resources :metashifts
+
   resources :workshifts
-  root to: 'shifts#index'
+  root to: 'signoffs#new'
+
   get '/users/get_all' => 'users#get_all', as: 'get_all_users'
 
   resources :users do
@@ -31,7 +33,7 @@ Rails.application.routes.draw do
   post '/users/:id/pref/new' => 'users#create_pref_and_avail', as: 'create_pref'
   get '/users/:id/pref/edit' => 'users#edit_preferences', as: 'edit_preferences'
   post '/users/:id/pref/edit' => 'users#update_pref_and_avail', as: 'update_pref'
-
+  
 
   post '/metashifts/create' => 'metashifts#create_metashift', as: 'create_metashift'
   get '/workshifts/:id/new_timeslots' => 'workshifts#new_timeslots', as: 'new_timeslots'
@@ -47,4 +49,11 @@ Rails.application.routes.draw do
   post 'policies/' => 'policies#create'
   put '/policies/' => 'policies#update'
   
+  get '/signoffs/new' => 'signoffs#new', as: 'signoff_page'
+  post '/signoffs/submit' => 'signoffs#submit', as: "submit_signoff"
+  
+  get '/signoffs/set_unit' => 'signoffs#get_unit', as: "get_unit"
+  post '/signoffs/set_unit' => 'signoffs#set_unit', as: "set_unit"
+  get '/signoffs/:id/get_shifts' => 'signoffs#get_shifts'
+
 end

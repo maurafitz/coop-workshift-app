@@ -1,0 +1,133 @@
+<h2> Shift sign-off  </h2>
+<div class="col-md-1 col-lg-1"></div>
+<div class=" col-md-10 col-lg-10 ">
+  <%=form_tag submit_signoff_path, :id => "signoff_form", :class => "form-horizontal" do %>
+    <table class="table table-user-information">
+      <tbody>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="workshifter" class="col-sm-2 control-label">Workshifter</label>
+              <div class="col-sm-10">
+                <select id="workshifter" name="signoff[workshifter]" class="selectpicker" data-live-search="true">
+                  <% @all_users.each do |user| %>
+                    <option value="<%=user.id%>">
+                      <%=user.full_name %>
+                    </option>
+                    <% end %>
+                </select>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="verifier" class="col-sm-2 control-label">Verifier</label>
+              <div class="col-sm-10">
+                <select id="verifier" name="signoff[workshifter]" class="selectpicker" data-live-search="true">
+                  <% @all_users.each do |user| %>
+                    <option value="<%=user.id%>">
+                      <%=user.full_name %>
+                    </option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="verifier_pw" class="col-sm-2 control-label">Password</label>
+              <div class="col-sm-10">
+                <input style="max-width:280px;" type="password" class="form-control signoff-form" id="verifier_pw" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                By verifying this shift, you are affirming that you actually verified that this shift was done properly. Falsely verifying a shift has serious consequences.
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="notes" class="col-sm-2 control-label">Notes:</label>
+              <div class="col-sm-10">
+                <textarea name="signoff[notes]"  class="form-control" rows="2" id="notes"></textarea>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="pers_shifts" class="col-sm-2 control-label">Your Shifts</label>
+              <div class="col-sm-10">
+                <select id="pers_shifts" name="signoff[shift]" class="selectpicker dynamic" data-live-search="true">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="pers_shifts_hr" class="col-sm-2 control-label"> Hours </label>
+              <div class="col-sm-6">
+                <input style="max-width:100px;" id="pers_shifts_hr" name="signoff[shift_hr]" class="form-control">
+              </div>
+              <div class="pull-right">
+                <button type="submit" class="btn btn-theme">Signoff Shift</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="dates" class="col-sm-2 control-label">All Shifts</label>
+              <div class="col-sm-10">
+                <select id="dates" name="signoff[date]" class="selectpicker dynamic" data-live-search="true">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                <select id="shifts" name="signoff[shift]" class="selectpicker dynamic" data-live-search="true">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Person</label>
+              <div class="col-sm-10">
+                <select id="person" name="signoff[person]" class="selectpicker dynamic" data-live-search="true">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="all_shifts_hr" class="col-sm-2 control-label"> Hours </label>
+              <div class="col-sm-6">
+                <input style="max-width:100px;" id="all_shifts_hr" name="signoff[shift_hr]" class="form-control">
+               </div>
+              <div class="pull-right">
+                <button type="submit" class="btn btn-theme">Signoff Shift</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <% end %>
+</div>
+</div>
+<div class="col-md-1 col-lg-1"></div>
+
+
+<script>
+$(document).ready(function() {
+  $("#workshifter").change(function(){
+    // alert("users/" + $(this).val() + "/get_shifts")
+    $.getJSON( "signoffs/" + $(this).val() + "/get_shifts", function( data ) {
+      console.log(data)
+    });
+  })
+});
+</script>

@@ -81,6 +81,16 @@ class UsersController < ApplicationController
     end
     redirect_to user_profile_path
   end
+  
+  def edit_permissions
+    if (defined? params[:id])
+      user = User.find_by_id(params[:id])
+      user.permissions = params[:user][:permissions]
+      user.save
+    end
+    redirect_to admin_view_user_path
+  end
+  
 
   def edit_password
     if (defined? params[:name] and defined? params[:password] and defined? params[:password_confirmation] and
@@ -173,8 +183,6 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
-
-  def preference_access
 
   def admin_view_user
     @user = User.find_by_id(params[:id])

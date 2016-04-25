@@ -1,14 +1,4 @@
-<br>
-  <%=form_tag add_user_path, :id => 'my_form' do %>
-    <%= label :user, :first_name, 'First Name' %>
-    <%= text_field :user, 'first_name', class:"form-control" %>
-    <br>
-    <%= label :user, :last_name, 'Last Name' %>
-    <%= text_field :user,"last_name", class:"form-control" %>
-    <br>
-    <%= label :user, :email, 'Email' %>
-    <%= text_field :user,"email", class:"form-control" %>
-    
+<%=form_tag edit_permissions_path, :id => 'my_form' do %>
     <input type="hidden" name="user[permissions]" id="permission_field" value="">
     
     <div class = "form-group" id="dropdown_form">
@@ -26,8 +16,8 @@
     </div>
 
   <%= render "add_hidden_ids" %>
-  <button type="submit" class="btn btn-theme" id="submit_button">Add User</button>
-  
+  <button type="submit" class="btn btn-theme" id="submit_button">Update Permissions</button>
+  <% end %>
   <script>
     $(function(){
       $(".dropdown-menu li a").click(function(){
@@ -43,6 +33,3 @@
       });
     });
   </script>
-  <% end %>
-  
-

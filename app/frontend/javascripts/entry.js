@@ -26,7 +26,7 @@ if(document.getElementById('work-shift-table'))
     var shifts = $('.temp_information').data('temp');
     var admin = $('.temp_information').data('is-admin');
     var allusers= $('.temp_information').data('allusers');
-    ReactDOM.render(<WST shifts={shifts}
+    ReactDOM.render(<WST shifts={shifts} table_type={'WorkShiftTable'}
                          admin={admin} allusers={allusers}/>, document.getElementById('work-shift-table'));
 } 
 //ReactDOM.render(<WST/>, document.getElementById('work-shift-table'));

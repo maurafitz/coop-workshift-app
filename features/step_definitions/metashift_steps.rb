@@ -6,12 +6,6 @@ Given /^the following metashifts exist:$/ do |metashifts_table|
   end
 end
 
-Given(/^the following workshifts exist:$/) do |metashifts_table|
-  metashifts_table.hashes.each do |metashift|
-    Metashift.create!(metashift)
-  end
-end
-
 And /^I have created workshifts for the semester$/ do
     user_maura = User.create!(first_name: "Maura", last_name: "Fitz", email: "momo@berkeley.edu", password: "pw")
     sweep_kitchen = Metashift.create!(category: "Kitchen", description: 'Sweeping the kitchen floors', multiplier: 1)

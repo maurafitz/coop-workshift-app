@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :shifts
   resources :metashifts
+  resources :workshifts
   root to: 'shifts#index'
   get '/users/get_all' => 'users#get_all', as: 'get_all_users'
 
@@ -32,13 +33,13 @@ Rails.application.routes.draw do
   post '/users/:id/pref/edit' => 'users#update_pref_and_avail', as: 'update_pref'
 
 
-  get '/index' => 'workshift#index'
-  post '/shifts/new' => 'shifts#new', as: 'create_shifts'
-  post '/metashifts/add' => 'metashifts#add_metashift', as: 'add_metashift'
+  post '/metashifts/create' => 'metashifts#create_metashift', as: 'create_metashift'
+  get '/workshifts/:id/new_timeslots' => 'workshifts#new_timeslots', as: 'new_timeslots'
+  post '/workshifts/create_timeslots' => 'workshifts#create_timeslots', as: 'create_timeslots'
   post '/shifts/upload' => 'metashifts#upload', as: 'shift_csv_upload'
-  get '/shifts/:id/new_timeslots' => 'shifts#new_timeslots', as: 'new_timeslots'
-  post '/shifts/add_timeslots' => 'shifts#add_timeslots', as: 'add_timeslots'
   put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_users'
+  
+  get '/index' => 'workshift#index'
   
   get '/policies/new' => 'policies#new', as: 'new_policy'
   get '/policies/edit' => 'policies#edit', as: 'edit_policy'

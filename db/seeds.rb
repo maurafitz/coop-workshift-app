@@ -6,6 +6,7 @@ Preference.destroy_all
 Metashift.destroy_all
 User.destroy_all
 Policy.destroy_all
+Workshift.destroy_all
 Shift.destroy_all
 Unit.destroy_all
 
@@ -67,11 +68,7 @@ end
 
 
 ## METASHIFTS ## 
-metashifts = [{:category => 'Cooking', :description => 'fake description',
-               :multiplier => 2.0},
-              {:category => 'Cleaning', :description => 'fake description',
-               :multiplier => 2.0},
-              {:category => 'Trash Duty', :description => 'Laundry Rooms: 
+metashifts = [{:category => 'Cleaning', :name => 'Tidy Common Areas', :description => 'Laundry Rooms: 
  1. Wipe off the tops of all the washers, dryers, and counters with a wet rag.
  2. Bring the lost and found bin to the Freepile if it has not been emptied in a week.
  3. Clear the lint collectors of all dryers that not in use. 
@@ -107,21 +104,21 @@ metashifts.each do |metashift|
 end
 
 
-## SHIFTS ## 
-shifts = [{:start_time => DateTime.strptime("09/02/2009 17:00", "%m/%d/%Y %H:%M"),
-           :end_time => DateTime.strptime("09/02/2009 19:00", "%m/%d/%Y %H:%M"),
-           :user => user_instances[0], :metashift => metashift_instances[0]},
-           {:start_time => DateTime.strptime("09/01/2009 17:00", "%m/%d/%Y %H:%M"),
-           :end_time => DateTime.strptime("09/01/2009 19:00", "%m/%d/%Y %H:%M"),
-           :user => user_instances[1], :metashift => metashift_instances[1]},
-           {:start_time => DateTime.strptime("09/03/2009 17:00", "%m/%d/%Y %H:%M"),
-           :end_time => DateTime.strptime("09/03/2009 19:00", "%m/%d/%Y %H:%M"),
-           :user => user_instances[2], :metashift => metashift_instances[2]}
-           ]
+## WORKSHIFTS ## 
+workshifts = [
+        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Monday", :metashift => metashift_instances[0]},
+        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Tuesday", :metashift => metashift_instances[1]},
+        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Wednesday", :metashift => metashift_instances[2]},
+        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Thursday", :metashift => metashift_instances[3]},
+        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Friday", :metashift => metashift_instances[2]},
+        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Saturday", :metashift => metashift_instances[2]},
+        {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Saturday", :metashift => metashift_instances[2]},
+        {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Monday", :metashift => metashift_instances[2]},
+        {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[2]},
+        ]
            
-shifts.each do |shift|
-          Shift.create!(shift)
+workshifts.each do |workshift|
+    Workshift.create!(workshift)
 end
 
-Metashift.destroy_all
-Shift.destroy_all
+## SHIFTS ##

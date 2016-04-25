@@ -100,13 +100,13 @@ Given(/^the following users are members of "([^"]*)":$/) do |coop_unit, users_ta
   end
 end
 
-Given(/^I am assigned the following shifts:$/) do |shifts_table|
-  shifts_table.hashes.each do |shift|
-    metashift_id = shift[:metashift_id]
-    shift.delete(:metashift_id)
-    shift = @current_user.shifts.create!(shift)
-    shift.metashift = Metashift.find(metashift_id)
-    shift.save
+Given(/^I am assigned the following workshifts:$/) do |workshifts_table|
+  workshifts_table.hashes.each do |workshift|
+    metashift_id = workshift[:metashift_id]
+    workshift.delete(:metashift_id)
+    workshift = @current_user.workshifts.create!(workshift)
+    workshift.metashift = Metashift.find(metashift_id)
+    workshift.save
   end
 end
 

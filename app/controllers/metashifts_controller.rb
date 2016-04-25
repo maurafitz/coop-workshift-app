@@ -1,11 +1,11 @@
 class MetashiftsController < ApplicationController
-    def add_metashift
+    def create_metashift
         @metashifts_uploaded = []
         new_metashift = Metashift.new
         new_metashift.update_attributes(metashift_params)
         new_metashift.save
         @metashifts_uploaded << new_metashift
-        render "shifts/upload"
+        render "workshifts/upload"
     end
     
     def upload
@@ -16,11 +16,11 @@ class MetashiftsController < ApplicationController
             render 'shifts/upload'
           rescue Exception => e
             flash[:danger] = e.message
-            redirect_to create_shifts_path
+            redirect_to new_workshift_path
           end
         else
           flash[:danger] = "You must select a file to upload."
-          redirect_to '/shifts/new'
+          redirect_to new_workshift_path
         end
     end
     

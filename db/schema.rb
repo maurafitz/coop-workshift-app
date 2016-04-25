@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415052312) do
+ActiveRecord::Schema.define(version: 20160424223804) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -60,18 +60,19 @@ ActiveRecord::Schema.define(version: 20160415052312) do
   add_index "preferences", ["user_id"], name: "index_preferences_on_user_id"
 
   create_table "shifts", force: :cascade do |t|
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.integer  "metashift_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.datetime "date"
     t.boolean  "completed"
+    t.integer  "signoff_by_id"
+    t.datetime "signoff_date"
+    t.integer  "workshift_id"
   end
 
-  add_index "shifts", ["metashift_id"], name: "index_shifts_on_metashift_id"
+  add_index "shifts", ["signoff_by_id"], name: "index_shifts_on_signoff_by_id"
   add_index "shifts", ["user_id"], name: "index_shifts_on_user_id"
+  add_index "shifts", ["workshift_id"], name: "index_shifts_on_workshift_id"
 
   create_table "units", force: :cascade do |t|
     t.string   "name"
@@ -86,6 +87,7 @@ ActiveRecord::Schema.define(version: 20160415052312) do
     t.integer  "permissions"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "password"
     t.string   "password_digest"
     t.boolean  "sent_confirmation",   default: false
     t.boolean  "has_confirmed",       default: false
@@ -99,5 +101,17 @@ ActiveRecord::Schema.define(version: 20160415052312) do
     t.boolean  "preference_open",     default: true
     t.string   "notes"
   end
+
+  create_table "workshifts", force: :cascade do |t|
+    t.integer "metashift_id"
+    t.string  "start_time"
+    t.string  "end_time"
+    t.string  "day"
+    t.integer "user_id"
+    t.decimal "length"
+  end
+
+  add_index "workshifts", ["metashift_id"], name: "index_workshifts_on_metashift_id"
+  add_index "workshifts", ["user_id"], name: "index_workshifts_on_user_id"
 
 end

@@ -1,5 +1,5 @@
 class Metashift < ActiveRecord::Base
-    has_many :shifts
+    has_many :workshifts
     has_many :preferences
     belongs_to :unit
     
@@ -12,14 +12,14 @@ class Metashift < ActiveRecord::Base
         metashift = find_by(name: row["name"]) || new
         metashift.attributes = row.to_hash.slice(*%w[category name description multiplier])
         if metashift.save!
-          shift_list = create_shift_instances(metashift, row.to_hash.slice('times')['times'])
+          shift_list = create_workshift_instances(metashift, row.to_hash.slice('times')['times'])
           new_shifts[metashift] = shift_list
         end
       end
       return new_shifts
     end
     
-    def self.create_shift_instances(metashift, csv_times) 
+    def self.create_workshift_instances(metashift, csv_times) 
       metashift_times = []
       all_times = csv_times.split(';')
       all_times.each do |time_slot|
@@ -29,8 +29,8 @@ class Metashift < ActiveRecord::Base
         start_and_end = time_details[1].split('to')
         start_time = start_and_end[0].squish
         end_time = start_and_end[1].squish 
-        shift = Shift.add_shift(day, start_time, end_time, metashift)
-        metashift_times << shift
+        workshift = Workshift.add_workshift(day, start_time, end_time, metashift)
+        metashift_times << workshift
       end
       return metashift_times
     end
@@ -43,10 +43,10 @@ class Metashift < ActiveRecord::Base
     end
     
     def get_all_times()
-      all_shifts = self.shifts
+      all_shifts = self.workshifts
       times = []
-      all_shifts.each do |shift|
-        times.push(shift.getTimeFormatted)
+      all_shifts.each do |workshift|
+        times.push(workshift.get_time_formatted)
       end
       return times
     end

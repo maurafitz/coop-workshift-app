@@ -35,9 +35,9 @@ module NavigationHelpers
       
     #### WORKSHIFTS ####
     when /^the create workshifts page$/
-      create_shifts_path
+      new_workshift_path
     when /^the view workshifts page$/
-      '/shifts'
+      workshifts_path
     when /^the edit workshift page$/
       '/shifts'
     when /^the assign workshifts page$/

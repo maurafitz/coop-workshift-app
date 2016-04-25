@@ -17,7 +17,9 @@
   <h2>Update Email</h2>
   <%=render "edit_email_form" %>
   <div class="hline" style="margin-top:20px;"></div>
-  <h2>Change Permissions</h2>
-  <%=render "edit_permissions_form" %>
-  <div class="hline" style="margin-top:20px; margin-bottom:20px;"></div>
+  <% if admin_rights? %>
+    <h2>Change Permissions</h2>
+    <%=render "edit_permissions_form" %>
+    <div class="hline" style="margin-top:20px; margin-bottom:20px;"></div>
+  <% end %>
 </div>

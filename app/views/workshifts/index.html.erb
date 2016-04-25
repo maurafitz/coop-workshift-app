@@ -1,0 +1,15 @@
+<h1>Listing Shifts</h1>
+
+<!--<%= react_component 'WorkShiftTable', {:shifts => @serializedWorkshifts}, :div %>-->
+
+
+<%= content_tag :div, class: "temp_information", 
+data: {temp: @serializedWorkshifts, is_admin: admin_rights?,
+       allusers: @allUsers} do %>
+
+<% end %>
+
+<div id='work-shift-table'></div>
+
+<br>
+<%= link_to('New Shift', new_workshift_path) if admin_rights? %>

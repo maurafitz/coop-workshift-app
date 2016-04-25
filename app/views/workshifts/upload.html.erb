@@ -1,0 +1,68 @@
+<!-- app/views/workshifts/upload.html.erb -->
+  <div class="row">
+    <div class="col-lg-8">
+      <h2>Add Workshift Manually</h2>
+      <div class="hline"></div>
+
+      <%=render "workshifts/add_manual_form" %>
+
+    </div>
+    <! --/col-lg-8 -->
+
+    <div class="col-lg-4">
+      <h2>Upload CSV</h2>
+      <div class="hline"></div>
+
+      <%=render "workshifts/add_csv_form" %>
+
+    </div>
+  </div>
+  
+  <! --/row -->
+  
+  <! --New row -->
+  <div class="row" style= "padding-top:15px">
+
+  <div class="hline"></div>
+
+  <h3>You added <%= @metashifts_uploaded.size %> new workshifts.</h3>
+  <br>
+  <table id="Workshifts_uploaded" class="table table-striped table-hover">
+    <tr>
+      <th>Category &nbsp; &nbsp; &nbsp;</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Hour Value</th>
+      <th>Times</th>
+      <th>Add Timeslots</th>
+    </tr>
+    <% @metashifts_uploaded.each do |metashift, shift_array| %>
+      <tr>
+        <td>
+          <%=metashift.category %>
+        </td>
+        <td>
+          <%=metashift.name %>
+        </td>
+        <td>
+          <%=metashift.description %>
+        </td>
+        <td>
+          <%=metashift.multiplier %>
+        </td>
+        <td>
+          <% if shift_array %>
+            <% shift_array.each do |shift| %>
+                <%= simple_format(shift.getTimeFormatted + "\n") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <%=link_to('Add a time', new_timeslots_path(:id => metashift.id))%>
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+  </div>
+

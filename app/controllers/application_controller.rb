@@ -32,7 +32,13 @@ class ApplicationController < ActionController::Base
   helper_method :admin_rights?
   
   def current_unit
-    @current_user.unit
+    if @current_user
+      return @current_user.unit
+    elsif session[:unit]
+      return Unit.find_by_id session[:unit]
+    else
+      return nil
+    end
   end
   helper_method :current_unit
   

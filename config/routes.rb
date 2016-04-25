@@ -39,7 +39,8 @@ Rails.application.routes.draw do
   get '/workshifts/:id/new_timeslots' => 'workshifts#new_timeslots', as: 'new_timeslots'
   post '/workshifts/create_timeslots' => 'workshifts#create_timeslots', as: 'create_timeslots'
   post '/metashifts/upload' => 'metashifts#upload', as: 'upload_metashifts'
-  put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_users'
+  put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_shift_user'
+  put '/workshifts/:id/change_users' => 'workshifts#change_users', as: 'change_workshift_users'
   
   get '/index' => 'workshift#index'
   

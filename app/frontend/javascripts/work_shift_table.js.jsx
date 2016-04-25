@@ -17,6 +17,10 @@ var DescriptionComponent;
 var USER_FIELD = "user_field";
 var TIME_FIELD = "time_field";
 
+//Type of table
+var W_SHIFT_TABLE = 'WorkShiftTable';
+var SHIFT_TABLE = 'ShiftTable';
+
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -206,16 +210,15 @@ var columns = [
 var WorkShiftTable = React.createClass({
   propTypes: {
     title: React.PropTypes.string,
-    //shifts: React.PropTypes.array
   },
   
   getInitialState: function() {
-  return { dirtyShifts: [],
+  return { table_type: W_SHIFT_TABLE, dirtyShifts: [],
     editMode: false,
   shiftData: [
     {
-    "category": "Kitchen",
-    "name": "Pans",
+    "category": "This should never show",
+    "name": "Broken",
     "user": {"full_name":"Mayers Leonard",
                 "user_id" : 1},
     "time": "2:00PM - 3:00PM",
@@ -226,7 +229,24 @@ var WorkShiftTable = React.createClass({
   
   componentDidMount: function(){
     var shifts = this.props.shifts
-    var data = []
+    console.log(shifts);
+    console.log(this.props);
+    
+    var data = this.initDataArray(shifts)
+    
+    if (shifts.length > 0) {
+      this.setState({shiftData: data})
+    } else {
+    }
+    allUsers = this.props.allusers;
+    console.log(allUsers);
+    for (var i = 0; i < allUsers.length; i++){
+      allUsers[i].full_name = getFullName(allUsers[i]);
+    }
+  },
+  
+  initDataArray: function(shifts){
+    var data = [];
     for (var i = 0; i < shifts.length; i++){
       var shift = shifts[i]
       if (shift.user) {
@@ -236,24 +256,24 @@ var WorkShiftTable = React.createClass({
         var user_hash = {"full_name":"(None)",
                  "user_id" : null}
       }
+      
       data.push({"category": shift.metashift.category,
         "user": user_hash,
         "name": shift.metashift.name,
-        "time": moment(shift.start_time).format('dddd, h:mm a') + " - " +
-          moment(shift.end_time).format('h:mm a'), 
+        "time": this.formatDisplayTime(shift), 
         "description": shift.metashift.description,
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name
       })
     }
-    
-    if (shifts.length > 0) {
-      this.setState({shiftData: data})
-    } else {
-    }
-    allUsers = this.props.allusers;
-    for (i = 0; i < allUsers.length; i++){
-      allUsers[i].full_name = getFullName(allUsers[i]);
+    return data;
+  },
+  
+  formatDisplayTime: function(shift){
+    if (this.props.table_type == W_SHIFT_TABLE){
+      return shift.day + " " + shift.start_time + " - " + shift.end_time
+    } else{
+      return moment(shift.date).format('dddd, h:mm a') 
     }
   },
   
@@ -271,22 +291,28 @@ var WorkShiftTable = React.createClass({
     dirtyShifts: this.state.dirtyShifts.concat([shiftbundle.newShift])});
   },
   
+  getPutURI: function(first_id){
+    if (this.props.table_type == W_SHIFT_TABLE){
+      return '/workshifts/' + first_id + '/change_users';
+    } 
+    return '/shifts/' + first_id + '/change_users';
+  },
+  
   sendDirtyShiftsToDB: function(){
     var shift_ids = []; var user_ids = [];
     var shift = this.state.dirtyShifts[0]
-    // var shift_id = this.state.dirtyShifts[0].shift_id
-    // var user_id = this.state.dirtyShifts[0].user.id
     for (var i = 0; i < this.state.dirtyShifts.length; i++){
       shift_ids.push(this.state.dirtyShifts[i].shift_id);
       user_ids.push(this.state.dirtyShifts[i].user.id);
     }
+    var postURI = this.getPutURI(shift_ids[0]);
     var that = this
     $.ajax({
       type: "PUT",
-      url: '/shifts/' + shift_ids[0] + '/change_users',
+      url: postURI,
       data: JSON.stringify({user_ids: user_ids, shift_ids: shift_ids}),
       contentType: 'application/json', // format of request payload
-      // dataType: 'html', // format of the response
+      dataType: 'text', // format of the response
       success: function(msg) {
         noty({text: msg,
               theme: 'relax', layout: 'topRight', type: 'success',
@@ -295,11 +321,11 @@ var WorkShiftTable = React.createClass({
         console.log('Update to DB works, now clearing dirty shifts');
         that.setState({dirtyShifts: []});
       },
-      failure: function(msg){
-        noty({text: msg,
-              theme: 'relax', layout: 'topRight', type: 'failure',
+      error: function(msg){
+        noty({text: msg.status+ ": " + msg.responseText,
+              theme: 'relax', layout: 'topRight', type: 'error',
               timeout: 2000
-        }).bind(this);
+        });
       }
     });
   },
@@ -308,6 +334,7 @@ var WorkShiftTable = React.createClass({
     this.setState({editMode: !this.state.editMode, 
     shiftData: this.getDataWEditModeAppended(this.state.shiftData, !this.state.editMode)});
   },
+  
   render: function() {
     var saveButton;  var editButton; var exitEditButton;
     if (this.props.admin){

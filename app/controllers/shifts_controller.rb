@@ -6,7 +6,7 @@ class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
   def index
-    @shifts = Shift.all
+    @shifts = Workshift.all
     @serializedShifts = json_shifts(@shifts)
     @allUsers = User.all.to_json
   end
@@ -20,6 +20,7 @@ class ShiftsController < ApplicationController
         shift.save()
       else
         render :text => "Error saving shifts", :status => 500, :content_type => 'text/html'
+        return
       end
     end
     render :text => "Successfully saved shifts", :status => 200, :content_type => 'text/html'

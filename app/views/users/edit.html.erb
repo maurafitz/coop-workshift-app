@@ -16,14 +16,10 @@
   <div class="hline"></div>
   <h2>Update Email</h2>
   <%=render "edit_email_form" %>
-<<<<<<< HEAD
-  <div class="hline"></div>
-</div>
-<div class="col-lg-1">
-=======
   <div class="hline" style="margin-top:20px;"></div>
-  <h2>Change Permissions</h2>
-  <%=render "edit_permissions_form" %>
-  <div class="hline" style="margin-top:20px; margin-bottom:20px;"></div>
->>>>>>> update permissions added
+  <% if admin_rights? %>
+    <h2>Change Permissions</h2>
+    <%=render "edit_permissions_form" %>
+    <div class="hline" style="margin-top:20px; margin-bottom:20px;"></div>
+  <% end %>
 </div>

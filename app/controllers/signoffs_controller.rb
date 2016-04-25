@@ -27,7 +27,7 @@ class SignoffsController < ApplicationController
     
       
     def get_shifts
-        puts "HERE" 
-        render json: current_unit
+        user = User.find_by_id(params[:id]) 
+        render json: user.shifts
     end
 end

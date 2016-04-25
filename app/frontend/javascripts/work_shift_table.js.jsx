@@ -210,7 +210,6 @@ var columns = [
 var WorkShiftTable = React.createClass({
   propTypes: {
     title: React.PropTypes.string,
-    //shifts: React.PropTypes.array
   },
   
   getInitialState: function() {
@@ -218,8 +217,8 @@ var WorkShiftTable = React.createClass({
     editMode: false,
   shiftData: [
     {
-    "category": "Kitchen",
-    "name": "Pans",
+    "category": "This should never show",
+    "name": "Broken",
     "user": {"full_name":"Mayers Leonard",
                 "user_id" : 1},
     "time": "2:00PM - 3:00PM",

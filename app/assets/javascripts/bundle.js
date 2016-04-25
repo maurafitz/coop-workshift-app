@@ -303,13 +303,12 @@
 	    title: React.PropTypes.string
 	  },
 	
-	  //shifts: React.PropTypes.array
 	  getInitialState: function () {
 	    return { table_type: W_SHIFT_TABLE, dirtyShifts: [],
 	      editMode: false,
 	      shiftData: [{
-	        "category": "Kitchen",
-	        "name": "Pans",
+	        "category": "This should never show",
+	        "name": "Broken",
 	        "user": { "full_name": "Mayers Leonard",
 	          "user_id": 1 },
 	        "time": "2:00PM - 3:00PM",

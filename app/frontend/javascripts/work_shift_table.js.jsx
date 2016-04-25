@@ -56,6 +56,20 @@ var getUserWithID = function(user_id){
   console.log("Couldn't find user with id: " + user_id);
 }
 
+var TimeComponent = React.createClass({
+  displayName: 'DescriptionComponent',
+  componentDidMount: function() {
+    
+  },
+
+  render: function(){
+    return (
+      <div>
+        {this.props.rowData.formattedTime}
+      </div>
+    );}
+});
+
 DescriptionComponent = React.createClass({
   displayName: 'DescriptionComponent',
   componentDidMount: function() {
@@ -186,6 +200,7 @@ var columnMeta = [
   {
   "columnName": "time",
   "displayName": "Time",
+  "customComponent": TimeComponent,
   "order" :3
   },
   {
@@ -229,7 +244,6 @@ var WorkShiftTable = React.createClass({
   
   componentDidMount: function(){
     var shifts = this.props.shifts
-    console.log(shifts);
     console.log(this.props);
     
     var data = this.initDataArray(shifts)
@@ -239,7 +253,7 @@ var WorkShiftTable = React.createClass({
     } else {
     }
     allUsers = this.props.allusers;
-    console.log(allUsers);
+    // console.log(allUsers);
     for (var i = 0; i < allUsers.length; i++){
       allUsers[i].full_name = getFullName(allUsers[i]);
     }
@@ -260,8 +274,9 @@ var WorkShiftTable = React.createClass({
       data.push({"category": metashift.category,//  shift.metashift.category,
         "user": user_hash,
         "name": metashift.name,
-        "time": Util.formatDisplayTime(shift, this.props), 
+        "formattedTime": Util.formatDisplayTime(shift, this.props), 
         "description": metashift.description,
+        "time": Util.sortableTime(shift, this.props),
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name
       })

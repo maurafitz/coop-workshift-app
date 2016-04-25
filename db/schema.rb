@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425015458) do
+ActiveRecord::Schema.define(version: 20160425035754) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -60,11 +60,11 @@ ActiveRecord::Schema.define(version: 20160425015458) do
   add_index "preferences", ["user_id"], name: "index_preferences_on_user_id"
 
   create_table "shifts", force: :cascade do |t|
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "user_id"
     t.datetime "date"
-    t.boolean  "completed"
+    t.boolean  "completed",     default: false
     t.integer  "signoff_by_id"
     t.datetime "signoff_date"
     t.integer  "workshift_id"

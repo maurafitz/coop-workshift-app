@@ -6,6 +6,9 @@
     .color_green { 
       color: #70AE6E;
     }
+    a.btn:visited {
+      color: white;
+    }
   </style>
 </head>
 
@@ -16,7 +19,7 @@
         <div class="hline"></div>
             <div class="panel-body">
               
-              <div class="row" style="margin-bottom:20px">
+              <div class="row" style="margin-bottom:30px">
                 <div class="col-md-3" align="center">
                   <h4> Hours: </h4>
                    <% if @user.hour_balance >= 0 %>
@@ -70,12 +73,18 @@
                       <tr>
                         <td><b>Fine Balance:</b></td>    <td><%= @user.fine_balance %></td>
                       </tr>
+                      <% if @user.compensated_hours > 0 %>
+                        <tr>
+                          <td><b>Compensated Hours:</b></td>  <td><%= @user.compensated_hours %></td>
+                        </tr>
+                      <% end %>
                     </tbody>
                   </table>
                 </div>
               </div>
           </div>
-        <br> <%= link_to 'Edit Profile', edit_profile_path %> </br>
+        <div style= "margin-left: 37px;"> <%= link_to('Edit Profile', edit_profile_path(:id => @user.id), :class => 'btn btn-theme') %> </div>
+
     </div>
     <div class ="col-md-4">
         <%### ADMIN ONLY ###%>

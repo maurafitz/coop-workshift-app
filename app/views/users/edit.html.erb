@@ -1,3 +1,12 @@
+<head>
+  <style>
+    .hline {
+      margin-top:30px;
+      margin-bottom:30px;
+    }
+  </style>
+</head>
+
 <!-- app/views/users/edit.html.erb -->
 <% flash.each do |key, value| %>
   <div class="alert alert-<%=key%>" >
@@ -13,13 +22,12 @@
 <div class="col-lg-8">
   <h2>Change Password</h2>
   <%=render "edit_password_form" %>
-  <div class="hline" style="margin-top:20px; margin-bottom:20px;"></div>
+  <div class="hline"></div>
   <h2>Update Email</h2>
   <%=render "edit_email_form" %>
-  <div class="hline" style="margin-top:20px;"></div>
+  <div class="hline"></div>
   <% if admin_rights? %>
-    <h2>Change Permissions</h2>
-    <%=render "edit_permissions_form" %>
-    <div class="hline" style="margin-top:20px; margin-bottom:20px;"></div>
+    <%= render "admin_edit_user_info_form" %>
+    <div class="hline"></div>
   <% end %>
 </div>

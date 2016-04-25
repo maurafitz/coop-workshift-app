@@ -82,15 +82,21 @@ class UsersController < ApplicationController
     redirect_to user_profile_path
   end
   
-  def edit_permissions
+  def admin_edit_user_info
     if (defined? params[:id])
       user = User.find_by_id(params[:id])
-      user.permissions = params[:user][:permissions]
-      user.save
+      if (params[:user][:permissions] != "")
+        user.permissions = params[:user][:permissions]
+        user.save
+      end
+      if (params[:user][:compensated_hours] != "")
+        user.compensated_hours = params[:user][:compensated_hours]
+        user.save
+      end
     end
     redirect_to admin_view_user_path
   end
-  
+
 
   def edit_password
     if (defined? params[:name] and defined? params[:password] and defined? params[:password_confirmation] and

@@ -1,4 +1,3 @@
-<%=form_tag edit_permissions_path, :id => 'my_form' do %>
     <input type="hidden" name="user[permissions]" id="permission_field" value="">
     
     <div class = "form-group" id="dropdown_form">
@@ -16,8 +15,7 @@
     </div>
 
   <%= render "add_hidden_ids" %>
-  <button type="submit" class="btn btn-theme" id="submit_button">Update Permissions</button>
-  <% end %>
+  
   <script>
     $(function(){
       $(".dropdown-menu li a").click(function(){

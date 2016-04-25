@@ -5,12 +5,22 @@ Feature: Workshift Manager: View and Edit Workshifts
   I would like to view and edit workshift attributes.
   
   Background:
-    Given some workshifts have been created for the semester
-    And I am on the view workshifts page
+    Given the following users are members of "Cloyne":
+    | first_name      | last_name     | email                     |   password     |    permissions   |
+    | Maura           | Fitz          | mf@berkeley.edu           |   mypwd        |      0           |
+    | Giorgia         | Willits       | gw@berkeley.edu           |   gwpwd        |      2           |
+    And the following metashifts exist:
+    | category      | name                             | id | description                                   |
+    | Kitchen       | Head Cook                        | 2  | Lead a team in cooking meals.                 |
+    | Garbage       | Waste Reduction Coordinator      | 3  | Coordinate waste reduction. Go to CO.         |
+    And "Maura" is assigned the following workshifts:
+    | start_time    | end_time     | day           | metashift_id |
+    | 2pm           | 4pm          | Monday        | 2            |
+    | 5am           | 11am         | Tuesday       | 3            |
   
   @local
   Scenario: A member views workshifts for the semester but cannot edit
-    Given I am logged in as a member
+    Given I am logged in as "Maura"
     And I am on the view workshifts page
     Then I should see "Listing Shifts"
     And I should see a workshift table
@@ -19,7 +29,7 @@ Feature: Workshift Manager: View and Edit Workshifts
     
   @wip  
   Scenario: An admin edits a workshift
-    Given I am logged in as an admin
+    Given I am logged in as "Giorgia"
     When I follow "Edit" for "Head Cook"
     Then I should be on the edit workshift page
     And I should see "Head Cook"
@@ -31,7 +41,7 @@ Feature: Workshift Manager: View and Edit Workshifts
     
   @wip
   Scenario: An admin tries to edit a workshift incorrectly
-    Given I am logged in as an admin
+    Given I am logged in as "Giorgia"
     When I follow "Edit" for "Head Cook"
     When I fill in "Name" with ""
     And I press "Save Changes"

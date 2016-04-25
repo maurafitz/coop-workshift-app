@@ -67,8 +67,7 @@ Given(/^I am logged in$/) do
 end
 
 Given(/^I am logged in as "(.*)"$/) do |first_name|
-  pending
-  user = @all_users[first_name]
+  user = User.find_by_first_name(first_name)
   simulate_login(user)
 end
 
@@ -101,10 +100,19 @@ Given(/^the following users are members of "([^"]*)":$/) do |coop_unit, users_ta
 end
 
 Given(/^I am assigned the following workshifts:$/) do |workshifts_table|
+  assign_workshifts(@current_user, workshifts_table)
+end
+
+Given(/^"(.*)" is assigned the following workshifts:$/) do |first_name, workshifts_table|
+  user = User.find_by_first_name(first_name)
+  assign_workshifts(user, workshifts_table)
+end
+
+def assign_workshifts user, workshifts_table
   workshifts_table.hashes.each do |workshift|
     metashift_id = workshift[:metashift_id]
     workshift.delete(:metashift_id)
-    workshift = @current_user.workshifts.create!(workshift)
+    workshift = user.workshifts.create!(workshift)
     workshift.metashift = Metashift.find(metashift_id)
     workshift.save
   end

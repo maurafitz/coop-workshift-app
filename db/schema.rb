@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425035754) do
+ActiveRecord::Schema.define(version: 20160425205316) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -87,7 +87,6 @@ ActiveRecord::Schema.define(version: 20160425035754) do
     t.integer  "permissions"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "password"
     t.string   "password_digest"
     t.boolean  "sent_confirmation",   default: false
     t.boolean  "has_confirmed",       default: false
@@ -110,6 +109,7 @@ ActiveRecord::Schema.define(version: 20160425035754) do
     t.string  "day"
     t.integer "user_id"
     t.decimal "length"
+    t.string  "details"
   end
 
   add_index "workshifts", ["metashift_id"], name: "index_workshifts_on_metashift_id"

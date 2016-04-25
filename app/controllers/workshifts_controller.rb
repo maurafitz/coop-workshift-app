@@ -28,13 +28,11 @@ class WorkshiftsController < ApplicationController
   
   def change_users
     params[:shift_ids].zip(params[:user_ids]).each do |shift_id, user_id|
-      shift = Workshift.find_by_id(shift_id)
+      workshift = Workshift.find_by_id(shift_id)
       user = User.find_by_id(user_id)
-      puts shift
-      puts user
-      if user and shift
-        shift.user = user
-        shift.save()
+      if user and workshift
+        workshift.user = user
+        workshift.save()
       else
         render :text => "Error saving shifts", :status => 500, :content_type => 'text/html'
         return

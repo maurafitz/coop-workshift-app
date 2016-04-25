@@ -2,12 +2,12 @@ require 'rails_helper'
 require "json"
 
 RSpec.describe WorkshiftsController, type: :controller do
-    # before(:each) do 
-    #     @user1 = create(:user, first_name: "Joe")
-    #     @meta_shift = create(:metashift)
-    #     @shift = create(:shift, metashift: @meta_shift, user: @user1)
-    #     @shift.save
-    # end
+    before(:each) do 
+        @user1 = create(:user, first_name: "Joe")
+        @meta_shift = create(:metashift)
+        @shift = create(:workshift, metashift: @meta_shift, user: @user1)
+        @shift.save
+    end
     # describe "creating a new shift" do
     #     before(:each) do
     #         get :new
@@ -86,28 +86,28 @@ RSpec.describe WorkshiftsController, type: :controller do
     #     end
     # end
     
-    # describe 'updating a shift' do
-    #     before(:each) do
-    #         @a_user = User.create!(:first_name => 'my user', :last_name => 'last',
-    #             :email => 'auser@gmail.com', :password => '3ljkd;a2', :permissions =>
-    #             User::PERMISSION[:ws_manager])
-    #         @user = User.find_by(:first_name => 'my user')
-    #         @user2 = User.create!(:first_name => 'my user2', :last_name => 'last2',
-    #             :email => 'auser2@gmail.com', :password => '3ljkd;a3', :permissions =>
-    #             User::PERMISSION[:ws_manager])
-    #         @user2 = User.find_by(:first_name => 'my user2')
-    #         @shift2 = Shift.create!(:start_time => DateTime.strptime("09/02/2009 17:00", "%m/%d/%Y %H:%M"),
-    #                                 :end_time => DateTime.strptime("09/02/2009 19:00", "%m/%d/%Y %H:%M"),
-    #                                 :metashift_id => '', :user => @user, :id => 20)
-    #         @metashift = Metashift.create!(:category => "Kitchen", :description => 'dlka;jfd', :multiplier => 5)
-    #     end
+    describe 'updating a shift' do
+        before(:each) do
+            @a_user = User.create!(:first_name => 'my user', :last_name => 'last',
+                :email => 'auser@gmail.com', :password => '3ljkd;a2', :permissions =>
+                User::PERMISSION[:ws_manager])
+            @user = User.find_by(:first_name => 'my user')
+            @user2 = User.create!(:first_name => 'my user2', :last_name => 'last2',
+                :email => 'auser2@gmail.com', :password => '3ljkd;a3', :permissions =>
+                User::PERMISSION[:ws_manager])
+            @user2 = User.find_by(:first_name => 'my user2')
+            @shift2 = Workshift.create!(:start_time => '10am',
+                                    :end_time => '11am',
+                                    :metashift_id => '', :user => @user, :id => 20)
+            @metashift = Metashift.create!(:category => "Kitchen", :description => 'dlka;jfd', :multiplier => 5)
+        end
         
-    #     it 'should correctly update the user field of the shift' do
-    #         put :change_users, {:id => @shift2.id, :user_ids => [@user2.id], 
-    #                               :shift_ids => [@shift2.id]}
-    #         shift = Shift.find_by_id(@shift2.id)
-    #         (shift.user.id).should eq(@user2.id) 
-    #     end
-    # end 
+        it 'should correctly update the user field of the shift' do
+            put :change_users, {:id => @shift2.id, :user_ids => [@user2.id], 
+                                  :shift_ids => [@shift2.id]}
+            shift = Workshift.find_by_id(@shift2.id)
+            (shift.user.id).should eq(@user2.id) 
+        end
+    end 
     
 end

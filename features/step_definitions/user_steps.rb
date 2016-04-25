@@ -118,17 +118,6 @@ def assign_workshifts user, workshifts_table
   end
 end
 
-Given(/^"([^"]*)" is assigned the following shifts:$/) do |first_name, shifts_table|
-  user = User.find_by_first_name(first_name)
-  shifts_table.hashes.each do |shift|
-    metashift_id = shift[:metashift_id]
-    shift.delete(:metashift_id)
-    shift = user.shifts.create!(shift)
-    shift.metashift = Metashift.find(metashift_id)
-    shift.save
-  end
-end
-
 ### USER ACCESS ### 
 Then(/^I should have admin rights$/) do
   pending # Write code here that turns the phrase above into concrete actions

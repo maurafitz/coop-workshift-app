@@ -20,11 +20,11 @@ Feature: Sign-off a shift
     | Garbage       | Waste Reduction Coordinator      | 4  |
     | Garbage       | TRC (Trash, Recycling, Compost)  | 5  |
   
-    And "Giorgia" is assigned the following shifts:
-    | start_time   | end_time   | metashift_id   | date            | completed |
-    | 5:00PM       | 6:00PM     | 1              | March 5, 2016   | false     |
-    | 11:00AM      | 1:00PM     | 3              | March 6, 2016   | false     |
-    | 2:00PM       | 5:00PM     | 5              | March 8, 2016   | false     |
+    And "Giorgia" is assigned the following workshifts:
+    | start_time    | end_time     | day           | metashift_id   |
+    | 5:00PM        | 6:00PM       | Monday        | 1              |
+    | 11:00AM       | 1:00PM       | Monday        | 3              |
+    | 2:00PM        | 5:00PM       | Tuesday       | 5              |
     
   @wip
   Scenario: A member signs off another member while signed in

@@ -283,13 +283,6 @@ var WorkShiftTable = React.createClass({
     dirtyShifts: this.state.dirtyShifts.concat([shiftbundle.newShift])});
   },
   
-  getPutURI: function(first_id){
-    if (this.props.table_type == CONST.W_SHIFT_TABLE){
-      return '/workshifts/' + first_id + '/change_users';
-    } 
-    return '/shifts/' + first_id + '/change_users';
-  },
-  
   sendDirtyShiftsToDB: function(){
     var shift_ids = []; var user_ids = [];
     var shift = this.state.dirtyShifts[0]
@@ -297,7 +290,7 @@ var WorkShiftTable = React.createClass({
       shift_ids.push(this.state.dirtyShifts[i].shift_id);
       user_ids.push(this.state.dirtyShifts[i].user.id);
     }
-    var postURI = this.getPutURI(shift_ids[0]);
+    var postURI = Util.getPutURI(shift_ids[0], this.props);
     var that = this
     $.ajax({
       type: "PUT",

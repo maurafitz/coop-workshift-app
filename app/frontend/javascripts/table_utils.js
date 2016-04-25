@@ -32,3 +32,10 @@ exports.formatDisplayTime= function(shift, props){
       return moment(shift.date).format('MMM Do, h:mm a') 
     }
   }
+
+exports.getPutURI= function(first_id, props){
+    if (props.table_type == CONST.W_SHIFT_TABLE){
+      return '/workshifts/' + first_id + '/change_users';
+    } 
+    return '/shifts/' + first_id + '/change_users';
+  }

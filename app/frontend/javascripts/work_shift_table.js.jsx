@@ -323,8 +323,8 @@ var WorkShiftTable = React.createClass({
         that.setState({dirtyShifts: []});
       },
       error: function(msg){
-        noty({text: msg,
-              theme: 'relax', layout: 'topRight', type: 'failure',
+        noty({text: msg.status+ ": " + msg.responseText,
+              theme: 'relax', layout: 'topRight', type: 'error',
               timeout: 2000
         });
       }

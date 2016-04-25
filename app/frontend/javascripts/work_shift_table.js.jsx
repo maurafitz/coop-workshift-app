@@ -260,22 +260,13 @@ var WorkShiftTable = React.createClass({
       data.push({"category": metashift.category,//  shift.metashift.category,
         "user": user_hash,
         "name": metashift.name,
-        "time": this.formatDisplayTime(shift), 
+        "time": Util.formatDisplayTime(shift, this.props), 
         "description": metashift.description,
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name
       })
     }
     return data;
-  },
-  
-  
-  formatDisplayTime: function(shift){
-    if (this.props.table_type == CONST.W_SHIFT_TABLE){
-      return shift.day + " " + shift.start_time + " - " + shift.end_time
-    } else{
-      return moment(shift.date).format('dddd, h:mm a') 
-    }
   },
   
   getDataWEditModeAppended: function(dat, mode_on){

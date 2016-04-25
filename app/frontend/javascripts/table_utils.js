@@ -6,7 +6,8 @@
 //     }
 //   };
   
-var CONST = require('./constants')
+var CONST = require('./constants');
+var moment = require('moment');
 
 exports.getCategory = function(shift, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
@@ -23,3 +24,11 @@ exports.getMetashift = function(shift, props){
         return shift.workshift.metashift
     }
 }
+
+exports.formatDisplayTime= function(shift, props){
+    if (props.table_type == CONST.W_SHIFT_TABLE){
+      return shift.day + " " + shift.start_time + " - " + shift.end_time
+    } else{
+      return moment(shift.date).format('MMM Do, h:mm a') 
+    }
+  }

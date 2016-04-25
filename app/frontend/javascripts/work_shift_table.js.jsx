@@ -274,8 +274,7 @@ var WorkShiftTable = React.createClass({
     if (this.props.table_type == W_SHIFT_TABLE){
       return shift.day + " " + shift.start_time + " - " + shift.end_time
     } else{
-      return moment(shift.start_time).format('dddd, h:mm a') + " - " +
-          moment(shift.end_time).format('h:mm a')
+      return moment(shift.date).format('dddd, h:mm a') 
     }
   },
   
@@ -293,6 +292,13 @@ var WorkShiftTable = React.createClass({
     dirtyShifts: this.state.dirtyShifts.concat([shiftbundle.newShift])});
   },
   
+  getPutURI: function(first_id){
+    if (this.props.table_type == W_SHIFT_TABLE){
+      return '/workshifts/' + first_id + '/change_users';
+    } 
+    return '/shifts/' + first_id + '/change_users';
+  },
+  
   sendDirtyShiftsToDB: function(){
     var shift_ids = []; var user_ids = [];
     var shift = this.state.dirtyShifts[0]
@@ -300,13 +306,14 @@ var WorkShiftTable = React.createClass({
       shift_ids.push(this.state.dirtyShifts[i].shift_id);
       user_ids.push(this.state.dirtyShifts[i].user.id);
     }
+    var postURI = this.getPutURI(shift_ids[0]);
     var that = this
     $.ajax({
       type: "PUT",
-      url: '/shifts/' + shift_ids[0] + '/change_users',
+      url: postURI,
       data: JSON.stringify({user_ids: user_ids, shift_ids: shift_ids}),
       contentType: 'application/json', // format of request payload
-      // dataType: 'html', // format of the response
+      dataType: 'text', // format of the response
       success: function(msg) {
         noty({text: msg,
               theme: 'relax', layout: 'topRight', type: 'success',
@@ -315,11 +322,11 @@ var WorkShiftTable = React.createClass({
         console.log('Update to DB works, now clearing dirty shifts');
         that.setState({dirtyShifts: []});
       },
-      failure: function(msg){
+      error: function(msg){
         noty({text: msg,
               theme: 'relax', layout: 'topRight', type: 'failure',
               timeout: 2000
-        }).bind(this);
+        });
       }
     });
   },

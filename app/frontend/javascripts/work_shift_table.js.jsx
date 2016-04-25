@@ -4,6 +4,7 @@
 var React = require('react');
 var Griddle = require('griddle-react');
 var ReactDOM = require('react-dom');
+var Util = require('./table_utils.js');
 
 var Button = require('react-bootstrap/lib/Button');
 var Popover = require('react-bootstrap/lib/Popover');
@@ -17,9 +18,8 @@ var DescriptionComponent;
 var USER_FIELD = "user_field";
 var TIME_FIELD = "time_field";
 
-//Type of table
-var W_SHIFT_TABLE = 'WorkShiftTable';
-var SHIFT_TABLE = 'ShiftTable';
+
+var CONST = require('./constants')
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -213,7 +213,7 @@ var WorkShiftTable = React.createClass({
   },
   
   getInitialState: function() {
-  return { table_type: W_SHIFT_TABLE, dirtyShifts: [],
+  return { table_type: CONST.W_SHIFT_TABLE, dirtyShifts: [],
     editMode: false,
   shiftData: [
     {
@@ -256,12 +256,12 @@ var WorkShiftTable = React.createClass({
         var user_hash = {"full_name":"(None)",
                  "user_id" : null}
       }
-      
-      data.push({"category": shift.metashift.category,
+      var metashift = Util.getMetashift(shift, this.props);
+      data.push({"category": metashift.category,//  shift.metashift.category,
         "user": user_hash,
-        "name": shift.metashift.name,
+        "name": metashift.name,
         "time": this.formatDisplayTime(shift), 
-        "description": shift.metashift.description,
+        "description": metashift.description,
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name
       })
@@ -269,8 +269,9 @@ var WorkShiftTable = React.createClass({
     return data;
   },
   
+  
   formatDisplayTime: function(shift){
-    if (this.props.table_type == W_SHIFT_TABLE){
+    if (this.props.table_type == CONST.W_SHIFT_TABLE){
       return shift.day + " " + shift.start_time + " - " + shift.end_time
     } else{
       return moment(shift.date).format('dddd, h:mm a') 
@@ -292,7 +293,7 @@ var WorkShiftTable = React.createClass({
   },
   
   getPutURI: function(first_id){
-    if (this.props.table_type == W_SHIFT_TABLE){
+    if (this.props.table_type == CONST.W_SHIFT_TABLE){
       return '/workshifts/' + first_id + '/change_users';
     } 
     return '/shifts/' + first_id + '/change_users';

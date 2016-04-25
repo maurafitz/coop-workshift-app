@@ -41,10 +41,7 @@
                         <td><b>Fine Balance:</b></td>    <td><%= @user.fine_balance %></td>
                       </tr>
                       <tr>
-                        <td><b>Permanent Shift Assignment:</b> </td>     <td></td>
-                      </tr>
-                      <tr>
-                        <td><b>Shift Signoff History: </b></td>     <td></td>
+                        <!--<td><b>Permanent Shift Assignment:</b> </td>     <td></td>-->
                       </tr>
                     </tbody>
                   </table>
@@ -69,17 +66,74 @@
 </div>
 
 <div class ="row">
-    <div class ="col-md-12">
+    <div class ="col-md-10">
       <div class="spacing"></div>
-          <h3> Your Workshift History </h4>
+          <h4> Shift Assignment </h4>
       <div class="hline"></div>
       <table id="Workshifts_uploaded" class="table table-striped table-hover">
-      <tr>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Name</th>
-        <th>Completed</th>
-        <th>Signoff</th>
-      </tr>
+        <tr>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Time</th>
+          <th>Description</th>
+          <th>Shift type</th>
+        </tr>
+        <% for n in 0...2 %>
+          <tr>
+            <td>
+              <%="shift category" %>
+            </td>
+            <td>
+              <%="shift name" %>
+            </td>
+            <td>
+              <%="shift time" %>
+            </td>
+            <td>
+              <%="shift description" %>
+            </td>
+            <td>
+              <%="Permanent" %>
+            </td>
+          </tr>
+        <% end %>
+        
+      </table>
+    </div>
+</div>
+
+<div class ="row">
+    <div class ="col-md-10">
+      <div class="spacing"></div>
+          <h4> Shift Signoff History </h4>
+      <div class="hline"></div>
+      <table id="Workshifts_uploaded" class="table table-striped table-hover">
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Name</th>
+          <th>Completed</th>
+          <th>Signoff</th>
+        </tr>
+        <% for n in 0...5 %>
+          <tr>
+            <td>
+              <%="shift date" %>
+            </td>
+            <td>
+              <%="shift time" %>
+            </td>
+            <td>
+              <%="shift name" %>
+            </td>
+            <td>
+              <%="shift completed" %>
+            </td>
+            <td>
+              <%="shift signoff" %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
   </div>
 </div>

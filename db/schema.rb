@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415052312) do
+ActiveRecord::Schema.define(version: 20160425015458) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20160415052312) do
     t.datetime "avatar_updated_at"
     t.boolean  "preference_open",     default: true
     t.string   "notes"
+    t.integer  "compensated_hours",   default: 0
   end
 
 end

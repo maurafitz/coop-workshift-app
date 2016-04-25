@@ -45,13 +45,13 @@
                 <ul class="dropdown-menu dropdown-menu-theme">
                   <li><%= link_to "Profile", user_profile_path(current_user.id) %></li>
                   <% if current_user.preferences.length == 0 %>
-                    <div class ="btn btn-link pull-right">
+                    <!--<div class ="btn btn-link pull-right">-->
                       <li><%= link_to "Select Workshifts Preferences", new_preferences_path(current_user.id) if current_user.preference_open %></li>
-                    </div>
+                    <!--</div>-->
                   <% else %>
-                    <div class ="btn btn-link pull-right">
+                    <!--<div class ="btn btn-link pull-right">-->
                       <li><%= link_to "Edit Workshifts Preferences", edit_preferences_path(current_user.id) if current_user.preference_open %></li>
-                    </div>
+                    <!--</div>-->
                   <% end %>
                   <li><%= link_to "Sign Out", '/logout' %></li>
                 </ul>

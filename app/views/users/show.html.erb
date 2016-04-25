@@ -1,12 +1,42 @@
+<head>
+  <style>
+    .color_red { 
+      color: #E63946;
+    }
+    .color_green { 
+      color: #70AE6E;
+    }
+  </style>
+</head>
+
 <div class ="row">
     <div class ="col-md-8">
         <div class="spacing"></div>
             <h3> Profile </h4>
         <div class="hline"></div>
             <div class="panel-body">
+              
+              <div class="row" style="margin-bottom:20px">
+                <div class="col-md-3" align="center">
+                  <h4> Hours: </h4>
+                   <% if @user.hour_balance >= 0 %>
+                    <h1 class="color_green"><%= @user.hour_balance%></h2>
+                  <% else %>
+                    <h1 class="color_red"><%= @user.hour_balance%></h2>
+                  <% end %>
+                </div>
+                <div class="col-md-3" align="center">
+                  <h4> Fine Balance: </h4>
+                  <% if @user.fine_balance > 0 %>
+                    <h1 class="color_red"><%= number_to_currency(@user.fine_balance)%></h2>
+                  <% else %>
+                    <h1 class="color_green"><%= number_to_currency(@user.fine_balance)%></h2>
+                  <% end %>
+                </div>
+              </div>
+              
               <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> 
-                  
+                <div class="col-md-3 col-lg-3" align="center"> 
                   <%= image_tag(@user.avatar.url(:profile), :class => "img-circle img-responsive") %> 
                   <div style="padding-top: 10px;"></div>
                   <div class="hline"  style="margin-bottom: 10px;"></div>

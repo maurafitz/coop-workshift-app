@@ -96,18 +96,36 @@ RSpec.describe WorkshiftsController, type: :controller do
                 :email => 'auser2@gmail.com', :password => '3ljkd;a3', :permissions =>
                 User::PERMISSION[:ws_manager])
             @user2 = User.find_by(:first_name => 'my user2')
-            @shift2 = Workshift.create!(:start_time => '10am',
+            @workshift2 = Workshift.create!(:start_time => '10am',
                                     :end_time => '11am',
                                     :metashift_id => '', :user => @user, :id => 20)
             @metashift = Metashift.create!(:category => "Kitchen", :description => 'dlka;jfd', :multiplier => 5)
+            @shift1 = Shift.create!(:workshift=> @workshift2, :date => DateTime.yesterday, 
+                                    :user => @user)
+            @shift2 = Shift.create!(:workshift=> @workshift2, :date => 5.hours.from_now, 
+                                    :user => @user)
+            @shift3 = Shift.create!(:workshift=> @workshift2, :date => 1.day.from_now, 
+                                    :user => @user)
+                                    
+            put :change_users, {:id => @workshift2.id, :user_ids => [@user2.id], 
+                                  :shift_ids => [@workshift2.id]}
         end
         
         it 'should correctly update the user field of the shift' do
-            put :change_users, {:id => @shift2.id, :user_ids => [@user2.id], 
-                                  :shift_ids => [@shift2.id]}
-            shift = Workshift.find_by_id(@shift2.id)
+            shift = Workshift.find_by_id(@workshift2.id)
             (shift.user.id).should eq(@user2.id) 
         end
+        
+        it 'should update future shifts' do 
+            shifts = @workshift2.get_future_shifts
+            (shifts[0].user.id).should eq(@user2.id)
+            (shifts[1].user.id).should eq(@user2.id)
+        end 
+        
+        it 'should not update past shifts' do
+            shifts = @workshift2.get_past_shifts
+            (shifts[0].user.id).should eq(@user.id)
+        end 
     end 
     
 end

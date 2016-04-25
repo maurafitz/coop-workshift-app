@@ -122,3 +122,9 @@ workshifts.each do |workshift|
 end
 
 ## SHIFTS ##
+shifts = [
+    {:date => "April 25, 2016"}
+    
+    
+    
+    ]

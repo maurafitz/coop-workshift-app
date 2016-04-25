@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/users/:id/edit' => 'users#edit_profile', as: 'edit_profile'
   post '/users/:id/edit/email' => 'users#edit_email', as: 'edit_email'
   post '/users/:id/edit/password' => 'users#edit_password', as: 'edit_password'
+  post '/users/:id/edit/permissions' => 'users#edit_permissions', as: 'edit_permissions'
   patch '/users/:id/edit_avatar' => 'users#upload_avatar', as: 'edit_avatar'
   get '/users/:id/pref/new' => 'users#new_preferences', as: 'new_preferences'
   #get '/preference_access' => 'users#preference_access', as: 'preference_access'

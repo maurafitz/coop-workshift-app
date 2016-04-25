@@ -353,6 +353,7 @@ var WorkShiftTable = React.createClass({
         columnMetadata={columnMeta}
         columns={columns}
         showFilter={true}
+        initialSort={'time'}
         resultsPerPage={100}
         showSettings={true}/>
         <br></br>

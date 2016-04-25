@@ -34,11 +34,11 @@ class WorkshiftsController < ApplicationController
         workshift.user = user
         workshift.save()
       else
-        render :text => "Error saving shifts", :status => 500, :content_type => 'text/html'
+        render :text => "Error saving work shifts", :status => 500, :content_type => 'text/html'
         return
       end
     end
-    render :text => "Successfully saved shifts", :status => 200, :content_type => 'text/html'
+    render :text => "Successfully saved work shifts", :status => 200, :content_type => 'text/html'
   end
   
   private

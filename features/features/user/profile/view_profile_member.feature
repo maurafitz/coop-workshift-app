@@ -13,7 +13,7 @@ Feature: View User Profile
     And I am on the home page
     When I follow "Profile"
     Then I should be on my profile page
-    And I should see the following: "Hour Balance", "Fine Balance", "Permanent Shift Assignment", "Signoff History"
+    And I should see the following: "Hour Balance", "Fine Balance", "Shift Assignment", "Signoff History"
     And I should see the following: "Giorgia", "Willits", "gw@berkeley.edu", "18", "100"
     And I should see "Edit Profile"
     And I should not see the following: "Create Users", "Create Workshifts", "Assign Workshifts", "View Weekly History"

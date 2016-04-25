@@ -1,6 +1,8 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+require 'chronic'
+
 Avail.destroy_all
 Preference.destroy_all
 Metashift.destroy_all
@@ -103,6 +105,7 @@ metashifts.each do |metashift_name, metashift|
     metashift_instances[metashift_name] = m
 end
 
+string_day_to_int = {"Sunday" => 0,"Monday" => 1, "Tuesday" => 2, 'Wednesday' => 3, 'Thursday' => 4, "Friday"=> 5, "Saturday" => 6}
 
 ## WORKSHIFTS ## 
 workshifts = {
@@ -148,19 +151,40 @@ w.save
 
 ## SHIFTS ##
 
-shifts = [
-    {:date => "April 20, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
-    {:date => "April 25, 2016", :user => a, :workshift => workshift_instances[:dishes][0]},
-    {:date => "April 25, 2016", :user => b, :workshift => workshift_instances[:dishes][7]},
-    {:date => "April 26, 2016", :user => b, :workshift => workshift_instances[:dishes][1]},
-    {:date => "April 26, 2016", :user => c, :workshift => workshift_instances[:tidy][0]},
-    {:date => "April 27, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
-    {:date => "April 28, 2016", :user => b, :workshift => workshift_instances[:dishes][3]},
-    {:date => "April 29, 2016", :user => a, :workshift => workshift_instances[:dishes][4]},
-    ]
-    
-shift_instances = []
-shifts.each do |shift|
-    s = Shift.create(shift)
-    shift_instances << s
+def make_shifts(weeks_before, weeks_after)
+    shifts = []
+    date = Date.today
+    Workshift.all.each do | workshift |
+        puts workshift
+        puts workshift.day
+        puts "#{workshift.day}"
+        date = Chronic.parse("#{workshift.day} at #{workshift.start_time}")
+        puts date
+        (-weeks_after..weeks_before).each do |i|
+            shifts << {:date => date - i.weeks, :user => workshift.user, :workshift => workshift}
+        end 
+    end
+    shifts.each do |s|
+        new_shift = Shift.create!(s)
+        puts new_shift.date
+    end 
 end
+
+make_shifts(5, 5)
+
+# shifts = [
+#     {:date => "April 20, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
+#     {:date => "April 25, 2016", :user => a, :workshift => workshift_instances[:dishes][0]},
+#     {:date => "April 25, 2016", :user => b, :workshift => workshift_instances[:dishes][7]},
+#     {:date => "April 26, 2016", :user => b, :workshift => workshift_instances[:dishes][1]},
+#     {:date => "April 26, 2016", :user => c, :workshift => workshift_instances[:tidy][0]},
+#     {:date => "April 27, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
+#     {:date => "April 28, 2016", :user => b, :workshift => workshift_instances[:dishes][3]},
+#     {:date => "April 29, 2016", :user => a, :workshift => workshift_instances[:dishes][4]},
+#     ]
+    
+# shift_instances = []
+# shifts.each do |shift|
+#     s = Shift.create(shift)
+#     shift_instances << s
+# end

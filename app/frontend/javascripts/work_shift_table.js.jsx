@@ -354,7 +354,7 @@ var WorkShiftTable = React.createClass({
         columns={columns}
         showFilter={true}
         resultsPerPage={100}
-        editMode={"random string"}/>
+        showSettings={true}/>
         <br></br>
         {saveButton}
         {exitEditButton}

@@ -20,16 +20,24 @@ $.ajaxSetup({
   }
 });
 
-
-if(document.getElementById('work-shift-table'))
+var WORKSHIFT_TABLE_ID = 'work-shift-table';
+if(document.getElementById(WORKSHIFT_TABLE_ID))
 {
     var shifts = $('.temp_information').data('temp');
     var admin = $('.temp_information').data('is-admin');
     var allusers= $('.temp_information').data('allusers');
     ReactDOM.render(<WST shifts={shifts} table_type={'WorkShiftTable'}
-                         admin={admin} allusers={allusers}/>, document.getElementById('work-shift-table'));
+                         admin={admin} allusers={allusers}/>, document.getElementById(WORKSHIFT_TABLE_ID));
 } 
-//ReactDOM.render(<WST/>, document.getElementById('work-shift-table'));
+var SHIFT_TABLE_ID = 'shift-table';
+if(document.getElementById(SHIFT_TABLE_ID))
+{
+    var shifts = $('.temp_information').data('temp');
+    var admin = $('.temp_information').data('is-admin');
+    var allusers= $('.temp_information').data('allusers');
+    ReactDOM.render(<WST shifts={shifts} table_type={'ShiftTable'}
+                         admin={admin} allusers={allusers}/>, document.getElementById(SHIFT_TABLE_ID));
+} 
 
 var app = new App();
 app.start();

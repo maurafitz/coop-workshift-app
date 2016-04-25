@@ -92,4 +92,14 @@ class User < ActiveRecord::Base
     def is_member?
       permissions == PERMISSION[:member]
     end 
+    
+    def getPermission
+      if is_member?
+        return "Member"
+      elsif is_manager?
+        return "Manager"
+      else
+        return "Workshift-Manager"
+      end
+    end
 end

@@ -1,19 +1,18 @@
 require 'rails_helper'
 require "json"
 
-RSpec.describe ShiftsController, type: :controller do
+RSpec.describe WorkshiftsController, type: :controller do
     # before(:each) do 
     #     @user1 = create(:user, first_name: "Joe")
     #     @meta_shift = create(:metashift)
     #     @shift = create(:shift, metashift: @meta_shift, user: @user1)
     #     @shift.save
-    # end 
-    
-    # describe "preparing a new shift" do
+    # end
+    # describe "creating a new shift" do
     #     before(:each) do
     #         get :new
     #     end
-    #     it 'should provide a new form' do
+    #     it 'should select the New Metashifts template for rendering' do
     #         expect(response).to render_template(:new)
     #     end
     #     it 'should prepare a new instance of a shift' do

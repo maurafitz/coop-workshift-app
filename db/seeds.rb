@@ -68,63 +68,99 @@ end
 
 
 ## METASHIFTS ## 
-metashifts = [{:category => 'Cleaning', :name => 'Tidy Common Areas', :description => 'Laundry Rooms: 
- 1. Wipe off the tops of all the washers, dryers, and counters with a wet rag.
- 2. Bring the lost and found bin to the Freepile if it has not been emptied in a week.
- 3. Clear the lint collectors of all dryers that not in use. 
- 4. Organize bottles of detergent and empty the lint bin into compost.
- 5. Sweep the floor.
- 
- Study Rooms: 
- 1. Bring the lost and found bin to the Freepile if it has not been emptied in a week.
- 2. Clear off all tables completely. Put any personal items in the box until next week. 
- 3. Clean off tables with bleach solution and a rag.
- 4. Pick up all garbage and take to dumpster, including trash in the hallways. Empty the recycling bins.
- 5. Take all dishes to the dishwash area. Compost leftover food and rinse before placing them in the bins.
- 6. Organize the furniture and sweep the floor.',
-               :multiplier => 2.0},
-              {:category => 'Kitchen', :name => 'Kitchen Manager', :multiplier => 1,
-               :description => 'Refer to bylaws for manager description.'},
-              {:category => 'Kitchen', :name => 'Dishes', :multiplier => 1,
-               :description => 'Use a sponge and soap to scrub off each dish.'},
-              {:category => 'Kitchen', :name => 'Head Cook', :multiplier => 1,
-               :description => 'Lead a team in cooking meals.'},
-              {:category => 'Garbage', :name => 'TRC (Trash, Recycling, Compost)', :multiplier => 1,
-               :description => 'Take out trash, recycling and compost bins.'},
-              {:category => 'Garbage', :name => 'Waste Reduction Coordinator', :multiplier => 1,
-               :description => 'Coordinate waste reduction. Go to CO.'}
-             ]
+metashifts = {:tidy => {:category => 'Cleaning', :name => 'Tidy Common Areas', :description => 'Laundry Rooms: 
+                         1. Wipe off the tops of all the washers, dryers, and counters with a wet rag.
+                         2. Bring the lost and found bin to the Freepile if it has not been emptied in a week.
+                         3. Clear the lint collectors of all dryers that not in use. 
+                         4. Organize bottles of detergent and empty the lint bin into compost.
+                         5. Sweep the floor.
+                         
+                         Study Rooms: 
+                         1. Bring the lost and found bin to the Freepile if it has not been emptied in a week.
+                         2. Clear off all tables completely. Put any personal items in the box until next week. 
+                         3. Clean off tables with bleach solution and a rag.
+                         4. Pick up all garbage and take to dumpster, including trash in the hallways. Empty the recycling bins.
+                         5. Take all dishes to the dishwash area. Compost leftover food and rinse before placing them in the bins.
+                         6. Organize the furniture and sweep the floor.',
+                         :multiplier => 2.0},
+            :kitchen_manager => {:category => 'Kitchen', :name => 'Kitchen Manager', :multiplier => 1,
+                        :description => 'Refer to bylaws for manager description.'},
+            :dishes => {:category => 'Kitchen', :name => 'Dishes', :multiplier => 1,
+                        :description => 'Use a sponge and soap to scrub off each dish.'},
+            :head_cook => {:category => 'Kitchen', :name => 'Head Cook', :multiplier => 1,
+                        :description => 'Lead a team in cooking meals.'},
+            :trc => {:category => 'Garbage', :name => 'TRC (Trash, Recycling, Compost)', :multiplier => 1,
+                       :description => 'Take out trash, recycling and compost bins.'},
+            :wrc => {:category => 'Garbage', :name => 'Waste Reduction Coordinator', :multiplier => 1,
+                        :description => 'Coordinate waste reduction. Go to CO.'}
+        }
           
-metashift_instances = []
-metashifts.each do |metashift|
+metashift_instances = {}
+metashifts.each do |metashift_name, metashift|
     m = Metashift.create!(metashift)
     m.unit = unit_instances[0]
     m.save
-    metashift_instances << m
+    metashift_instances[metashift_name] = m
 end
 
 
 ## WORKSHIFTS ## 
-workshifts = [
-        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Monday", :metashift => metashift_instances[0]},
-        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Tuesday", :metashift => metashift_instances[1]},
-        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Wednesday", :metashift => metashift_instances[2]},
-        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Thursday", :metashift => metashift_instances[3]},
-        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Friday", :metashift => metashift_instances[2]},
-        {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Saturday", :metashift => metashift_instances[2]},
-        {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Saturday", :metashift => metashift_instances[2]},
-        {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Monday", :metashift => metashift_instances[2]},
-        {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[2]},
-        ]
+workshifts = {
+        :dishes => [{:start_time => "5am", :end_time => "11am", :length => 2, :day => "Monday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Wednesday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Thursday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Friday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Saturday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Saturday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Monday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12pm", :end_time => "3pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:dishes]}
+                   ],
+        :tidy => [{:start_time => "11am", :end_time => "2pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:tidy]}
+                 ]
+        }
            
-workshifts.each do |workshift|
-    Workshift.create!(workshift)
+workshift_instances = {}
+workshifts.each do |workshift_name, workshift_hashes|
+    workshift_instances[workshift_name] = []
+    workshift_hashes.each do |workshift|
+        w = Workshift.create!(workshift)
+        workshift_instances[workshift_name] << w
+    end
 end
 
+a = user_instances[0]
+b = user_instances[1]
+c = user_instances[2]
+
+(0..workshift_instances[:dishes].length).each do |i|
+    w = workshift_instances[:dishes][i]
+    if i.even?
+        w.user = a
+    else
+        w.user = b
+    end
+    w.save
+end
+w = workshift_instances[:tidy][0]
+w.user = c
+w.save
+
 ## SHIFTS ##
+
 shifts = [
-    {:date => "April 25, 2016"}
-    
-    
-    
+    {:date => "April 20, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
+    {:date => "April 25, 2016", :user => a, :workshift => workshift_instances[:dishes][0]},
+    {:date => "April 25, 2016", :user => b, :workshift => workshift_instances[:dishes][7]},
+    {:date => "April 26, 2016", :user => b, :workshift => workshift_instances[:dishes][1]},
+    {:date => "April 26, 2016", :user => c, :workshift => workshift_instances[:tidy][0]},
+    {:date => "April 27, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
+    {:date => "April 28, 2016", :user => b, :workshift => workshift_instances[:dishes][3]},
+    {:date => "April 29, 2016", :user => a, :workshift => workshift_instances[:dishes][4]},
     ]
+    
+shift_instances = []
+shifts.each do |shift|
+    s = Shift.create(shift)
+    shift_instances << s
+end

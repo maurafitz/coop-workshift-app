@@ -338,7 +338,10 @@ var WorkShiftTable = React.createClass({
         columns={columns}
         showFilter={true}
         initialSort={'time'}
-        resultsPerPage={100}
+        enableInfiniteScroll={true}
+        bodyHeight={400}
+        useFixedHeader={true}
+        // resultsPerPage={100}
         showSettings={true}/>
         <br></br>
         {saveButton}

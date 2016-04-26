@@ -450,8 +450,11 @@
 	        columns: columns,
 	        showFilter: true,
 	        initialSort: 'time',
-	        resultsPerPage: 100,
-	        showSettings: true }),
+	        enableInfiniteScroll: true,
+	        bodyHeight: 400,
+	        useFixedHeader: true
+	        // resultsPerPage={100}
+	        , showSettings: true }),
 	      React.createElement('br', null),
 	      saveButton,
 	      exitEditButton,

@@ -10,30 +10,20 @@
 </head>
 
 <div class ="row">
-    <div class ="col-md-8">
+  <% if admin_rights? %> <div class ="col-md-8">
+    <% else %> <div class ="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"> <% end %> 
         <div class="spacing"></div>
-            <h3> Profile </h4>
+        <div class="row">
+          <div class ="col-md-6"><h3 class="no-top-margin"> Profile </h3></div>
+          <div class ="col-md-6">
+            <button type="button" class="btn btn-small pull-right ">
+              <span class="glyphicon glyphicon-cog"></span><%= link_to 'Edit Profile', edit_profile_path%>
+            </button>
+            
+          </div>
+        </div>
         <div class="hline"></div>
             <div class="panel-body">
-              
-              <div class="row" style="margin-bottom:20px">
-                <div class="col-md-3" align="center">
-                  <h4> Hours: </h4>
-                   <% if @user.hour_balance >= 0 %>
-                    <h1 class="color_green"><%= @user.hour_balance%></h2>
-                  <% else %>
-                    <h1 class="color_red"><%= @user.hour_balance%></h2>
-                  <% end %>
-                </div>
-                <div class="col-md-3" align="center">
-                  <h4> Fine Balance: </h4>
-                  <% if @user.fine_balance > 0 %>
-                    <h1 class="color_red"><%= number_to_currency(@user.fine_balance)%></h2>
-                  <% else %>
-                    <h1 class="color_green"><%= number_to_currency(@user.fine_balance)%></h2>
-                  <% end %>
-                </div>
-              </div>
               
               <div class="row">
                 <div class="col-md-3 col-lg-3" align="center"> 
@@ -65,44 +55,60 @@
                         <td><b>Email:</b></td>          <td><a href="mailto:<%= @user.email%>"><%= @user.email%></td>
                       </tr>
                       <tr>
-                        <td><b>Hour Balance</b></td>   <td><%= @user.hour_balance %> </td>
+                        <td><b>Hour Balance</b></td>   
+                        <td>
+                          <% if @user.hour_balance >= 0 %>
+                            <h4 class="color_green no-top-margin">+ <%= @user.hour_balance%></h4>
+                          <% else %>
+                            <h4 class="color_red no-top-margin">- <%= @user.hour_balance%></h4>
+                          <% end %>
+                        </td>
                       </tr>
                       <tr>
-                        <td><b>Fine Balance:</b></td>    <td><%= @user.fine_balance %></td>
+                        <td><b>Fine Balance:</b></td>    
+                        <td>
+                          <% if @user.fine_balance > 0 %>
+                            <h4 class="color_red no-top-margin">(<%= number_to_currency(@user.fine_balance)%>)</h4>
+                          <% else %>
+                            <h4 class="color_green no-top-margin"><%= number_to_currency(@user.fine_balance)%></h4>
+                          <% end %>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
-          </div>
-        <br> <%= link_to 'Edit Profile', edit_profile_path %> </br>
-    </div>
+      </div>
+
+    <% if admin_rights? %>
     <div class ="col-md-4">
         <%### ADMIN ONLY ###%>
-        <% if admin_rights? %>
             <div class="spacing"></div>
              <h3>Admin Duties</h4>
              <div class="hline"></div>
-            <br> <%= link_to 'Create Users', new_user_path %> </br>
-            <br> <%= link_to 'Create Workshifts', new_workshift_path %> </br>
-            <br> <%= link_to 'Assign Workshifts', '/shifts'%> </br>
-            <br> <%= link_to 'View Weekly History', '/'%> </br>
-            <br> <%= link_to 'Open/Close Workshift Preference Form', '/preference_access' %> </br>
-        <% end %>
+             <ul class="list-group">
+               <li class="list-group-item"> <%= link_to 'Create Users', new_user_path %> </li>
+               <li class="list-group-item"> <%= link_to 'Create Workshifts', new_workshift_path %> </li>
+               <li class="list-group-item"> <%= link_to 'Assign Workshifts', '/shifts'%> </li>
+               <li class="list-group-item"> <%= link_to 'View Weekly History', '/'%> </li>
+               <li class="list-group-item"> <%= link_to 'Open/Close Workshift Preference Form', '/preference_access' %> </li>
+             </ul>
     </div>
+    <% end %>
 </div>
 
 <div class ="row">
-    <div class ="col-md-10">
+    <div class ="col-md-10 col-md-offset-1">
       <div class="spacing"></div>
-        <h4> Shift Assignment </h4>
+        <h4> Current Weekly Shift Assignment </h4>
       <div class="hline"></div>
       <%=render "shifts/weekly_assignments" %>
     </div>
 </div>
 
 <div class ="row">
-    <div class ="col-md-10">
+    <div class ="col-md-10  col-md-offset-1">
       <div class="spacing"></div>
         <h4> Signoff History </h4>
       <div class="hline"></div>

@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   resources :shifts
   resources :metashifts
 
-  resources :workshifts
   root to: 'signoffs#new'
 
   get '/users/get_all' => 'users#get_all', as: 'get_all_users'
@@ -38,12 +37,14 @@ Rails.application.routes.draw do
   get '/users/:id/admin_view_user' => 'users#admin_view_user', as: 'admin_view_user'
 
 
+  post '/metashifts/upload' => 'metashifts#upload', as: 'upload_metashifts'
   post '/metashifts/create' => 'metashifts#create_metashift', as: 'create_metashift'
   get '/workshifts/:id/new_timeslots' => 'workshifts#new_timeslots', as: 'new_timeslots'
   post '/workshifts/create_timeslots' => 'workshifts#create_timeslots', as: 'create_timeslots'
-  post '/metashifts/upload' => 'metashifts#upload', as: 'upload_metashifts'
-  put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_shift_user'
+  get '/workshifts/assign' => 'workshifts#assign', as: 'assign_workshifts'
   put '/workshifts/:id/change_users' => 'workshifts#change_users', as: 'change_workshift_users'
+  resources :workshifts
+  put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_shift_user'
   
   get '/index' => 'workshift#index'
   

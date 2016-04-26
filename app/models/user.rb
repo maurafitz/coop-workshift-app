@@ -69,17 +69,6 @@ class User < ActiveRecord::Base
       end
     end
     
-    def is_available? day_int, start_int, duration=1
-      avail = true
-      (start_int...start_int+duration).each do |hour_int|
-        a = self.avails.where(day: day_int, hour: hour_int).first
-        if not a or a.status == "Unavaiable" or a.status == ""
-          return false
-        end
-      end
-      return avail
-    end
-    
     def self.random_pw
       x = ('0'..'z').to_a.shuffle.first(8).join
       return x
@@ -117,6 +106,71 @@ class User < ActiveRecord::Base
       else
         return "Workshift-Manager"
       end
+    end
+    
+    def self.get_rankings_for ws 
+      # USER                              PREFERENCE                                  METASHIFT                 
+      # id first_name last_name unit_id   id user_id metashift_id rating cat_rating   id category name unit_id  
+      
+      # WORKSHIFT                                  AVAIL 
+      # id metashift_id start_time end_time day    id day hour user_id status
+      
+      
+      SELECT user.full_name, preference.get_rating 
+      FROM user, preference, metashift, workshift, avail
+      WHERE workshift.id = ws.id
+      AND metashift.id = workshift.metashift_id
+      AND preference.metashift_id = metashift.id
+      AND user.id = preference.user_id
+      ORDER BY preference.get_rating DESC
+      
+      SELECT user.full_name 
+      FROM user, avail, workshift
+      WHERE workshift.id = ws.id 
+      AND avail.day = workshift.day
+      AND user.id = avail.user_id
+      AND avail.status != "Unavailable"
+      AND avail.hour IN workshift.start_time to workshift.end_time
+      
+      
+      
+    end
+    
+    def is_available? workshift
+      avail = true
+      start_time = convert_to_military workshift.start_time
+      end_time = convert_to_military workshfit.end_time
+      day = Preference.day_mapping.key(workshift.day)
+      
+      (start_int...start_int+duration).each do |hour_int|
+        a = self.avails.where(day: day_int, hour: hour_int).first
+        if not a or a.status == "Unavaiable" or a.status == ""
+          return false
+        end
+      end
+      return avail
+    end
+    
+    def convert_to_military time
+      matcher = /^(\d?\d)(a|p)m$/
+      time = matcher =~ time
+      hour, ampm = $1.to_i, $2
+      if ampm == 'p'
+        hour + 12
+      else
+        hour
+      end
+    end
+    
+    def is_available? day_int, start_int, duration=1
+      avail = true
+      (start_int...start_int+duration).each do |hour_int|
+        a = self.avails.where(day: day_int, hour: hour_int).first
+        if not a or a.status == "Unavaiable" or a.status == ""
+          return false
+        end
+      end
+      return avail
     end
     
     private

@@ -4,6 +4,14 @@ class WorkshiftsController < ApplicationController
   # GET /workshifts/new
   def new
   end
+  
+  # GET /workshifts/assign
+  def assign
+    @sorted_users_rankings = User.get_rankings_for workshift
+  end
+  
+  def show
+  end
     
   # GET /workshifts
   # GET /workshifts.json

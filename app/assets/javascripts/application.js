@@ -32,4 +32,20 @@
 // your other scripts may not have access to the Bootstrap functions.
 // require_tree .
 
+var dateSorter = function (a, b) {
+    var matcher = "dddd M/D";
+    return compareDates(a, b, matcher);
+};
 
+var timeSorter = function(a, b) {
+    var matcher = "h:mma dddd M/D";
+    return compareDates(a, b, matcher);
+};
+
+var compareDates = function(a, b, matcher) {
+    a = moment(a, matcher);
+    b = moment(b, matcher);
+    if (a.isAfter(b)) return 1;
+    if (a.isBefore(b)) return -1;
+    return 0;
+}

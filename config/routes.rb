@@ -59,4 +59,5 @@ Rails.application.routes.draw do
   get '/signoffs/get_all_shifts' => 'signoffs#get_all_shifts'
   get '/signoffs/submit' => 'signoffs#submit'
 
+
 end

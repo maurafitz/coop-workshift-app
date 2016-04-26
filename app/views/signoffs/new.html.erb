@@ -1,7 +1,11 @@
 <h2> Shift sign-off  </h2>
 <div class="col-md-1 col-lg-1"></div>
 <div class=" col-md-10 col-lg-10 ">
+<<<<<<< HEAD
   <%=form_tag submit_signoff_path, :id => "signoff_form", :class => "form-horizontal" do %>
+=======
+  <%=form_tag submit_signoff_path, :id=> "signoff_form", :class => "form-horizontal" do %>
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
     <table class="table table-user-information">
       <tbody>
         <tr>
@@ -9,7 +13,11 @@
             <div class="form-group">
               <label for="workshifter" class="col-sm-2 control-label">Workshifter</label>
               <div class="col-sm-10">
+<<<<<<< HEAD
                 <select id="workshifter" name="signoff[workshifter_id]" class="selectpicker dynamic" data-live-search="true">
+=======
+                <select id="workshifter" name="signoff[workshifter]" class="selectpicker" data-live-search="true">
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
                   <% @all_users.each do |user| %>
                     <option value="<%=user.id%>">
                       <%=user.full_name %>
@@ -25,6 +33,7 @@
             <div class="form-group">
               <label for="verifier" class="col-sm-2 control-label">Verifier</label>
               <div class="col-sm-10">
+<<<<<<< HEAD
                 <% if current_user %>
                   <input type = "hidden" value="true" name="signoff[verifier_signed_in]" >
                   <select id="verifier" disabled = "disabled" name="signoff[verifier_id]" class="selectpicker dynamic" data-live-search="true">
@@ -40,13 +49,25 @@
                       </option>
                     <% end %>
                   <% end %> 
+=======
+                <select id="verifier" name="signoff[workshifter]" class="selectpicker" data-live-search="true">
+                  <% @all_users.each do |user| %>
+                    <option value="<%=user.id%>">
+                      <%=user.full_name %>
+                    </option>
+                    <% end %>
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
                 </select>
               </div>
             </div>
             <div class="form-group">
               <label for="verifier_pw" class="col-sm-2 control-label">Password</label>
               <div class="col-sm-10">
+<<<<<<< HEAD
                 <input autocomplete="off" style="max-width:280px;" name="signoff[verifier_pw]" type="password" class="form-control signoff-form" id="verifier_pw" placeholder="Password">
+=======
+                <input style="max-width:280px;" type="password" class="form-control signoff-form" id="verifier_pw" placeholder="Password">
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
               </div>
             </div>
             <div class="form-group">
@@ -62,13 +83,18 @@
             <div class="form-group">
               <label for="notes" class="col-sm-2 control-label">Notes:</label>
               <div class="col-sm-10">
+<<<<<<< HEAD
                 <textarea name="signoff[notes]"  class="form-control" rows="2" id="notes"></textarea>
+=======
+                <textarea name="signoff[notes]" class="form-control" rows="2" id="notes"></textarea>
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
               </div>
             </div>
           </td>
         </tr>
         <tr>
           <td>
+<<<<<<< HEAD
             <ul class="nav nav-pills nav-justified">
               <li class="active"><a id="personal" class="bg-theme" data-toggle="tab" href="#shifts_assigned">Assigned Shifts</a></li>
               <li><a id="all"data-toggle="tab" href="#shifts_all">All Shifts</a></li>
@@ -142,18 +168,75 @@
             <input type="hidden" name = "signoff[type]" id="form_type" value="personal"> 
             <div class="pull-right">
               <button type="submit" class="btn btn-theme">Signoff Shift</button>
+=======
+            <div class="form-group">
+              <label for="pers_shifts" class="col-sm-2 control-label">Your Shifts</label>
+              <div class="col-sm-10">
+                <select id="pers_shifts" name="signoff[shift]" class="dynamic" data-live-search="true" size="4">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="pers_shifts_hr" class="col-sm-2 control-label"> Hours </label>
+              <div class="col-sm-6">
+                <input style="max-width:100px;" id="pers_shifts_hr" name="signoff[shift_hr]" class="form-control">
+              </div>
+              <div class="pull-right">
+                <button type="submit" class="btn btn-theme">Signoff Shift</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="dates" class="col-sm-2 control-label">All Shifts</label>
+              <div class="col-sm-10">
+                <select id="dates" name="signoff[date]" class="selectpicker dynamic" data-live-search="true">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                <select id="shifts" name="signoff[shift]" class="selectpicker dynamic" data-live-search="true">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Person</label>
+              <div class="col-sm-10">
+                <select id="person" name="signoff[person]" class="selectpicker dynamic" data-live-search="true">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="all_shifts_hr" class="col-sm-2 control-label"> Hours </label>
+              <div class="col-sm-6">
+                <input style="max-width:100px;" id="all_shifts_hr" name="signoff[shift_hr]" class="form-control">
+              </div>
+              <div class="pull-right">
+                <button type="submit" class="btn btn-theme">Signoff Shift</button>
+              </div>
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+<<<<<<< HEAD
     <% end %>
 </div>
+=======
+  <% end %>
+  <%=render "signoff_history" %>
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
 </div>
 <div class="col-md-1 col-lg-1"></div>
 
 
 <script>
+<<<<<<< HEAD
 $(document).ready(function() {
   $("#workshifter").change(function(){
     $.getJSON( "/signoffs/" + $(this).val() + "/get_shifts", function( data ) {
@@ -211,6 +294,38 @@ $(document).ready(function() {
   $("a").click(function(){
     $("#form_type").val( $(this).attr('id') );
   })
+=======
+  $(document).ready(function() {
+    $("#workshifter").change(function() {
+      $.getJSON("signoffs/" + $(this).val() + "/get_shifts", function(data) {
+        html = ''
+        $.each(data, function(key, value) {
+          html += '<option data-hour="' + value["hours"] + '" value="' + key + '">' + value["description"] + '</option>';
+        })
+        $("#pers_shifts").find('option').remove().end().append(html).selectpicker("refresh")
+        $("#pers_shifts").trigger("change");
+      });
+    });
+
+    $("#pers_shifts").change(function() {
+
+      $("#pers_shifts_hr").val($(this).find(":selected").data("hour"));
+    });
+
+    $("#workshifter").trigger("change");
+
+  });
+  $("#workshifter").trigger("change");
+  
+  $.getJSON( "signoffs/get_all_shifts", function( data ) {
+      html = ''
+      $.each(data, function(key,value){
+        html += '<option data-hour="' + value["hours"] +  '" value="' + key + '">' + value["description"] + '</option>';
+      }) 
+      $("#pers_shifts").find('option').remove().end().append(html).selectpicker("refresh")
+      $("#pers_shifts").trigger("change");
+    });
+>>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
   
 });
 </script>

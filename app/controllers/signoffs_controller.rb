@@ -2,10 +2,11 @@ class SignoffsController < ApplicationController
     skip_before_filter :set_current_user
     def new
         if current_unit.nil?
-            flash["warning"] = "You have not set your unit yet. Please do so now"
+            flash[:danger] = "You have not set your unit yet. Please do so now"
             redirect_to get_unit_path
         else
             @all_users = current_unit.users.all
+            @signed_off_shifts = Shift.get_signed_off_shifts current_unit
             @manager_rights = ((not current_user.nil?) and current_user.manager_rights?)
         end
     end
@@ -119,5 +120,6 @@ class SignoffsController < ApplicationController
             flash[:danger] = "Error saving shift"
         end
         redirect_to signoff_page_path
+
     end
 end

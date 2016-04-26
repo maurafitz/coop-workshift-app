@@ -112,6 +112,7 @@
 	var CONST = __webpack_require__(2);
 	
 	var allUsers = 0;
+	var userStyle = { 'margin-bottom': '0px' };
 	
 	var getUpdatedShifts = function (shifts, shift_id, field, new_val) {
 	  var new_shift;
@@ -491,14 +492,6 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// var formatDisplayTime= function(shift){
-	//     if (this.props.table_type == W_SHIFT_TABLE){
-	//       return shift.day + " " + shift.start_time + " - " + shift.end_time
-	//     } else{
-	//       return moment(shift.date).format('dddd, h:mm a')
-	//     }
-	//   };
-	
 	var CONST = __webpack_require__(2);
 	var moment = __webpack_require__(8);
 	

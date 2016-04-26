@@ -141,4 +141,16 @@
     $("#workshifter").trigger("change");
 
   });
+  $("#workshifter").trigger("change");
+  
+  $.getJSON( "signoffs/get_all_shifts", function( data ) {
+      html = ''
+      $.each(data, function(key,value){
+        html += '<option data-hour="' + value["hours"] +  '" value="' + key + '">' + value["description"] + '</option>';
+      }) 
+      $("#pers_shifts").find('option').remove().end().append(html).selectpicker("refresh")
+      $("#pers_shifts").trigger("change");
+    });
+  
+});
 </script>

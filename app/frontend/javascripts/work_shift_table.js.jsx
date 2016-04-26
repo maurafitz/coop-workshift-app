@@ -270,7 +270,7 @@ var WorkShiftTable = React.createClass({
     var data = this.initDataArray(shifts)
     //Only showing sign-off status on history table for now
     if (this.props.table_type == CONST.SHIFT_TABLE){
-      columns.push('signoff_status')
+      //columns.push('signoff_status')
     } else {
       columnsNotToShow.push('signoff_status')
     }

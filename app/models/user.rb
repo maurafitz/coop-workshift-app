@@ -112,8 +112,8 @@ class User < ActiveRecord::Base
       # USER                              PREFERENCE                                  METASHIFT                 
       # id first_name last_name unit_id   id user_id metashift_id rating cat_rating   id category name unit_id  
       
-      # WORKSHIFT                                  AVAIL 
-      # id metashift_id start_time end_time day    id day hour user_id status
+      # WORKSHIFT                                         AVAIL 
+      # id metashift_id start_time end_time day length    id day hour user_id status
       
       
       SELECT user.full_name, preference.get_rating 
@@ -137,18 +137,30 @@ class User < ActiveRecord::Base
     end
     
     def is_available? workshift
-      avail = true
       start_time = convert_to_military workshift.start_time
       end_time = convert_to_military workshfit.end_time
       day = Preference.day_mapping.key(workshift.day)
       
-      (start_int...start_int+duration).each do |hour_int|
-        a = self.avails.where(day: day_int, hour: hour_int).first
-        if not a or a.status == "Unavaiable" or a.status == ""
-          return false
+      workshift_avails = self.avails.where(day: day, hour: start_time...end_time).order(:hour)
+      length = workshift.length
+      
+      # check if user is available for `length` consecutive hours
+      avail = false
+      count = 0
+      workshift_avails.each do |a|
+        if a.status != "Unavaiable" and a.status != ""
+          if count == length - 1
+            return true
+          elsif avail
+            count += 1
+            avail = true
+          end
+        else
+          avail = false
+          count = 0
         end
       end
-      return avail
+      return false
     end
     
     def convert_to_military time
@@ -162,16 +174,16 @@ class User < ActiveRecord::Base
       end
     end
     
-    def is_available? day_int, start_int, duration=1
-      avail = true
-      (start_int...start_int+duration).each do |hour_int|
-        a = self.avails.where(day: day_int, hour: hour_int).first
-        if not a or a.status == "Unavaiable" or a.status == ""
-          return false
-        end
-      end
-      return avail
-    end
+    # def is_available? day_int, start_int, duration=1
+    #   avail = true
+    #   (start_int...start_int+duration).each do |hour_int|
+    #     a = self.avails.where(day: day_int, hour: hour_int).first
+    #     if not a or a.status == "Unavaiable" or a.status == ""
+    #       return false
+    #     end
+    #   end
+    #   return avail
+    # end
     
     private
     def check_attrs_exist

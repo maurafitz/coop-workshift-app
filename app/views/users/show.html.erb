@@ -28,25 +28,6 @@
         <div class="hline"></div>
             <div class="panel-body">
               
-              <div class="row" style="margin-bottom:30px">
-                <div class="col-md-3" align="center">
-                  <h4> Hours: </h4>
-                   <% if @user.hour_balance >= 0 %>
-                    <h1 class="color_green"><%= @user.hour_balance%></h2>
-                  <% else %>
-                    <h1 class="color_red"><%= @user.hour_balance%></h2>
-                  <% end %>
-                </div>
-                <div class="col-md-3" align="center">
-                  <h4> Fine Balance: </h4>
-                  <% if @user.fine_balance > 0 %>
-                    <h1 class="color_red"><%= number_to_currency(@user.fine_balance)%></h2>
-                  <% else %>
-                    <h1 class="color_green"><%= number_to_currency(@user.fine_balance)%></h2>
-                  <% end %>
-                </div>
-              </div>
-              
               <div class="row">
                 <div class="col-md-3 col-lg-3" align="center"> 
                   <%= image_tag(@user.avatar.url(:profile), :class => "img-circle img-responsive") %> 
@@ -119,7 +100,7 @@
                <li class="list-group-item"> <%= link_to 'Create Workshifts', new_workshift_path %> </li>
                <li class="list-group-item"> <%= link_to 'Assign Workshifts', '/shifts'%> </li>
                <li class="list-group-item"> <%= link_to 'View Weekly History', '/'%> </li>
-               <li class="list-group-item"> <%= link_to 'Open/Close Workshift Preference Form', '/preference_access' %> </li>
+               <li class="list-group-item"> <%= link_to 'View & Edit Users', admin_view_user_path %> </li>
              </ul>
     </div>
     <% end %>

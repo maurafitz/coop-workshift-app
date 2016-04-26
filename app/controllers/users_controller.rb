@@ -63,6 +63,7 @@ class UsersController < ApplicationController
       redirect_to '/'
     end
     @user = User.find_by_id(params[:id])
+    @signed_off_shifts = Shift.get_signed_off_for @user
   end
   
   def edit

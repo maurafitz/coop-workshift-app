@@ -6,7 +6,13 @@ class Workshift < ActiveRecord::Base
     before_save :update_future_shifts, if: :user_id_changed?
     
     def get_name
-        self.metashift.name
+        name = self.metashift.name
+        details = self.get_details
+        if details
+          name + ": " + details
+        else
+          name
+        end
     end
     
     def get_unit

@@ -34,10 +34,8 @@ class SignoffsController < ApplicationController
         shifts.each do |shift|
             date = shift.date.strftime("%-m/%d")
             ws = shift.workshift
-            details = ws.get_details
-            name = ws.metashift.name 
             json_info[shift.id] = {}
-            json_info[shift.id]["description"] = date + " " + name + " " + details
+            json_info[shift.id]["description"] = date + " " + shift.get_name
             json_info[shift.id]["hours"] = ws.length
         end
         render json: json_info

@@ -108,54 +108,42 @@ class User < ActiveRecord::Base
       end
     end
     
-    def self.get_rankings_for ws 
-      # USER                              PREFERENCE                                  METASHIFT                 
-      # id first_name last_name unit_id   id user_id metashift_id rating cat_rating   id category name unit_id  
-      
-      # WORKSHIFT                                         AVAIL 
-      # id metashift_id start_time end_time day length    id day hour user_id status
-      
-      
-      # SELECT user.full_name, preference.get_rating 
-      # FROM user, preference, metashift, workshift, avail
-      # WHERE workshift.id = ws.id
-      # AND metashift.id = workshift.metashift_id
-      # AND preference.metashift_id = metashift.id
-      # AND user.id = preference.user_id
-      ORDER BY preference.get_rating DESC
-      
+    def self.get_rankings_for ws, unit
       available_users = []
       all.each do |user|
-        available_users << user if user.is_available? ws
+        available_users << user if (user.is_available? ws) and (user.unit == unit)
       end
       
       preferences = Preference.joins(metashift: :workshifts).
                                where(workshifts: {id: ws.id})
+                               
       rankings = {}
       available_users.each do |user|
         rankings[user.full_name] = preferences.where(user: user).first.get_rating
       end
-      
+      rankings
     end
     
-    def is_available? workshift
+    def is_available?(workshift)
       start_time = convert_to_military workshift.start_time
-      end_time = convert_to_military workshfit.end_time
-      day = Preference.day_mapping.key(workshift.day).where()
+      end_time = convert_to_military workshift.end_time
+      day = Preference.day_mapping.key(workshift.day)
       
-      workshift_avails = self.avails.where(day: day, hour: start_time...end_time).order(:hour)
+      workshift_avails = self.avails.where(day: day, hour: start_time..end_time).order(:hour)
       length = workshift.length
       
       # check if user is available for `length` consecutive hours
       avail = false
       count = 0
       workshift_avails.each do |a|
-        if a.status != "Unavaiable" and a.status != ""
+        if a.status != "Unavailable" and a.status != ""
           if count == length - 1
             return true
           elsif avail
             count += 1
+          else
             avail = true
+            count += 1
           end
         else
           avail = false

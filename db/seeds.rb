@@ -41,10 +41,6 @@ cloyne, castro, cz = unit_instances
 cloyne.policy = policy_instances[0]
 castro.policy = policy_instances[1]
 cloyne.save ; castro.save
-# unit_instances[0].policy = policy_instances[0]
-# unit_instances[1].policy = policy_instances[1]
-# unit_instances[0].save ; unit_instances[1].save
-
 
 ## USERS ## 
 users = [{:first_name => 'admin', :last_name => 'Z', 
@@ -206,6 +202,7 @@ shifts.each do |shift|
     shift_instances << s
 end
 
+<<<<<<< HEAD
 def make_shifts(weeks_before, weeks_after)
     shifts = []
     date = Date.today
@@ -230,3 +227,25 @@ def make_shifts(weeks_before, weeks_after)
 end
 
 make_shifts(5, 5)
+=======
+# def make_shifts(weeks_before, weeks_after)
+#     shifts = []
+#     date = Date.today
+#     Workshift.all.each do | workshift |
+#         puts workshift
+#         puts workshift.day
+#         puts "#{workshift.day}"
+#         date = Chronic.parse("#{workshift.day} at #{workshift.start_time}")
+#         puts date
+#         (-weeks_after..weeks_before).each do |i|
+#             shifts << {:date => date - i.weeks, :user => workshift.user, :workshift => workshift}
+#         end 
+#     end
+#     shifts.each do |s|
+#         new_shift = Shift.create!(s)
+#         puts new_shift.date
+#     end 
+# end
+
+# make_shifts(5, 5)
+>>>>>>> users and preferences showing up with no errors

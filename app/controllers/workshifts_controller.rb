@@ -7,7 +7,8 @@ class WorkshiftsController < ApplicationController
   
   # GET /workshifts/assign
   def assign
-    @sorted_users_rankings = User.get_rankings_for workshift
+    workshift = Workshift.all.first
+    @sorted_users_rankings = User.get_rankings_for workshift, current_unit
   end
   
   def show

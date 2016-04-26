@@ -91,7 +91,6 @@ DescriptionComponent = React.createClass({
 var UserComponent = React.createClass({
   displayName: 'UserComponent',
   getInitialState: function(){
-    console.log(this.props.rowData)
     if (!this.props.rowData.user) {
       return {profile_url: "/", full_name: "" }
     }

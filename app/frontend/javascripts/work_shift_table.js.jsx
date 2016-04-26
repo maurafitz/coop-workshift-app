@@ -91,11 +91,12 @@ DescriptionComponent = React.createClass({
 var UserComponent = React.createClass({
   displayName: 'UserComponent',
   getInitialState: function(){
+    console.log(this.props.rowData)
     if (!this.props.rowData.user) {
       return {profile_url: "/", full_name: "" }
     }
     var full_name = this.props.rowData.user.full_name
-    return {profile_url: "/users/"+this.props.rowData.user.user_id,
+    return {profile_url: "/users/"+this.props.rowData.user.id,
             full_name: full_name, editModeOn: this.props.rowData.editModeOn
     }
   },

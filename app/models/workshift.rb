@@ -3,10 +3,8 @@ class Workshift < ActiveRecord::Base
     has_many :shifts
     belongs_to :user
     
-<<<<<<< HEAD
     before_save :update_future_shifts, if: :user_id_changed?
     
-=======
     def get_name
         self.metashift.name
     end
@@ -15,7 +13,6 @@ class Workshift < ActiveRecord::Base
         self.metashift.unit
     end
 
->>>>>>> 27d55aadba5627a87f5d148ad0b7b76c79b35f13
     def self.add_workshift(day, start_time, end_time, metashift)
         new_workshift = Workshift.create!(:start_time => start_time, :end_time => end_time, :day => day)
         metashift.workshifts << new_workshift

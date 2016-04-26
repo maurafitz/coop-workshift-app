@@ -134,6 +134,8 @@ workshifts = {
                    ],
         :tidy => [{:start_time => "11am", :end_time => "2pm", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:tidy]}
                  ],
+        :head_cook => [{:start_time => "5pm", :end_time => "8pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:head_cook]}
+                 ],
         :wrc => [{ :length => 5, :day => "Weeklong", :metashift => metashift_instances[:wrc]}
                  ]
         }
@@ -146,9 +148,6 @@ workshifts.each do |workshift_name, workshift_hashes|
         workshift_instances[workshift_name] << w
     end
 end
-w = workshift_instances[:tidy][0]
-w.user = c
-w.save
 
 a = user_instances[0]
 b = user_instances[1]

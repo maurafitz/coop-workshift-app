@@ -40,7 +40,11 @@ Feature: View and Edit User Details
     And I should see "Arthur"
   
   Scenario: A member cannot access the manage users page but can edit their own details
-    And I am logged in as a member
+    Given I am the following user:
+    | first_name | last_name | email           | password | permissions | hour_balance | fine_balance |
+    | momo       | fitzzz    | mf@berkeley.edu | password | 0           | 00          | 0            |
+    And I am a member of "Cloyne"
+    And I am logged in
     And I go to the manage users page
     Then I should be on the home page
     And I am on my edit profile page

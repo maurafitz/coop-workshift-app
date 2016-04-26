@@ -1,0 +1,236 @@
+<h2> Shift sign-off  </h2>
+<div class="col-md-1 col-lg-1"></div>
+<div class=" col-md-10 col-lg-10 ">
+  <%=form_tag submit_signoff_path, :id => "signoff_form", :class => "form-horizontal" do %>
+    <table class="table table-user-information">
+      <tbody>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="workshifter" class="col-sm-2 control-label">Workshifter</label>
+              <div class="col-sm-10">
+                <select id="workshifter" name="signoff[workshifter_id]" class="selectpicker dynamic" data-live-search="true">
+                  <% @all_users.each do |user| %>
+                    <option value="<%=user.id%>">
+                      <%=user.full_name %>
+                    </option>
+                    <% end %>
+                </select>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="verifier" class="col-sm-2 control-label">Verifier</label>
+              <div class="col-sm-10">
+                <% if current_user %>
+                  <input type = "hidden" value="true" name="signoff[verifier_signed_in]" >
+                  <select id="verifier" disabled = "disabled" name="signoff[verifier_id]" class="selectpicker dynamic" data-live-search="true">
+                    <option value="<%=current_user.id%>">
+                      <%=current_user.full_name %>
+                    </option>
+                  <% else %>
+                  <input type = "hidden" value="false" name="signoff[verifier_signed_in]" >
+                  <select id="verifier" name="signoff[verifier_id]" class="selectpicker dynamic" data-live-search="true">
+                    <% @all_users.each do |user| %>
+                      <option value="<%=user.id%>">
+                        <%=user.full_name %>
+                      </option>
+                    <% end %>
+                  <% end %> 
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="verifier_pw" class="col-sm-2 control-label">Password</label>
+              <div class="col-sm-10">
+                <input autocomplete="off" style="max-width:280px;" name="signoff[verifier_pw]" type="password" class="form-control signoff-form" id="verifier_pw" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label"></label>
+              <div class="col-sm-10">
+                By verifying this shift, you are affirming that you actually verified that this shift was done properly. Falsely verifying a shift has serious consequences.
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <label for="notes" class="col-sm-2 control-label">Notes:</label>
+              <div class="col-sm-10">
+                <textarea name="signoff[notes]"  class="form-control" rows="2" id="notes"></textarea>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ul class="nav nav-pills nav-justified">
+              <li class="active"><a id="personal" class="bg-theme" data-toggle="tab" href="#shifts_assigned">Assigned Shifts</a></li>
+              <li><a id="all"data-toggle="tab" href="#shifts_all">All Shifts</a></li>
+              <li><a id="special" data-toggle="tab" href="#shifts_special">Special Shifts</a></li>
+            </ul>
+          
+            <div class="tab-content">
+              
+              <div id="shifts_assigned" class="tab-pane top-buffer fade in active">
+                <div class="form-group">
+                  <label for="pers_shifts" class="col-sm-2 control-label">Your Shifts</label>
+                  <div class="col-sm-10">
+                    <select id="pers_shifts" name="signoff[personal][shift_id]" class="dynamic" data-live-search="true" size="4">
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="pers_shifts_hr" class="col-sm-2 control-label"> Hours </label>
+                  <div class="col-sm-6">
+                    <input style="max-width:100px;" id="pers_shifts_hr" name="signoff[personal][shift_hr]" class="form-control">
+                  </div>
+                </div>
+              </div>
+              
+              <div id="shifts_all" class="tab-pane top-buffer fade">
+                <div class="form-group">
+                  <label for="dates" class="col-sm-2 control-label">All Shifts</label>
+                  <div class="col-sm-10">
+                    <select id="dates" name="signoff[all][date]" class="selectpicker dynamic" data-live-search="true">
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"></label>
+                  <div class="col-sm-10">
+                    <select id="shifts" name="signoff[all][shift_id]" class="selectpicker dynamic" data-live-search="true">
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Person</label>
+                  <div class="col-sm-10">
+                    <select id="person" name="signoff[all][shift_id]" class="selectpicker dynamic" data-live-search="true">
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="all_shifts_hr" class="col-sm-2 control-label"> Hours </label>
+                  <div class="col-sm-6">
+                    <input style="max-width:100px;" id="all_shifts_hr" name="signoff[all][shift_hr]" class="form-control">
+                   </div>
+                </div>
+              </div>
+              
+              <div id="shifts_special" class="tab-pane top-buffer fade">
+                <p>Note: only managers and admins can sign off on special shifts</p>
+                <div class="form-group">
+                  <label for="special" class="col-sm-2 control-label">Special Shift</label>
+                  <div class="col-sm-10">
+                      <input id="special" name="signoff[special][shift_desc]" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="pers_shifts_hr" class="col-sm-2 control-label"> Hours </label>
+                  <div class="col-sm-6">
+                    <input style="max-width:100px;" id="pers_shifts_hr" name="signoff[special][shift_hr]" class="form-control">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <input type="hidden" name = "signoff[type]" id="form_type" value="personal"> 
+            <div class="pull-right">
+              <button type="submit" class="btn btn-theme">Signoff Shift</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+   <div class="hline"></div>
+  <h4>Recent Online Signoffs</h4>
+  <p>If you think one of these signoffs is inaccurate, click on the member name 
+      to send an email to the workshift manager.</p>
+  <%=render "signoff_history" %>
+</div>
+<div class="col-md-1 col-lg-1"></div>
+
+
+<script>
+$(document).ready(function() {
+  $("#workshifter").change(function(){
+    $.getJSON( "/signoffs/" + $(this).val() + "/get_shifts", function( data ) {
+      html = ''
+      $.each(data, function(key,value){
+        html += '<option data-hour="' + value["hours"] +  '" value="' + key + '">' + value["description"] + '</option>';
+      }) 
+      $("#pers_shifts").find('option').remove().end().append(html).selectpicker("refresh")
+      $("#pers_shifts").trigger("change");
+    });
+  });
+  
+  $("#pers_shifts").change(function(){
+    $("#pers_shifts_hr").val( $(this).find(":selected").data("hour") );
+  });
+  
+  $("#workshifter").trigger("change");
+  
+  $("#dates").change(function(){
+    $.getJSON( "/signoffs/get_all_shifts", function( data ) {
+      html = '';
+      console.log(  $("#dates").val() );
+      data = data[$("#dates").val()]
+      $.each(data, function(key,value){
+        html += '<option value="' + key + '">' + key + '</option>';
+      }) 
+      $("#shifts").find('option').remove().end().append(html).selectpicker("refresh");
+      $("#shifts").trigger("change");
+    });
+  });
+  
+  $("#shifts").change(function(){
+    $.getJSON( "/signoffs/get_all_shifts", function( data ) {
+      html = '';
+      data = data[$("#dates").val()][$("#shifts").val()];
+      $.each(data, function(key, dict){
+        hours = dict["hours"]
+        html += '<option value="' + dict["shift_id"] + '">' + dict["name"] + '</option>';
+      }) 
+      $("#person").find('option').remove().end().append(html).selectpicker("refresh");
+      $("#all_shifts_hr").val( hours );
+    });
+  });
+  
+  $.getJSON( "/signoffs/get_all_shifts", function( data ) {
+      html = '';
+      $.each(data, function(key,value){
+        html += '<option value="' + key + '">' + key + '</option>';
+      }) 
+      $("#dates").append(html).selectpicker("refresh");
+      $("#dates").trigger("change");
+  });
+  
+  $("a").click(function(){
+    $("#form_type").val( $(this).attr('id') );
+  })
+
+  $("#email_form").validator();
+  
+  $(".email_link").click(function(){
+    html ="<ul>"
+    shift_id = $(this).data("id");
+    $("#" + shift_id).find("td").each(function(ind) {
+      if(ind < 3){
+        var info = $(this).text();
+        html += "<li>" + info + "</li>";
+      }
+    });
+    html += "</ul>";
+    
+    $("#shift_info_email").append(html);
+  });
+  
+});
+</script>

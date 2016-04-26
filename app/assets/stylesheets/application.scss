@@ -544,3 +544,22 @@ table .header-fixed {
 .react_shift_table .form-group {
     margin-bottom: 0;
 }
+input .signoff-form {
+	max-width: 280px !important;
+}
+
+.dynamic {
+	min-width: 40% !important;
+	max-width: 80% !important;
+}
+
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: #384452 !important;
+}
+.top-buffer { 
+	margin-top:20px;
+}
+.no-top-margin { 
+	margin-top:0px !important;
+}
+

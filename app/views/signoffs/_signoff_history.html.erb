@@ -1,0 +1,33 @@
+<div id="toolbar">
+</div>
+<table  class="table table-striped table-hover" id="signed-off-shifts"
+                      data-toolbar="#toolbar"
+                      data-show-columns="true" data-show-export="true"
+                      data-toggle="table" data-search="true"
+                      data-show-pagination-switch="true" data-pagination="true"
+                      data-page-list="[10, 25, 50, 100, ALL]">
+  <thead>
+    <tr>
+      <th data-sortable="true" data-sorter="dateSorter">Date of Workshift</th>
+      <th data-sortable="true">Workshift</th>
+      <th data-sortable="true">Member</th>
+      <th data-sortable="true">Hours</th>
+      <th data-sortable="true">Verifier</th>
+      <th data-sortable="true" data-sorter="timeSorter"r>Time Signed Off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @signed_off_shifts.each do |shift| %>
+      <tr id="<%= shift.id %>">
+        <td><%= shift.get_date %></td>
+        <td><%= shift.get_name %></td>
+        <td><a data-name="<%= shift.user.full_name %>" class="email_link" data-toggle="modal" data-id="<%= shift.id %>" href="#emailModal"><%= shift.user.full_name %></a></td>
+        <td><%= shift.workshift.length %></td>
+        <td><%= shift.signoff_by.full_name %></td>
+        <td><%= shift.get_signoff_datetime %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render "signoffs/email_admin_form" %> 

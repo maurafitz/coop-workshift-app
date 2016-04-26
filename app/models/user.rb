@@ -48,9 +48,8 @@ class User < ActiveRecord::Base
     end
     
     def full_name
-      return first_name.capitalize + " " + last_name.capitalize
+      self.first_name.capitalize + " " + self.last_name.capitalize
     end
-    
     
     def self.send_confirmation(id)
       user = find(id)
@@ -97,6 +96,10 @@ class User < ActiveRecord::Base
     def is_manager?
       permissions == PERMISSION[:manager]
     end
+    
+    def manager_rights?
+      permissions >= PERMISSION[:manager]
+    end 
     
     def is_member?
       permissions == PERMISSION[:member]

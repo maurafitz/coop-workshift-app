@@ -2,8 +2,10 @@ Rails.application.routes.draw do
 
   resources :shifts
   resources :metashifts
+
   resources :workshifts
-  root to: 'shifts#index'
+  root to: 'signoffs#new'
+
   get '/users/get_all' => 'users#get_all', as: 'get_all_users'
 
   resources :users do
@@ -51,4 +53,15 @@ Rails.application.routes.draw do
   post 'policies/' => 'policies#create'
   put '/policies/' => 'policies#update'
   
+  get '/' => 'signoffs#new', as: 'signoff_page'
+  post '/signoffs/submit' => 'signoffs#submit', as: "submit_signoff"
+  
+  get '/signoffs/set_unit' => 'signoffs#get_unit', as: "get_unit"
+  post '/signoffs/set_unit' => 'signoffs#set_unit', as: "set_unit"
+  get '/signoffs/:id/get_shifts' => 'signoffs#get_shifts'
+  get '/signoffs/get_all_shifts' => 'signoffs#get_all_shifts'
+  get '/signoffs/submit' => 'signoffs#submit'
+  get '/signoffs/email_admin' => 'signoffs#email_admin', as: 'email_admin'
+
+
 end

@@ -73,6 +73,8 @@ class UsersController < ApplicationController
       redirect_to '/'
     end
     @user = User.find_by_id(params[:id])
+    @assigned_shifts = Workshift.get_assignments_for @user
+    @signed_off_shifts = Shift.get_signed_off_for @user
   end
   
   def edit
@@ -243,6 +245,7 @@ class UsersController < ApplicationController
     end
     return
   end
+
   
   # def preference_access
   #   if not admin_rights?

@@ -8,7 +8,7 @@ class Workshift < ActiveRecord::Base
   def get_name
     name = self.metashift.name
     details = self.get_details
-    if details
+    if details != ""
       name + ": " + details
     else
       name
@@ -21,6 +21,10 @@ class Workshift < ActiveRecord::Base
   
   def get_category
     self.metashift.category
+  end
+  
+  def get_description
+    self.metashift.description
   end
 
   def self.add_workshift(day, start_time, end_time, metashift)

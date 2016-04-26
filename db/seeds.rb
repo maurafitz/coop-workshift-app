@@ -163,7 +163,7 @@ c = user_instances[2]
     w.save
 end
 w = workshift_instances[:tidy][0]
-w.user = c
+w.user = a
 w.save
 
 ## SHIFTS ##

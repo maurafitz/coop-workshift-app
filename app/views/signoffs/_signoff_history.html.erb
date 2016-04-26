@@ -27,7 +27,7 @@
       <tr id="<%= shift.id %>">
         <td><%= shift.get_date %></td>
         <td><%= shift.get_name %></td>
-        <td><a class="email_link" data-toggle="modal" data-id="<%= shift.id %>" href="#emailModal"><%= shift.user.full_name %></a></td>
+        <td><a data-name="<%= shift.user.full_name %>" class="email_link" data-toggle="modal" data-id="<%= shift.id %>" href="#emailModal"><%= shift.user.full_name %></a></td>
         <td><%= shift.workshift.length %></td>
         <td><%= shift.signoff_by.full_name %></td>
         <td><%= shift.get_signoff_datetime %></td>

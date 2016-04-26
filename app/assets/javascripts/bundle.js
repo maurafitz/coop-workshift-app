@@ -109,19 +109,9 @@
 	var DescriptionComponent;
 	var USER_FIELD = "user_field";
 	var TIME_FIELD = "time_field";
-	
 	var CONST = __webpack_require__(2);
 	
-	String.prototype.capitalizeFirstLetter = function () {
-	  return this.charAt(0).toUpperCase() + this.slice(1);
-	};
-	
 	var allUsers = 0;
-	
-	var getFullName = function (user) {
-	  var full_name = user.first_name + " " + user.last_name;
-	  return full_name.capitalizeFirstLetter();
-	};
 	
 	var getUpdatedShifts = function (shifts, shift_id, field, new_val) {
 	  var new_shift;
@@ -130,7 +120,7 @@
 	      if (field == USER_FIELD) {
 	        shifts[i].user = getUserWithID(new_val);
 	        new_shift = shifts[i];
-	      } else {}
+	      }
 	    }
 	  }
 	  return { newShifts: shifts, newShift: new_shift };
@@ -147,8 +137,6 @@
 	
 	var TimeComponent = React.createClass({
 	  displayName: 'DescriptionComponent',
-	  componentDidMount: function () {},
-	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -160,8 +148,6 @@
 	
 	DescriptionComponent = React.createClass({
 	  displayName: 'DescriptionComponent',
-	  componentDidMount: function () {},
-	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -349,7 +335,7 @@
 	    allUsers = this.props.allusers;
 	    // console.log(allUsers);
 	    for (var i = 0; i < allUsers.length; i++) {
-	      allUsers[i].full_name = getFullName(allUsers[i]);
+	      allUsers[i].full_name = Util.getFullName(allUsers[i]);
 	    }
 	  },
 	
@@ -358,7 +344,7 @@
 	    for (var i = 0; i < shifts.length; i++) {
 	      var shift = shifts[i];
 	      if (shift.user) {
-	        var user_hash = { "full_name": getFullName(shift.user),
+	        var user_hash = { "full_name": Util.getFullName(shift.user),
 	          "id": shift.user_id };
 	      } else {
 	        var user_hash = { "full_name": "(None)",
@@ -542,6 +528,11 @@
 	    }
 	};
 	
+	exports.getFullName = function (user) {
+	    var full_name = user.first_name + " " + user.last_name;
+	    return full_name.capitalizeFirstLetter();
+	};
+	
 	exports.getPutURI = function (first_id, props) {
 	    if (props.table_type == CONST.W_SHIFT_TABLE) {
 	        return '/workshifts/' + first_id + '/change_users';
@@ -572,6 +563,10 @@
 	        a = 12;
 	    }
 	    return a + parseInt(start_time.match(/\d+/));
+	};
+	
+	String.prototype.capitalizeFirstLetter = function () {
+	    return this.charAt(0).toUpperCase() + this.slice(1);
 	};
 
 /***/ },

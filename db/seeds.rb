@@ -154,6 +154,7 @@ shifts = [
     {:date => "April 20, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
     {:date => "April 24, 2016", :user => a, :workshift => workshift_instances[:wrc][0]},
     {:date => "April 25, 2016", :user => a, :workshift => workshift_instances[:dishes][0]},
+    {:date => "April 25, 2016", :user => b, :workshift => workshift_instances[:dishes][0]},
     {:date => "April 25, 2016", :user => b, :workshift => workshift_instances[:dishes][7]},
     {:date => "April 26, 2016", :user => b, :workshift => workshift_instances[:dishes][1]},
     {:date => "April 26, 2016", :user => c, :workshift => workshift_instances[:tidy][0]},

@@ -28,6 +28,13 @@ class Workshift < ActiveRecord::Base
         self.shifts.where(['date < ?', DateTime.now])
     end
     
+    def get_details
+        if not details
+            return ""
+        end
+        details
+    end
+    
    def get_time_formatted
      return self.day + ", " + self.start_time + " to " + self.end_time
    end

@@ -57,5 +57,6 @@ Rails.application.routes.draw do
   post '/signoffs/set_unit' => 'signoffs#set_unit', as: "set_unit"
   get '/signoffs/:id/get_shifts' => 'signoffs#get_shifts'
   get '/signoffs/get_all_shifts' => 'signoffs#get_all_shifts'
+  get '/signoffs/submit' => 'signoffs#submit'
 
 end

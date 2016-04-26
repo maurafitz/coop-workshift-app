@@ -89,6 +89,10 @@ class User < ActiveRecord::Base
       permissions == PERMISSION[:manager]
     end
     
+    def manager_rights?
+      permissions >= PERMISSION[:manager]
+    end 
+    
     def is_member?
       permissions == PERMISSION[:member]
     end 

@@ -20,7 +20,6 @@ var TIME_FIELD = "time_field";
 var CONST = require('./constants')
 
 var allUsers = 0;
-var userStyle = { 'margin-bottom' : '0px'};
 
 var getUpdatedShifts = function(shifts, shift_id, field, new_val) {
   var new_shift;
@@ -197,6 +196,10 @@ var columnMeta = [
   },
 ];
 
+var columnsNotToShow = [
+  'user.full_name', 'user', 'formattedTime', 'shift_id'
+  ];
+
 var columns = [
   'category', 'name', 'user_full_name', 'time', 'description' 
   ];
@@ -331,6 +334,7 @@ var WorkShiftTable = React.createClass({
       <div>
         <Griddle results={this.state.shiftData}
         columnMetadata={columnMeta}
+        metadataColumns={columnsNotToShow}
         columns={columns}
         showFilter={true}
         initialSort={'time'}

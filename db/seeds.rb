@@ -122,18 +122,18 @@ head_cook.save
 
 ## WORKSHIFTS ## 
 workshifts = {
-        :dishes => [{:start_time => "5am", :end_time => "11am", :length => 2, :day => "Monday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :length => 5, :day => "Wednesday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :length => 1, :day => "Thursday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Friday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :length => 2, :day => "Saturday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "12pm", :end_time => "3pm", :length => 1, :day => "Saturday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "12pm", :end_time => "3pm", :length => 1, :day => "Monday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "12pm", :end_time => "3pm", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]}
+        :dishes => [{:start_time => "5am", :end_time => "11am", :details => "Morning", :length => 2, :day => "Monday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 5, :day => "Wednesday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 1, :day => "Thursday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 2, :day => "Friday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 2, :day => "Saturday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12pm", :end_time => "3pm", :details => "Afternoon",:length => 1, :day => "Saturday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12pm", :end_time => "3pm", :details => "Afternoon",:length => 1, :day => "Monday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12pm", :end_time => "3pm", :details => "AFternoon",:length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]}
                    ],
         :tidy => [{:start_time => "11am", :end_time => "2pm", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:tidy]}
-                 ], 
+                 ],
         :head_cook => [{:start_time => "5pm", :end_time => "8pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:head_cook]}
                  ],
         :wrc => [{ :length => 5, :day => "Weeklong", :metashift => metashift_instances[:wrc]}
@@ -172,6 +172,7 @@ shifts = [
     {:date => "April 20, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
     {:date => "April 24, 2016", :user => a, :workshift => workshift_instances[:wrc][0]},
     {:date => "April 25, 2016", :user => a, :workshift => workshift_instances[:dishes][0]},
+    {:date => "April 25, 2016", :user => b, :workshift => workshift_instances[:dishes][0]},
     {:date => "April 25, 2016", :user => b, :workshift => workshift_instances[:dishes][7]},
     {:date => "April 26, 2016", :user => b, :workshift => workshift_instances[:dishes][1]},
     {:date => "April 26, 2016", :user => c, :workshift => workshift_instances[:tidy][0]},
@@ -179,7 +180,6 @@ shifts = [
     {:date => "April 28, 2016", :user => b, :workshift => workshift_instances[:dishes][3]},
     {:date => "April 29, 2016", :user => a, :workshift => workshift_instances[:dishes][4]},
     {:date => "May 1, 2016", :user => a, :workshift => workshift_instances[:wrc][0]},
-    
     {:date => "April 13, 2016", :user => a, :workshift => workshift_instances[:dishes][2], :completed => true, :signoff_by => b, :signoff_date => "April 13, 2016"},
     {:date => "April 18, 2016", :user => a, :workshift => workshift_instances[:dishes][0], :completed => true, :signoff_by => b, :signoff_date => "April 18, 2016"},
     {:date => "April 18, 2016", :user => b, :workshift => workshift_instances[:dishes][7], :completed => true, :signoff_by => c, :signoff_date => "April 19, 2016"},
@@ -189,7 +189,6 @@ shifts = [
     {:date => "April 21, 2016", :user => b, :workshift => workshift_instances[:dishes][3], :completed => true, :signoff_by => c, :signoff_date => "April 22, 2016"},
     {:date => "April 22, 2016", :user => a, :workshift => workshift_instances[:dishes][4], :completed => true, :signoff_by => b, :signoff_date => "April 22, 2016"},
     {:date => "April 22, 2016", :user => a, :workshift => workshift_instances[:dishes][4], :completed => true, :signoff_by => b, :signoff_date => "April 22, 2016"},
-    
     {:date => "April 22, 2016", :user => giorgia, :workshift => workshift_instances[:head_cook][0], :completed => true, :signoff_by => b, :signoff_date => "April 22, 2016"},
     ]
     
@@ -198,3 +197,4 @@ shifts.each do |shift|
     s = Shift.create(shift)
     shift_instances << s
 end
+

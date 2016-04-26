@@ -7,14 +7,13 @@ Feature: Workshift Manager: Add Workshifts
     Given I am logged in as a workshift manager
     And I go to the create workshifts page
   
-  @wip
   Scenario: an admin adds workshifts using a csv file
     When I upload "workshifts_plus_times.csv"
     And I press "Import"
     Then I should see a workshift table
     And I should see "Clean" "3" times
     And I should see "Plants" "1" times
-    And I should see "Friday, 1:30 PM to 4:30 PM"
+    And I should see "Friday, 1:30PM to 4:30PM"
     And I should see "3.0"
     And I should see "You added 3 new workshifts"
     

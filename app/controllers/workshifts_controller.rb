@@ -26,6 +26,21 @@ class WorkshiftsController < ApplicationController
     redirect_to workshifts_path
   end
   
+  def change_users
+    params[:shift_ids].zip(params[:user_ids]).each do |shift_id, user_id|
+      workshift = Workshift.find_by_id(shift_id)
+      user = User.find_by_id(user_id)
+      if user and workshift
+        workshift.user = user
+        workshift.save()
+      else
+        render :text => "Error saving shifts", :status => 500, :content_type => 'text/html'
+        return
+      end
+    end
+    render :text => "Successfully saved shifts", :status => 200, :content_type => 'text/html'
+  end
+  
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def workshift_params

@@ -29,6 +29,30 @@ RSpec.describe ShiftsController, type: :controller do
         end 
     end
     
+    describe 'deleting a shift' do
+        before(:each) do
+            @d_user = User.find_by(:first_name => 'my user')
+            @workshift = Workshift.create!(:start_time => '10am',
+                                    :end_time => '11am', :day=> 'Monday',
+                                    :metashift_id => '', :user => @d_user, :id => 20)
+            @shift = Shift.create!(:workshift=> @workshift, :date => DateTime.yesterday, 
+                                    :user => @d_user, :id=> 153)
+            #get :destroy, :id => 153
+        end
+        it 'should find the correct shift' do
+            get :destroy, :id => 153
+            expect(assigns(:shift)).to be_a(Shift)
+        end
+        it 'should destroy the shift if it exists' do
+            expect { get :destroy, :id => 153 }.to change(Shift, :count).by(-1)
+        end
+        
+        it 'should remove the shift reference from the workshift' do
+            get :destroy, :id => 153
+            expect(@workshift.shifts).to eq([])
+        end 
+    end
+    
     describe 'updating a shift' do
         before(:each) do
             @a_user = User.create!(:first_name => 'my user', :last_name => 'last',

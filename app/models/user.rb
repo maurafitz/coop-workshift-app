@@ -116,12 +116,12 @@ class User < ActiveRecord::Base
       # id metashift_id start_time end_time day length    id day hour user_id status
       
       
-      SELECT user.full_name, preference.get_rating 
-      FROM user, preference, metashift, workshift, avail
-      WHERE workshift.id = ws.id
+      # SELECT user.full_name, preference.get_rating 
+      # FROM user, preference, metashift, workshift, avail
+      # WHERE workshift.id = ws.id
       # AND metashift.id = workshift.metashift_id
       # AND preference.metashift_id = metashift.id
-      AND user.id = preference.user_id
+      # AND user.id = preference.user_id
       ORDER BY preference.get_rating DESC
       
       available_users = []
@@ -129,9 +129,11 @@ class User < ActiveRecord::Base
         available_users << user if user.is_available? ws
       end
       
+      preferences = Preference.joins(metashift: :workshifts).
+                               where(workshifts: {id: ws.id})
       rankings = {}
       available_users.each do |user|
-        Preference.joins(metashifts: :workshift)
+        rankings[user.full_name] = preferences.where(user: user).first.get_rating
       end
       
     end
@@ -139,7 +141,7 @@ class User < ActiveRecord::Base
     def is_available? workshift
       start_time = convert_to_military workshift.start_time
       end_time = convert_to_military workshfit.end_time
-      day = Preference.day_mapping.key(workshift.day)
+      day = Preference.day_mapping.key(workshift.day).where()
       
       workshift_avails = self.avails.where(day: day, hour: start_time...end_time).order(:hour)
       length = workshift.length

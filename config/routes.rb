@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   get '/signoffs/:id/get_shifts' => 'signoffs#get_shifts'
   get '/signoffs/get_all_shifts' => 'signoffs#get_all_shifts'
   get '/signoffs/submit' => 'signoffs#submit'
-  get '/signoffs/:id/email' => 'signoffs#email_admin', as: 'email_admin'
+  get '/signoffs/email_admin' => 'signoffs#email_admin', as: 'email_admin'
 
 
 end

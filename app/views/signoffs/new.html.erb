@@ -1,7 +1,7 @@
 <h2> Shift sign-off  </h2>
 <div class="col-md-1 col-lg-1"></div>
 <div class=" col-md-10 col-lg-10 ">
-  <%=form_tag submit_signoff_path, :id => "signoff_form", :class => "form-horizontal" do %>
+  <%=form_tag submit_signoff_path, :id=> "signoff_form", :class => "form-horizontal" do %>
     <table class="table table-user-information">
       <tbody>
         <tr>
@@ -30,7 +30,7 @@
                     <option value="<%=user.id%>">
                       <%=user.full_name %>
                     </option>
-                  <% end %>
+                    <% end %>
                 </select>
               </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="form-group">
               <label for="notes" class="col-sm-2 control-label">Notes:</label>
               <div class="col-sm-10">
-                <textarea name="signoff[notes]"  class="form-control" rows="2" id="notes"></textarea>
+                <textarea name="signoff[notes]" class="form-control" rows="2" id="notes"></textarea>
               </div>
             </div>
           </td>
@@ -105,7 +105,7 @@
               <label for="all_shifts_hr" class="col-sm-2 control-label"> Hours </label>
               <div class="col-sm-6">
                 <input style="max-width:100px;" id="all_shifts_hr" name="signoff[shift_hr]" class="form-control">
-               </div>
+              </div>
               <div class="pull-right">
                 <button type="submit" class="btn btn-theme">Signoff Shift</button>
               </div>
@@ -114,32 +114,31 @@
         </tr>
       </tbody>
     </table>
-    
-    <% end %>
-</div>
+  <% end %>
+  <%=render "signoff_history" %>
 </div>
 <div class="col-md-1 col-lg-1"></div>
 
 
 <script>
-$(document).ready(function() {
-  $("#workshifter").change(function(){
-    $.getJSON( "signoffs/" + $(this).val() + "/get_shifts", function( data ) {
-      html = ''
-      $.each(data, function(key,value){
-        html += '<option data-hour="' + value["hours"] +  '" value="' + key + '">' + value["description"] + '</option>';
-      }) 
-      $("#pers_shifts").find('option').remove().end().append(html).selectpicker("refresh")
-      $("#pers_shifts").trigger("change");
+  $(document).ready(function() {
+    $("#workshifter").change(function() {
+      $.getJSON("signoffs/" + $(this).val() + "/get_shifts", function(data) {
+        html = ''
+        $.each(data, function(key, value) {
+          html += '<option data-hour="' + value["hours"] + '" value="' + key + '">' + value["description"] + '</option>';
+        })
+        $("#pers_shifts").find('option').remove().end().append(html).selectpicker("refresh")
+        $("#pers_shifts").trigger("change");
+      });
     });
-  });
-  
-  $("#pers_shifts").change(function(){
 
-    $("#pers_shifts_hr").val( $(this).find(":selected").data("hour") );
+    $("#pers_shifts").change(function() {
+
+      $("#pers_shifts_hr").val($(this).find(":selected").data("hour"));
+    });
+
+    $("#workshifter").trigger("change");
+
   });
-  
-  $("#workshifter").trigger("change");
-  
-});
 </script>

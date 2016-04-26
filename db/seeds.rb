@@ -35,9 +35,13 @@ unit_instances = []
 units.each do |unit|
     unit_instances <<    Unit.create!(unit) 
 end
-unit_instances[0].policy = policy_instances[0]
-unit_instances[1].policy = policy_instances[1]
-unit_instances[0].save ; unit_instances[1].save
+cloyne, castro, cz = unit_instances
+cloyne.policy = policy_instances[0]
+castro.policy = policy_instances[1]
+cloyne.save ; castro.save
+# unit_instances[0].policy = policy_instances[0]
+# unit_instances[1].policy = policy_instances[1]
+# unit_instances[0].save ; unit_instances[1].save
 
 
 ## USERS ## 
@@ -55,16 +59,24 @@ users = [{:first_name => 'admin', :last_name => 'Z',
           :email => 'coop_manager@berkeley.edu', 
           :permissions => User::PERMISSION[:manager],
           :password => 'manager', :has_confirmed => true,
-          :hour_balance => 10, :fine_balance => 50}
+          :hour_balance => 10, :fine_balance => 50},
+          {:first_name => 'Giorgia', :last_name => 'Willits', 
+          :email => 'gw@berkeley.edu', 
+          :permissions => User::PERMISSION[:manager],
+          :password => 'gwillits', :has_confirmed => true,
+          :hour_balance => 10, :fine_balance => 50},
     	  ]
     	  
 user_instances = []
 users.each do |user|
     new_user =  User.create!(user)
-    new_user.unit = unit_instances[0]
+    new_user.unit = cloyne
     new_user.save
     user_instances <<    new_user
 end
+giorgia = user_instances[3]
+giorgia.unit = castro
+giorgia.save
 
 
 ## METASHIFTS ## 
@@ -102,6 +114,10 @@ metashifts.each do |metashift_name, metashift|
     m.save
     metashift_instances[metashift_name] = m
 end
+head_cook =  metashift_instances[:head_cook]
+head_cook.unit = unit_instances[1]
+head_cook.save
+
 
 
 ## WORKSHIFTS ## 
@@ -117,6 +133,8 @@ workshifts = {
                     {:start_time => "12pm", :end_time => "3pm", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]}
                    ],
         :tidy => [{:start_time => "11am", :end_time => "2pm", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:tidy]}
+                 ], 
+        :head_cook => [{:start_time => "5pm", :end_time => "8pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:head_cook]}
                  ]
         }
            
@@ -157,6 +175,18 @@ shifts = [
     {:date => "April 27, 2016", :user => a, :workshift => workshift_instances[:dishes][2]},
     {:date => "April 28, 2016", :user => b, :workshift => workshift_instances[:dishes][3]},
     {:date => "April 29, 2016", :user => a, :workshift => workshift_instances[:dishes][4]},
+    
+    {:date => "April 13, 2016", :user => a, :workshift => workshift_instances[:dishes][2], :completed => true, :signoff_by => b, :signoff_date => "April 13, 2016"},
+    {:date => "April 18, 2016", :user => a, :workshift => workshift_instances[:dishes][0], :completed => true, :signoff_by => b, :signoff_date => "April 18, 2016"},
+    {:date => "April 18, 2016", :user => b, :workshift => workshift_instances[:dishes][7], :completed => true, :signoff_by => c, :signoff_date => "April 19, 2016"},
+    {:date => "April 19, 2016", :user => b, :workshift => workshift_instances[:dishes][1], :completed => true, :signoff_by => a, :signoff_date => "April 19, 2016"},
+    {:date => "April 19, 2016", :user => c, :workshift => workshift_instances[:tidy][0], :completed => true, :signoff_by => b, :signoff_date => "April 19, 2016"},
+    {:date => "April 20, 2016", :user => a, :workshift => workshift_instances[:dishes][2], :completed => true, :signoff_by => c, :signoff_date => "April 20, 2016"},
+    {:date => "April 21, 2016", :user => b, :workshift => workshift_instances[:dishes][3], :completed => true, :signoff_by => c, :signoff_date => "April 22, 2016"},
+    {:date => "April 22, 2016", :user => a, :workshift => workshift_instances[:dishes][4], :completed => true, :signoff_by => b, :signoff_date => "April 22, 2016"},
+    {:date => "April 22, 2016", :user => a, :workshift => workshift_instances[:dishes][4], :completed => true, :signoff_by => b, :signoff_date => "April 22, 2016"},
+    
+    {:date => "April 22, 2016", :user => giorgia, :workshift => workshift_instances[:head_cook][0], :completed => true, :signoff_by => b, :signoff_date => "April 22, 2016"},
     ]
     
 shift_instances = []

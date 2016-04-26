@@ -2,10 +2,11 @@ class SignoffsController < ApplicationController
     skip_before_filter :set_current_user
     def new
         if current_unit.nil?
-            flash["warning"] = "You have not set your unit yet. Please do so now"
+            flash[:danger] = "You have not set your unit yet. Please do so now"
             redirect_to get_unit_path
         else
             @all_users = current_unit.users.all
+            @signed_off_shifts = Shift.get_signed_off_shifts current_unit
         end
     end
     
@@ -17,10 +18,10 @@ class SignoffsController < ApplicationController
         unit = Unit.find_by_id params[:unit]
         if unit
             session[:unit] = unit.id
-            flash["success"] = "You're unit has successfully been saved as: " + unit.name
+            flash[:success] = "You're unit has successfully been saved as: " + unit.name
             redirect_to "/"
         else
-            flash["danger"] = "That is not a valid unit"
+            flash[:danger] = "That is not a valid unit"
             redirect to get_unit_path
         end
     end

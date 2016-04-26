@@ -22,9 +22,10 @@ Feature: Workshift Manager: View and Edit Workshifts
   Scenario: A member views workshifts for the semester but cannot edit
     Given I am logged in as "Maura"
     And I am on the view workshifts page
-    Then I should see "Listing Shifts"
+    Then I should see "Shifts for the Week"
     And I should see a workshift table
     And I should see "Maura Fitz"
+    And I should see "Head Cook"
     And I should not see "Edit"
     
   @wip  

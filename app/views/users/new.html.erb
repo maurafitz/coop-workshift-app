@@ -1,4 +1,29 @@
+<head>
+  <style>
+    #errors { 
+      color: #E63946;
+    }
+    #error_list {
+      margin-left:40px;
+    }
+  </style>
+</head>
+
 <!-- app/views/users/new.html.erb -->
+<% if !@errors.blank? %>
+    <h2 id="errors">Input Error:</h2>
+    <div id="error_list">
+    <ul>
+      <% @errors.each do |obj| %>
+        <% obj.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
 <div class="row">
 <div class="col-lg-8">
   <h2>Add User Manually</h2>

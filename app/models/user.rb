@@ -1,7 +1,12 @@
 class User < ActiveRecord::Base
     has_secure_password
-    validates :email, uniqueness: true
+    validates :email, uniqueness: true, format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/,
+    message: ": an email is incorrectly formatted" }
+    validates :first_name, presence: true
+    validates :last_name, presence: true
+    before_create :check_attrs_exist
     
+
     has_attached_file :avatar, styles: { profile: "150x150>", thumb: "100x100>" }, default_url: "https://socialbelly.com/assets/icons/blank_user-586bd979abac4d7c7007414f5e94fe71.png"
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
     
@@ -19,17 +24,20 @@ class User < ActiveRecord::Base
         spreadsheet = open_spreadsheet(file)
         header = spreadsheet.row(1)
         added = []
+        errors = []
         (2..spreadsheet.last_row).each do |i|
           row = Hash[[header, spreadsheet.row(i)].transpose]
           user = find_by(email: row["email"]) || new
           user.attributes = row.to_hash.slice(*row.to_hash.keys)
-          user.permissions = PERMISSION[:member]
           user.password = User.random_pw
           if (not user.sent_confirmation) and user.save
             added += [user]
+          else
+            errors += [user.errors]
           end
         end
-        return added
+        if errors.blank?
+          return added else return errors end
     end
     
     def self.open_spreadsheet(file)
@@ -105,6 +113,16 @@ class User < ActiveRecord::Base
         return "Manager"
       else
         return "Workshift-Manager"
+      end
+    end
+    
+    private
+    def check_attrs_exist
+      if (self.compensated_hours.blank?)
+        self.compensated_hours = 0
+      end
+      if (self.permissions.blank?)
+        self.permissions = PERMISSION[:member]
       end
     end
 end

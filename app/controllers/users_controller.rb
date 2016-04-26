@@ -18,29 +18,33 @@ class UsersController < ApplicationController
   
   def upload
     @users_uploaded = get_current_uploaded(params[:confirmed_ids])
-    if (not params[:file].blank?)
-      new_users = User.import(params[:file])
-      @users_uploaded += new_users
-    else
+    if (params[:file].blank?)
       flash[:danger] = "You must select a file to upload."
       redirect_to new_user_path
+    else 
+      new_users = User.import(params[:file])
+      if new_users.first.is_a?(ActiveModel::Errors)
+        @errors = new_users
+        render "new"
+      else
+        @users_uploaded += new_users
+      end
     end
   end
   
   def add_user
     @users_uploaded = get_current_uploaded(params[:confirmed_ids])
-    new_user = User.new
-    new_user.update_attributes(user_params)
-    new_user.update_attribute(:password, User.random_pw)
-    if (params[:user][:permissions] == "") 
-      new_user.permissions = User.getPermissionCode('member')
+    @errors = []
+    @new_user = User.new
+    @new_user.update_attributes(user_params)
+    @new_user.update_attribute(:password, User.random_pw)
+    if (@new_user.save)
+      @users_uploaded << @new_user
+      render "upload"
+    else 
+      @errors += [@new_user.errors]
+      render "new"
     end
-    if (params[:user][:compensated_hours] == "")
-      new_user.compensated_hours = 0
-    end
-    new_user.save
-    @users_uploaded << new_user
-    render "upload"
   end
   
   def get_all

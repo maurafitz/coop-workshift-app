@@ -22,7 +22,7 @@ Feature: View Workshift Table
   
   @local @javascript
   Scenario: A regular user can see all workshift slots for the semester
-    Then I should see "Listing Shifts"
+    Then I should see "Shifts for the Week"
     And I should see a workshift table
     And I should see "Maura Fitz" in the row for "Head Cook"
     And I should see "Maura Fitz" in the row for "Waste Reduction Coordinator"
@@ -35,7 +35,7 @@ Feature: View Workshift Table
     And I should not see "Coordinate waste reduction. Go to CO."
 
  Scenario: A regular user can't edit workshifts
-    Then I should see "Listing Shifts"
+    Then I should see "Shifts for the Week"
     And I should not see "Edit Workshifts"
  
   

@@ -11,25 +11,33 @@ Feature: Workshift Manager: Set User Access to Preference Page
     And I am the following user:
     | first_name      | last_name     | email                     |   password     |    permissions   |
     | Ryan            | Riddle        | ry@berkeley.edu           |   hare         |      2           |
-    And I am logged in
+    And I am logged in as an admin
     And I am on my profile page
     
-  Scenario: I take away my ability to access the form
-    Then I should see "Select Workshifts Preference"
-    When I follow "Open/Close Workshift Preference Form" 
-    Then I should see "true" "3" times
-    When I click "Open/Close Workshift Preference Form for Ryan"
-    Then I should see "false" "1" times
-    And I should see "true" "2" times
+  Scenario: I take away everyone's ability to access the form
+    Then I should see "Select Workshifts Preferences"
+    When I follow "View & Edit Users"
+    And I follow "Open Workshift Preference Form for Everyone" 
+    Then I should see "true"
+    When I click "Close Workshift Preference Form for Everyone"
+    Then I should see "false"
+    When I follow "Giorgia Willits"
+    Then I should see "false"
     When I go to my profile page
     Then I should not see "Select Workshifts Preference"
     
-  Scenario: I open and close the form for everyone
-    When I follow "Open/Close Workshift Preference Form" 
-    Then I should see "true" "3" times
-    When I follow "Close Workshift Preference Form for Everyone"
-    Then I should see "false" "3" times
-    And I should not see "true"
-    When I follow "Open Workshift Preference Form for Everyone"
-    Then I should see "true" "3" times
-    And I should not see "false"
+  Scenario: I give everyone the ability to access the form
+    When I follow "View & Edit Users"
+    And I follow "Open Workshift Preference Form for Everyone"
+    Then I should see "true"
+    When I go to my profile page
+    Then I should see "Select Workshifts Preference"
+  
+  Scenario: I take away one person's access to the form
+    When I follow "View & Edit Users"
+    And I follow "Open Workshift Preference Form for Everyone"
+    When I follow "Eric Nelson"
+    And I follow "Toggle Preference Form for Eric Nelson"
+    Then I should see "false"
+    When I follow "Giorgia Willits"
+    Then I should see "true"

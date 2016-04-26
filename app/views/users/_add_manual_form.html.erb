@@ -1,5 +1,6 @@
 <br>
-  <%=form_tag add_user_path, :id => 'my_form' do %>
+  <%=form_tag add_user_path, :id => 'add_user' do %>
+    
     <%= label :user, :first_name, 'First Name' %>
     <%= text_field :user, 'first_name', class:"form-control" %>
     <br>
@@ -26,7 +27,7 @@
     </div>
     <div style="margin-top:20px; margin-bottom:20px;">
       <%= label :user, :compensated_hours, 'Compensated Hours' %>
-      <%= text_field :user, "compensated_hours", class:"form-control" %>
+      <%= text_field :user, "compensated_hours", class:"form-control", :value => 0 %>
     </div>
   <%= render "add_hidden_ids" %>
   <button type="submit" class="btn btn-theme" id="submit_button">Add User</button>
@@ -44,6 +45,18 @@
           };
         permission = $("#permission_field").val(permissions[per_string]);
       });
+    //   $('#add_user').on('submit', function(e){
+    //     // validation code here
+    //     var emailAdd = $(#)
+    //     if $(.)
+    //       function isValidEmailAddress(emailAddress) {
+    //     var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
+    //     return pattern.test(emailAddress);
+    // };
+    //     if(!valid) {
+    //       e.preventDefault();
+    //     }
+    //   });
     });
   </script>
   <% end %>

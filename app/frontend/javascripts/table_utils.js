@@ -32,6 +32,14 @@ exports.getFullName = function(user) {
   return full_name.capitalizeFirstLetter();
 }
 
+exports.getSignOffHash = function(shift, props){
+    if (props.table_type == CONST.W_SHIFT_TABLE){
+        return 'Should not show'
+    } else{
+        return shift.signoff_date
+    }
+}
+
 exports.getPutURI= function(first_id, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
       return '/workshifts/' + first_id + '/change_users';

@@ -56,6 +56,7 @@ var TimeComponent = React.createClass({
 DescriptionComponent = React.createClass({
   displayName: 'DescriptionComponent',
   render: function(){
+    console.log(this.props.rowData)
     return (
       <div>
         <OverlayTrigger trigger="focus" placement="left" 
@@ -194,6 +195,12 @@ var columnMeta = [
   "order" :5,
   "customComponent": EditShiftComponent
   },
+  {
+  "columnName": "signoff_status",
+  "displayName": "Sign-off Status",
+  "order" :6,
+  // "customComponent": EditShiftComponent
+  },
 ];
 
 var columnsNotToShow = [
@@ -227,10 +234,15 @@ var WorkShiftTable = React.createClass({
   
   componentDidMount: function(){
     var shifts = this.props.shifts
-    console.log(this.props);
+    // console.log(this.props);
     
     var data = this.initDataArray(shifts)
-    
+    //Only showing sign-off status on history table for now
+    if (this.props.table_type == CONST.SHIFT_TABLE){
+      columns.push('signoff_status')
+    } else {
+      columnsNotToShow.push('signoff_status')
+    }
     if (shifts.length > 0) {
       this.setState({shiftData: data})
     } else {
@@ -244,6 +256,7 @@ var WorkShiftTable = React.createClass({
   
   initDataArray: function(shifts){
     var data = [];
+    var wst = this.props.table_type == CONST.W_SHIFT_TABLE
     for (var i = 0; i < shifts.length; i++){
       var shift = shifts[i]
       if (shift.user) {
@@ -261,7 +274,8 @@ var WorkShiftTable = React.createClass({
         "description": metashift.description,
         "time": Util.sortableTime(shift, this.props),
         "shift_id": shift.id,
-        "user_full_name": user_hash.full_name
+        "user_full_name": user_hash.full_name,
+        "signoff_status": Util.getSignOffHash(shift, this.props)
       })
     }
     return data;

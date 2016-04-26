@@ -23,7 +23,7 @@ class SignoffsController < ApplicationController
             redirect_to "/"
         else
             flash["danger"] = "That is not a valid unit"
-            redirect to get_unit_path
+            redirect_to get_unit_path
         end
     end
       

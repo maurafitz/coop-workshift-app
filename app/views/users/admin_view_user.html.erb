@@ -6,20 +6,18 @@
         <%=render "preference_access" %>
     </div>
     <div class = "col-md-8 col-md-offset-1">
-        <div class="row" style="margin-top:100px;">
-            <div class="col-md-8">
-                <% if @user %>
-                    <%=render "view_user_info" %>
-                <% end %>
-            </div>
-        </div>
+        <% if @user %>
+            <%=render "view_user_info" %>
+        <% end %>
+       
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12" style="margin-top:20px;">
                 <% if @render_user %>
-                     <%= render "pref_form" %> 
-                     <%= render "avail_form" %>
+                    <h3 style="margin-top:0px;"> Preferences </h3>
+                    <%= render "pref_form" %> 
+                    <%= render "avail_form" %>
                 <% else %>
-                    <h2> User has not set preferences/availablilty </h2>
+                    <h2> User has not set semester preferences. </h2>
                 <% end %>
             </div>
         </div>

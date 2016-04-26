@@ -13,8 +13,8 @@
   </style>
 </head>
 
-<h2> <%= @user.full_name %> </h2>
-<div class=" col-md-9 col-lg-9 "> 
+<h2 style="margin-top:0px;"> <%= @user.full_name %> </h2>
+<div class="col-md-9"> 
   <table class="table table-user-information">
     <tbody>
       <tr>
@@ -36,8 +36,8 @@
     </tbody>
   </table>
 </div>
+<div class="col-md-3">
+  <%= link_to 'Toggle Preference Form for ' + @user.full_name, admin_view_user_path(:change_preference_for_id => @user.id), :class=>"btn btn-theme" %>
+  <%= link_to('Edit Profile', edit_profile_path(:id => @user.id), :class => 'btn btn-theme') %>
+</div>
 
-
-<%= link_to 'Toggle Preference Form for ' + @user.full_name, admin_view_user_path(:change_preference_for_id => @user.id), :class=>"btn btn-theme" %>
-
-<%= link_to('Edit Profile', edit_profile_path(:id => @user.id), :class => 'btn btn-theme') %>

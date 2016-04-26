@@ -56,7 +56,6 @@ var TimeComponent = React.createClass({
 DescriptionComponent = React.createClass({
   displayName: 'DescriptionComponent',
   render: function(){
-    console.log(this.props.rowData)
     return (
       <div>
         <OverlayTrigger trigger="focus" placement="left" 
@@ -67,6 +66,38 @@ DescriptionComponent = React.createClass({
       </div>
     );}
 });
+
+var SignoffComponent = React.createClass({
+  displayName: 'SignoffComponent',
+  getInitialState: function(){
+    var dat = this.props.rowData.signoff_status
+    var overdue = false
+    var user = ""
+    if (dat.signed_off){
+      user = dat.user
+    }
+    return {showPopup: dat.signed_off, user: user}
+  },
+  
+  getPopover: function(){
+    return (
+      <div> </div>
+      )
+  },
+  
+  render: function(){
+    
+    return (
+      <div>
+        <OverlayTrigger trigger="focus" placement="left" 
+            overlay={<Popover title={'Signed off?'} 
+            id={this.props.rowData.shift_id + "sign-comp"}>{this.state.showPopup}</Popover>}>
+          <Button color="blue" type="button">{this.state.showPopup}</Button>
+        </OverlayTrigger>
+      </div>
+    );}
+});
+
 
 var UserComponent = React.createClass({
   displayName: 'UserComponent',
@@ -199,7 +230,7 @@ var columnMeta = [
   "columnName": "signoff_status",
   "displayName": "Sign-off Status",
   "order" :6,
-  // "customComponent": EditShiftComponent
+  "customComponent": SignoffComponent
   },
 ];
 
@@ -275,7 +306,7 @@ var WorkShiftTable = React.createClass({
         "time": Util.sortableTime(shift, this.props),
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name,
-        "signoff_status": Util.getSignOffHash(shift, this.props)
+        "signoff_status": Util.getSignOffHash(shift, this.props).signed_off
       })
     }
     return data;

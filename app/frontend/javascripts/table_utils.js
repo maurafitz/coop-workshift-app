@@ -36,7 +36,11 @@ exports.getSignOffHash = function(shift, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
         return 'Should not show'
     } else{
-        return shift.signoff_date
+        if (shift.signoff_date){
+            return {date: shift.signoff_date, signed_off : true, 
+            user: shift.signoff_by_id}
+        } 
+        return {date: null, signed_off : false, user: null}
     }
 }
 

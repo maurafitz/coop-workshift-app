@@ -119,20 +119,20 @@ class User < ActiveRecord::Base
       SELECT user.full_name, preference.get_rating 
       FROM user, preference, metashift, workshift, avail
       WHERE workshift.id = ws.id
-      AND metashift.id = workshift.metashift_id
-      AND preference.metashift_id = metashift.id
+      # AND metashift.id = workshift.metashift_id
+      # AND preference.metashift_id = metashift.id
       AND user.id = preference.user_id
       ORDER BY preference.get_rating DESC
       
-      SELECT user.full_name 
-      FROM user, avail, workshift
-      WHERE workshift.id = ws.id 
-      AND avail.day = workshift.day
-      AND user.id = avail.user_id
-      AND avail.status != "Unavailable"
-      AND avail.hour IN workshift.start_time to workshift.end_time
+      available_users = []
+      all.each do |user|
+        available_users << user if user.is_available? ws
+      end
       
-      
+      rankings = {}
+      available_users.each do |user|
+        Preference.joins(metashifts: :workshift)
+      end
       
     end
     

@@ -8,7 +8,7 @@ data: {temp: @serializedWorkshifts, is_admin: admin_rights?,
 
 <% end %>
 
-<div id='work-shift-table'></div>
+<div class='react_work_shift_table' id='work-shift-table'></div>
 
 <br>
 <%= link_to('New Shift', new_workshift_path) if admin_rights? %>

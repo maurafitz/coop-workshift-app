@@ -20,6 +20,7 @@ var TIME_FIELD = "time_field";
 var CONST = require('./constants')
 
 var allUsers = 0;
+var userStyle = { 'margin-bottom' : '0px'};
 
 var getUpdatedShifts = function(shifts, shift_id, field, new_val) {
   var new_shift;
@@ -99,7 +100,7 @@ var UserComponent = React.createClass({
   
   getUserDropdown: function(){
     return (
-        <Input type="select" label="" placeholder="select" 
+        <Input  type="select" label="" placeholder="select" 
         ref="userOptions" key={this.props.rowData.shift_id} onChange={this.onUserChange}>
           {this.getUserOptions()}
         </Input>

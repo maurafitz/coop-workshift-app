@@ -122,4 +122,10 @@ class SignoffsController < ApplicationController
         redirect_to signoff_page_path
 
     end
+    
+    def email_admin
+        id = params[:id] 
+        @shift = Shift.find(id)
+        render(:partial => 'email_admin_form', :object => @shift) if request.xhr?
+    end
 end

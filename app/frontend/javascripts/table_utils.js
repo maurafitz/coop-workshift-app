@@ -35,6 +35,11 @@ exports.formatDisplayTime= function(shift, props){
     }
   }
 
+exports.getFullName = function(user) {
+  var full_name = user.first_name + " " + user.last_name;
+  return full_name.capitalizeFirstLetter();
+}
+
 exports.getPutURI= function(first_id, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
       return '/workshifts/' + first_id + '/change_users';
@@ -66,3 +71,8 @@ var getStartNum = function(start_time){
     }
     return a + parseInt(start_time.match(/\d+/))
 }
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
+

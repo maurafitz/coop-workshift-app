@@ -69,22 +69,22 @@ RSpec.describe WorkshiftsController, type: :controller do
     #     end
     # end
     
-    # describe 'deleting a shift' do
-    #     before(:each) do
-    #         @metashift = Metashift.create!(:category => "Kitchen",
-    #         :description => 'dlka;jfd', :multiplier => 5, :id => 3)
-    #         @shift = Shift.create!(:start_time => '7:30AM', :end_time => '9:00AM',
-    #         :metashift_id => 3, :id => 153)
-    #         #get :destroy, :id => 153
-    #     end
-    #     it 'should find the correct shift' do
-    #         get :destroy, :id => 153
-    #         expect(assigns(:shift)).to be_a(Shift)
-    #     end
-    #     it 'should destroy the shift if it exists' do
-    #         expect { get :destroy, :id => 153 }.to change(Shift, :count).by(-1)
-    #     end
-    # end
+    describe 'deleting a workshift' do
+        before(:each) do
+            @metashift = Metashift.create!(:category => "Kitchen",
+            :description => 'dlka;jfd', :multiplier => 5, :id => 3)
+            @workshift2 = Workshift.create!(:start_time => '10am',
+                                    :end_time => '11am',
+                                    :metashift_id => '', :user => @user, :id => 20)
+        end
+        it 'should find the correct shift' do
+            get :destroy, :id => 20
+            expect(assigns(:workshift)).to be_a(Workshift)
+        end
+        it 'should destroy the shift if it exists' do
+            expect { get :destroy, :id => 20 }.to change(Workshift, :count).by(-1)
+        end
+    end
     
     describe 'updating a shift' do
         before(:each) do

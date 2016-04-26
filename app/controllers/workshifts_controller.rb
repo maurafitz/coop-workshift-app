@@ -26,6 +26,17 @@ class WorkshiftsController < ApplicationController
     redirect_to workshifts_path
   end
   
+  # DELETE /workshifts/1
+  # DELETE /workshifts/1.json
+  def destroy
+    @workshift = Workshift.find_by_id(params[:id])
+    @workshift.destroy
+    respond_to do |format|
+      format.html { redirect_to shifts_url, notice: 'Workshift was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+  
   def change_users
     params[:shift_ids].zip(params[:user_ids]).each do |shift_id, user_id|
       workshift = Workshift.find_by_id(shift_id)

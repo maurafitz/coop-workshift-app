@@ -7,7 +7,9 @@ Feature: Workshift Manager: View User Profile
     Given I am the following user:
     | first_name | last_name | email           | password | permissions | hour_balance | fine_balance |
     | Giorgia    | Willits   | gw@berkeley.edu | hare     | 2           | 10           | 0            |
+    And I am a member of "Cloyne"
     And I am logged in
+    
 
   Scenario: A manager views their profile
     Given I am on the home page

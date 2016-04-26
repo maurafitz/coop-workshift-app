@@ -4,13 +4,13 @@ Feature: Log in to the Application
   I want to be able to log in to the app.
 
 Background:
-  Given the following users exist:
+  Given the following users are members of "Cloyne":
   | first_name      | last_name     | email                     |   password     |    permissions   |
   | Eric            | Nelson        | ericn@berkeley.edu        |   bunnny       |      0           |
   | Alex            | Danilychev    | danilychev@berkeley.edu   |   rabbit       |      0           |
   | Yannie          | Yip           | yannie.yip@berkeley.edu   |   doggy        |      1           |
   | Giorgia         | Willits       | gwillits@berkeley.edu     |   tortoise     |      2           |
-
+  
 Scenario: a regular user tries to login
   When I go to the home page
   And  I fill in "email" with "ericn@berkeley.edu"

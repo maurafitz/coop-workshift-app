@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   post 'policies/' => 'policies#create'
   put '/policies/' => 'policies#update'
   
-  get '/signoffs/new' => 'signoffs#new', as: 'signoff_page'
+  get '/' => 'signoffs#new', as: 'signoff_page'
   post '/signoffs/submit' => 'signoffs#submit', as: "submit_signoff"
   
   get '/signoffs/set_unit' => 'signoffs#get_unit', as: "get_unit"

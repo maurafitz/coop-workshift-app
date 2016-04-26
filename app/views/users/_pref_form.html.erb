@@ -16,7 +16,7 @@
             </div>
           </td>
           <td>
-            <div id="<%=convert_to_id(category).reverse%>" role="tablist" aria-multiselectable="true">
+            <div id="<%=convert_to_id(category).reverse%>" role="tablist" aria-multiselectable="true" class="edit">
               <div class="panel panel-default no-margin">
                 <div class="panel-heading" role="tab" id="headingOne">
                   <h4 class="panel-title">
@@ -38,7 +38,7 @@
                       <tbody>
                         <% metashifts.each do |metashift| %>
                           <tr>
-                            <td style="width:50px;">
+                            <td style="width:50px;" class="no-edit">
                               <div class="form-group">
                                 <input value="<%=@meta_dict[metashift.id] if ((not @new) and @meta_dict.key?(metashift.id))%>" id="<%=metashift.id%>" name="meta[<%= metashift.id %>]" type="text" pattern="^[1-5]$" class="form-control pref_rank validate" maxlength="1" size="1"> 
                               </div>                            

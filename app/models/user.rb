@@ -114,14 +114,13 @@ class User < ActiveRecord::Base
         available_users << user if (user.is_available? ws) and (user.unit == unit)
       end
       
-      preferences = Preference.joins(metashift: :workshifts).
-                               where(workshifts: {id: ws.id})
+      preferences = Preference.joins(metashift: :workshifts).where(workshifts: {id: ws.id})
                                
       rankings = {}
       available_users.each do |user|
         rankings[user.full_name] = preferences.where(user: user).first.get_rating
       end
-      rankings
+      rankings.sort_by {|_, rank| rank}.reverse.to_h
     end
     
     def is_available?(workshift)

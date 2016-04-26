@@ -213,15 +213,31 @@ class UsersController < ApplicationController
       end
       redirect_to admin_view_user_path
     end
-    user = User.find_by_id(params[:change_preference_for_id])
-    if user == nil
-      return
+    u = User.find_by_id(params[:change_preference_for_id])
+    if (u != nil)
+      u.update_attribute(:preference_open, false == u.preference_open)
+      redirect_to admin_view_user_path
     end
-    if (defined? user and defined? params[:change_preference_for_id])
-      user = User.find_by_id(params[:change_preference_for_id])
-      user.update_attribute(:preference_open, false == user.preference_open)
+    if @user.has_saved_availability? 
+      @render_user = true
+      @day_mapping = Preference.day_mapping
+      @metashifts_by_category = current_unit.get_metashifts_by_category
+      @avail_dic = Avail.get_availability_mapping @user.avails
+      @cat_dict = {}; 
+      @meta_dict = {}; 
+      @user.preferences.each do |preference|
+        if preference.rating != 0
+          @meta_dict[preference.metashift.id] = preference.rating
+        end
+        category = preference.metashift.category
+        if !(@cat_dict.key?(category)) and preference.cat_rating != 0
+            @cat_dict[category] = preference.cat_rating
+        end
+      end
+    else
+      @render_user = false
     end
-    redirect_to admin_view_user_path
+    return
   end
   
   # def preference_access

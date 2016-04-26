@@ -1,0 +1,30 @@
+<div id="toolbar">
+</div>
+<table  class="table table-striped table-hover" id="signed-off-shifts"
+                      data-toolbar="#toolbar"
+                      data-show-columns="true" data-show-export="true"
+                      data-toggle="table" data-search="true"
+                      data-show-pagination-switch="true" data-pagination="true"
+                      data-page-list="[10, 25, 50, 100, ALL]">
+  <thead>
+    <tr>
+      <th data-sortable="true">Category</th>
+      <th data-sortable="true">Name</th>
+      <th data-sortable="true">Day</th>
+      <th data-sortable="true">Time</th>
+      <th data-sortable="true">Length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assigned_shifts.each do |workshift| %>
+      <tr>
+        <td><%= workshift.get_category %></td>
+        <td><%= workshift.get_name %></td>
+        <td><%= workshift.day %></td>
+        <td><%= workshift.get_start_end_time %></td>
+        <td><%= workshift.length %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

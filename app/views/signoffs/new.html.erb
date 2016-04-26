@@ -148,6 +148,10 @@
       </tbody>
     </table>
   <% end %>
+   <div class="hline"></div>
+  <h4>Recent Online Signoffs</h4>
+  <p>If you think one of these signoffs is inaccurate, click on the member name 
+      to send an email to the workshift manager.</p>
   <%=render "signoff_history" %>
 </div>
 <div class="col-md-1 col-lg-1"></div>
@@ -211,6 +215,21 @@ $(document).ready(function() {
     $("#form_type").val( $(this).attr('id') );
   })
 
+  $("#email_form").validator();
+  
+  $(".email_link").click(function(){
+    html ="<ul>"
+    shift_id = $(this).data("id");
+    $("#" + shift_id).find("td").each(function(ind) {
+      if(ind < 3){
+        var info = $(this).text();
+        html += "<li>" + info + "</li>";
+      }
+    });
+    html += "</ul>";
+    
+    $("#shift_info_email").append(html);
+  });
   
 });
 </script>

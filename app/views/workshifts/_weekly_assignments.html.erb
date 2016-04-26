@@ -13,6 +13,7 @@
       <th data-sortable="true">Day</th>
       <th data-sortable="true">Time</th>
       <th data-sortable="true">Length</th>
+      <th data-sortable="true">Description</th>
     </tr>
   </thead>
   <tbody>
@@ -23,6 +24,21 @@
         <td><%= workshift.day %></td>
         <td><%= workshift.get_start_end_time %></td>
         <td><%= workshift.length %></td>
+        <% if workshift.get_description.length <= 50 %>
+          <td><%=workshift.get_description %></td>
+        <% else %>
+          <td>
+            <div id="wrap">
+              <div class="shift<%=workshift.id%> collapse in">
+                <%=workshift.get_description[0..50] %> ...
+              </div> 
+              <div class="shift<%=workshift.id%> collapse"  role="tabpanel"> <%=workshift.get_description%> </div>
+              <a id="link<%=workshift.id%>" class="true-link" role="button" data-parent="#wrap" data-toggle="collapse" href=".shift<%=workshift.id%>" aria-expanded="true" aria-controls="<%=workshift.id%>" >
+                toggle description
+              </a>
+            </div>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

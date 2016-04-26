@@ -1,11 +1,3 @@
-// var formatDisplayTime= function(shift){
-//     if (this.props.table_type == W_SHIFT_TABLE){
-//       return shift.day + " " + shift.start_time + " - " + shift.end_time
-//     } else{
-//       return moment(shift.date).format('dddd, h:mm a') 
-//     }
-//   };
-  
 var CONST = require('./constants');
 var moment = require('moment');
 
@@ -34,6 +26,11 @@ exports.formatDisplayTime= function(shift, props){
       return moment(shift.date).format('MMM Do, h:mm a') 
     }
   }
+
+exports.getFullName = function(user) {
+  var full_name = user.first_name + " " + user.last_name;
+  return full_name.capitalizeFirstLetter();
+}
 
 exports.getPutURI= function(first_id, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
@@ -66,3 +63,8 @@ var getStartNum = function(start_time){
     }
     return a + parseInt(start_time.match(/\d+/))
 }
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
+

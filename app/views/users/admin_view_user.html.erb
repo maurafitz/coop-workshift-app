@@ -14,8 +14,10 @@
             <div class="col-md-12" style="margin-top:20px;">
                 <% if @render_user %>
                     <h3 style="margin-top:0px;"> Preferences </h3>
-                    <%= render "pref_form" %> 
-                    <%= render "avail_form" %>
+                    <div class="no-edit">
+                        <%= render "pref_form" %> 
+                        <%= render "avail_form" %>
+                    </div>
                 <% else %>
                     <h2> User has not set semester preferences. </h2>
                 <% end %>

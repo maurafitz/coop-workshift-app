@@ -599,7 +599,7 @@
 	
 	exports.formatDisplayTime = function (shift, props) {
 	    if (props.table_type == CONST.W_SHIFT_TABLE) {
-	        if (shift.start_time) {
+	        if (shift.start_time && weekdays.indexOf(shift.day) >= 0) {
 	            return shift.day + " " + shift.start_time + " - " + shift.end_time;
 	        } else {
 	            return shift.day;

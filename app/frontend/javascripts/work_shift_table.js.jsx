@@ -69,6 +69,7 @@ DescriptionComponent = React.createClass({
 
 var SignoffComponent = React.createClass({
   displayName: 'SignoffComponent',
+  
   getInitialState: function(){
     var dat = this.props.rowData.signoff_status
     var overdue = false
@@ -85,6 +86,20 @@ var SignoffComponent = React.createClass({
       )
   },
   
+  getButton: function(){
+    var style = 'warning'
+    var label = 'TODO'
+    if (this.props.rowData.signoff_status.signed_off){
+      var style = 'success'
+      var label = 'Signed Off'
+    } else if (false){
+      var style = 'danger'
+      var label = 'Overdue'
+    }
+    return <Button type='button' bsStyle={style} className='btn-block'>{label}</Button>;
+    // return button;
+  },
+  
   render: function(){
     
     return (
@@ -92,7 +107,7 @@ var SignoffComponent = React.createClass({
         <OverlayTrigger trigger="focus" placement="left" 
             overlay={<Popover title={'Signed off?'} 
             id={this.props.rowData.shift_id + "sign-comp"}>{this.state.showPopup}</Popover>}>
-          <Button color="blue" type="button">{this.state.showPopup}</Button>
+          {this.getButton()}
         </OverlayTrigger>
       </div>
     );}
@@ -270,7 +285,7 @@ var WorkShiftTable = React.createClass({
     var data = this.initDataArray(shifts)
     //Only showing sign-off status on history table for now
     if (this.props.table_type == CONST.SHIFT_TABLE){
-      //columns.push('signoff_status')
+      columns.push('signoff_status')
     } else {
       columnsNotToShow.push('signoff_status')
     }

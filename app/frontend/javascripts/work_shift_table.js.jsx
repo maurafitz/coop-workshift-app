@@ -69,8 +69,10 @@ DescriptionComponent = React.createClass({
 
 var SignoffComponent = React.createClass({
   displayName: 'SignoffComponent',
+  
   getInitialState: function(){
-    var dat = this.props.rowData.signoff_status
+    console.log(this.props.rowData)
+    var dat = this.props.rowData.signoff_hash
     var overdue = false
     var user = ""
     if (dat.signed_off){
@@ -79,23 +81,42 @@ var SignoffComponent = React.createClass({
     return {showPopup: dat.signed_off, user: user}
   },
   
-  getPopover: function(){
-    return (
-      <div> </div>
-      )
-  },
-  
-  render: function(){
-    
+  signedOffButton: function(){
     return (
       <div>
         <OverlayTrigger trigger="focus" placement="left" 
             overlay={<Popover title={'Signed off?'} 
             id={this.props.rowData.shift_id + "sign-comp"}>{this.state.showPopup}</Popover>}>
-          <Button color="blue" type="button">{this.state.showPopup}</Button>
+          {this.getStatusButton()}
         </OverlayTrigger>
       </div>
-    );}
+      )
+  },
+  
+  getStatusButton: function(){
+    var style = 'warning'
+    var label = 'TODO'
+    if (this.props.rowData.signoff_hash.status == CONST.SIGNED_OFF){
+      var style = 'success'
+      var label = 'Signed Off'
+    } else if (this.props.rowData.signoff_hash.status == CONST.OVERDUE){
+      var style = 'danger'
+      var label = 'Overdue'
+    }
+    return <Button type='button' bsStyle={style} className='btn-block'>{label}</Button>;
+  },
+  
+  render: function(){
+    if (this.props.rowData.signoff_hash.status == CONST.SIGNED_OFF){
+      return this.signedOffButton()
+    } else{
+      return (
+          <div>
+            {this.getStatusButton()}
+          </div>
+        );
+    }
+  }
 });
 
 
@@ -270,7 +291,7 @@ var WorkShiftTable = React.createClass({
     var data = this.initDataArray(shifts)
     //Only showing sign-off status on history table for now
     if (this.props.table_type == CONST.SHIFT_TABLE){
-      //columns.push('signoff_status')
+      columns.push('signoff_status')
     } else {
       columnsNotToShow.push('signoff_status')
     }
@@ -306,7 +327,8 @@ var WorkShiftTable = React.createClass({
         "time": Util.sortableTime(shift, this.props),
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name,
-        "signoff_status": Util.getSignOffHash(shift, this.props).signed_off
+        "signoff_status": Util.getSignOffHash(shift, this.props).status,
+        "signoff_hash": Util.getSignOffHash(shift, this.props)
       })
     }
     return data;

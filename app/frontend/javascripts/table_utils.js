@@ -21,7 +21,7 @@ exports.getMetashift = function(shift, props){
 
 exports.formatDisplayTime= function(shift, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
-        if (shift.start_time){
+        if (shift.start_time && weekdays.indexOf(shift.day) >= 0){
             return shift.day + " " + shift.start_time + " - " + shift.end_time
         } else {
             return shift.day
@@ -42,9 +42,20 @@ exports.getSignOffHash = function(shift, props){
     } else{
         if (shift.signoff_date){
             return {date: shift.signoff_date, signed_off : true, 
-            user: shift.signoff_by_id}
+            user: shift.signoff_by_id, status: getSignOffStatus(shift) }
         } 
-        return {date: null, signed_off : false, user: null}
+        return {date: null, signed_off : false, 
+        user: null, status: getSignOffStatus(shift)}
+    }
+}
+
+var getSignOffStatus = function(shift){
+    if (shift.signoff_date){
+        return CONST.SIGNED_OFF
+    } else if (moment(shift.date) < moment.now()){
+        return CONST.OVERDUE
+    } else{
+        return CONST.FUTURE
     }
 }
 

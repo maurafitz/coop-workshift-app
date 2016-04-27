@@ -214,7 +214,7 @@ def make_shifts(weeks_before, weeks_after)
         puts workshift.day
         puts "#{workshift.day}"
         date = Chronic.parse("#{workshift.day} at #{workshift.start_time}")
-        if not workshift.day or not workshift.start_time
+        if not workshift.day or not workshift.start_time or not date
             puts "No workshift/workshift start_time for #{workshift}, defaulting shifts to Sunday at 3pm"
             date = Chronic.parse("Sunday at 3pm")
         end

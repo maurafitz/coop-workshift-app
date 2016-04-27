@@ -2,7 +2,7 @@ class PreferencesController < ApplicationController
 
   def toggle_all
     # puts params
-    if (defined? params[:pref_all] and params[:pref_all] == "on")
+    if (params.has_key?(:pref_all) and params[:pref_all] == "on")
       puts "All On"
       User.all.each do | u |
         u.update_attribute(:preference_open, true)
@@ -13,14 +13,19 @@ class PreferencesController < ApplicationController
         u.update_attribute(:preference_open, false)
       end
     end
-    render nothing: true
+    
   end
 
   def toggle 
-    u = User.find_by_id(params[:user_id])
+    puts
+    puts params
+    u = User.find_by_id(params[:id])
+    puts params.has_key?(:pref_all)
+    puts params[:id] + " is now " + params.has_key?(:pref_all).to_s
+    puts u
     if (u != nil)
-      u.update_attribute(:preference_open, false == u.preference_open)
-      redirect_to admin_view_user_path
+      u.update_attribute(:preference_open, params.has_key?(:pref_all) ) 
     end
+    render nothing: true
   end
 end

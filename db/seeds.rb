@@ -169,6 +169,11 @@ w = workshift_instances[:tidy][0]
 w.user = a
 w.save
 
+Workshift.all.where('user_id' => nil).each do |ws|
+    ws.user = a 
+    ws.save
+end 
+
 ## SHIFTS ##
 
 shifts = [

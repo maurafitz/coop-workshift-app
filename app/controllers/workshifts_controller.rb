@@ -10,32 +10,9 @@ class WorkshiftsController < ApplicationController
     workshift = Workshift.all.first
     if workshift 
       @sorted_users_rankings = User.get_rankings_for workshift, current_unit
-      #### OPTION 1 ####
-      # for each metashift that belongs to current_unit
-      # get all workshifts
-      # group workshifts by matching start_time and end_time
-      # group workshifts by matching length
-      # group workshifts by matching details?
-      
-      #### OPTION 2 ####
-      # for each metashift that belongs to current_unit
-      # get all workshifts
-      # group workshifts by matching day
-      # return {metashift -> {day-> [workshifts]}}
       @metashift_rows = {}
       current_unit.metashifts.each do |metashift|
-        days = metashift.workshifts.group_by {|ws| ws.day}
-        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].each do |day|
-          if (not days.key?(day))
-            days[day] = [] 
-          end
-        end
-        @metashift_rows[metashift] = days
-      end
-      @metashift_rows.each do |metashift, days|
-        puts metashift.inspect
-        puts metashift.name
-        puts metashift.category
+        @metashift_rows[metashift] = metashift.workshifts.group_by {|ws| ws.day}
       end
     else
       @sorted_users_rankings = {}

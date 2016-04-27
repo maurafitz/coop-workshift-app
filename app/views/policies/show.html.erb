@@ -1,15 +1,39 @@
-<div class="spacing"></div>
- <h3>Policies for <%= @current_user.unit.name %> </h4>
- <div class="hline"></div>
-<div class = "information">
- <p><b>Semester Start Date:</b> <%= @policy.first_day.strftime("%B %d, %Y") %> </p>
- <p><b>Semester End Date:</b> <%= @policy.last_day.strftime("%B %d, %Y") %> </p>
- <p><b>Fining Days:</b> <%= @policy.get_fine_days %> </p>
- <p><b>Fining Rate:</b> <%= @policy.fine_amount %> </p>
- <p><b>Selling Date Limit:</b> <%= @policy.market_sell_by %> </p>
+<div class=" col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1 "> 
+  <h3>Policies for <%= @current_user.unit.name %> </h4>
+   <div class="hline"></div>
 </div>
-
+ <div class = "row top-buffer">
+ <div class=" col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2 "> 
+   <table class="table table-user-information">
+     <tbody>
+       <tr>
+         <td><b>Semester Start Date:</b></td>   <td><%= @policy.first_day.strftime("%B %d, %Y") %> </td>
+       </tr>
+       <tr>
+         <td><b>Semester End Date:</b></td>     <td><%= @policy.last_day.strftime("%B %d, %Y") %></td>
+       </tr>
+       <tr>
+         <td><b>Fining Days:</b></td>           <td><%= @policy.get_fine_days %></td>
+       </tr>
+       <tr>
+         <td><b>Fining Rate:</b></td>           <td><%= @policy.fine_amount %></td>
+       </tr>
+       <tr>
+         <td><b>Selling Date Limit:</b></td>     <td> <%= @policy.market_sell_by %></td>
+       </tr>
+       <% if admin_rights? %>
+       <tr>
+         <td colspan="2">
+            <button type="button" class="btn btn-small pull-right ">
+              <%= link_to 'Edit Policies ', edit_policy_path %><span class="glyphicon glyphicon-cog"></span>
+            </button>
+          </td>
+       </tr>
+       <% end %>
+     </tbody>
+   </table>
+</div>
+</div>
 <%### ADMIN ONLY ###%>
-<% if admin_rights? %>
-    <%= link_to 'Edit', edit_policy_path %>
-<% end %>
+    
+ 

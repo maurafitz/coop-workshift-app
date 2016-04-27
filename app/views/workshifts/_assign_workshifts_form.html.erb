@@ -20,17 +20,21 @@
     </tr>
   </thead>
   <tbody>
+    <% @metashift_rows.each do |metashift, days| %>
       <tr>
-        <td> Kitchen </td>
-        <td> Dishes </td>
-        <% (0..6).each do |_| %>
+        <td><%= metashift.category %></td>
+        <td><%= metashift.name %></td>
+        <% ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].each do |day| %>
           <td>
-            <div class="input-group">
-              <input id="market_sell_by" value="" type="text" name="policy[market_sell_by]" style="max-width:350px;"class="form-control" aria-label="Amount (to the nearest dollar)">
-            </div>
+            <% days[day].each do |workshift| %>
+              <div class="input-group">
+                <input id="market_sell_by" value="" type="text" name="policy[market_sell_by]" style="max-width:350px;"class="form-control" aria-label="Amount (to the nearest dollar)">
+              </div>
+            <% end %>
           </td>
         <% end %>
       </tr>
+    <% end %>
   </tbody>
 </table>
 

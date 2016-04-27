@@ -194,15 +194,23 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      moment(date).format('MMMM Do, h:mm:ss a'),
 	      React.createElement(
 	        'div',
 	        { 'class': 'row' },
+	        'By: ',
 	        React.createElement(
 	          Button,
 	          { type: 'button', bsStyle: 'success', href: profile_url },
 	          user_full_name
 	        )
+	      ),
+	      'At: ',
+	      React.createElement(
+	        'b',
+	        null,
+	        ' ',
+	        moment(date).format('MMMM Do, h:mm:ss a'),
+	        ' '
 	      )
 	    );
 	  },
@@ -216,7 +224,7 @@
 	        { trigger: 'focus', placement: 'left',
 	          overlay: React.createElement(
 	            Popover,
-	            { title: 'Signed off?',
+	            { title: 'Signed Off',
 	              id: this.props.rowData.shift_id + "sign-comp" },
 	            this.getPopoverContents()
 	          ) },

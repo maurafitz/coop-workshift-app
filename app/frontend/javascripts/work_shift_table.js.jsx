@@ -89,10 +89,11 @@ var SignoffComponent = React.createClass({
     var date = this.props.rowData.signoff_hash.date;
     return ( 
         <div>
-          {moment(date).format('MMMM Do, h:mm:ss a')}
           <div class='row'>
-            <Button type='button' bsStyle='success' href={profile_url}>{user_full_name}</Button>
+            By: <Button type='button' bsStyle='success' href={profile_url}>{user_full_name}</Button>
           </div>
+          At: <b> {moment(date).format('MMMM Do, h:mm:ss a')} </b>
+          
         </div>
       )
   },
@@ -101,7 +102,7 @@ var SignoffComponent = React.createClass({
     return (
       <div>
         <OverlayTrigger trigger="focus" placement="left" 
-            overlay={<Popover title={'Signed off?'} 
+            overlay={<Popover title={'Signed Off'} 
             id={this.props.rowData.shift_id + "sign-comp"}>{this.getPopoverContents()}</Popover>}>
           {this.getStatusButton()}
         </OverlayTrigger>

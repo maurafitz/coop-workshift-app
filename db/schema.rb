@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425205316) do
+ActiveRecord::Schema.define(version: 20160427230442) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -105,11 +105,11 @@ ActiveRecord::Schema.define(version: 20160425205316) do
 
   create_table "workshifts", force: :cascade do |t|
     t.integer "metashift_id"
-    t.string  "start_time"
-    t.string  "end_time"
+    t.string  "start_time",   default: "12pm"
+    t.string  "end_time",     default: "3pm"
     t.string  "day"
     t.integer "user_id"
-    t.decimal "length"
+    t.decimal "length",       default: 1.0
     t.string  "details"
   end
 

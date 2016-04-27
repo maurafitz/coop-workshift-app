@@ -48,6 +48,10 @@ exports.getSignOffHash = function(shift, props){
     }
 }
 
+exports.isOverDue = function(rowData){
+    return false;
+}
+
 exports.getPutURI= function(first_id, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
       return '/workshifts/' + first_id + '/change_users';

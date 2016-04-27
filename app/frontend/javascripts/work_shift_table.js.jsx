@@ -71,7 +71,8 @@ var SignoffComponent = React.createClass({
   displayName: 'SignoffComponent',
   
   getInitialState: function(){
-    var dat = this.props.rowData.signoff_status
+    console.log(this.props.rowData)
+    var dat = this.props.rowData.signoff_hash
     var overdue = false
     var user = ""
     if (dat.signed_off){
@@ -86,10 +87,10 @@ var SignoffComponent = React.createClass({
       )
   },
   
-  getButton: function(){
+  getStatusButton: function(){
     var style = 'warning'
     var label = 'TODO'
-    if (this.props.rowData.signoff_status.signed_off){
+    if (this.props.rowData.signoff_hash.signed_off){
       var style = 'success'
       var label = 'Signed Off'
     } else if (false){
@@ -97,7 +98,6 @@ var SignoffComponent = React.createClass({
       var label = 'Overdue'
     }
     return <Button type='button' bsStyle={style} className='btn-block'>{label}</Button>;
-    // return button;
   },
   
   render: function(){
@@ -107,7 +107,7 @@ var SignoffComponent = React.createClass({
         <OverlayTrigger trigger="focus" placement="left" 
             overlay={<Popover title={'Signed off?'} 
             id={this.props.rowData.shift_id + "sign-comp"}>{this.state.showPopup}</Popover>}>
-          {this.getButton()}
+          {this.getStatusButton()}
         </OverlayTrigger>
       </div>
     );}
@@ -321,7 +321,8 @@ var WorkShiftTable = React.createClass({
         "time": Util.sortableTime(shift, this.props),
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name,
-        "signoff_status": Util.getSignOffHash(shift, this.props).signed_off
+        "signoff_status": Util.getSignOffHash(shift, this.props).signed_off,
+        "signoff_hash": Util.getSignOffHash(shift, this.props)
       })
     }
     return data;

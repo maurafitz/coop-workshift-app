@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
                                
       rankings = {}
       available_users.each do |user|
-        rankings[user.full_name] = preferences.where(user: user).first.get_rating
+        rankings[user] = preferences.where(user: user).first.get_rating
       end
       rankings.sort_by {|_, rank| rank}.reverse.to_h
     end

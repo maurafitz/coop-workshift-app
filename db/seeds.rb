@@ -121,7 +121,7 @@ head_cook.unit = unit_instances[1]
 head_cook.save
 
 
-string_day_to_int = {"Sunday" => 0,"Monday" => 1, "Tuesday" => 2, 'Wednesday' => 3, 'Thursday' => 4, "Friday"=> 5, "Saturday" => 6}
+string_day_to_int = {"Sunday" => 0,"Monday" => 1, "Tuesday" => 2, 'Wednesday' => 3, 'Thursday' => 4, "Friday"=> 5, "Saturday" => 6, 'Weeklong' => 0}
 
 ## WORKSHIFTS ## 
 workshifts = {
@@ -169,6 +169,11 @@ w = workshift_instances[:tidy][0]
 w.user = a
 w.save
 
+Workshift.all.where('user_id' => nil).each do |ws|
+    ws.user = a 
+    ws.save
+end 
+
 ## SHIFTS ##
 
 shifts = [
@@ -209,6 +214,10 @@ def make_shifts(weeks_before, weeks_after)
         puts workshift.day
         puts "#{workshift.day}"
         date = Chronic.parse("#{workshift.day} at #{workshift.start_time}")
+        if not workshift.day or not workshift.start_time
+            puts "No workshift/workshift start_time for #{workshift}, defaulting shifts to Sunday at 3pm"
+            date = Chronic.parse("Sunday at 3pm")
+        end
         puts date
         (-weeks_after..weeks_before).each do |i|
             shifts << {:date => date - i.weeks, :user => workshift.user, :workshift => workshift}

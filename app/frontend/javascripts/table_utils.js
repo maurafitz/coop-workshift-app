@@ -21,7 +21,11 @@ exports.getMetashift = function(shift, props){
 
 exports.formatDisplayTime= function(shift, props){
     if (props.table_type == CONST.W_SHIFT_TABLE){
-      return shift.day + " " + shift.start_time + " - " + shift.end_time
+        if (shift.start_time){
+            return shift.day + " " + shift.start_time + " - " + shift.end_time
+        } else {
+            return shift.day
+        }
     } else{
       return moment(shift.date).format('MMM Do, h:mm a') 
     }
@@ -30,6 +34,18 @@ exports.formatDisplayTime= function(shift, props){
 exports.getFullName = function(user) {
   var full_name = user.first_name + " " + user.last_name;
   return full_name.capitalizeFirstLetter();
+}
+
+exports.getSignOffHash = function(shift, props){
+    if (props.table_type == CONST.W_SHIFT_TABLE){
+        return 'Should not show'
+    } else{
+        if (shift.signoff_date){
+            return {date: shift.signoff_date, signed_off : true, 
+            user: shift.signoff_by_id}
+        } 
+        return {date: null, signed_off : false, user: null}
+    }
 }
 
 exports.getPutURI= function(first_id, props){
@@ -53,15 +69,19 @@ var getDayNum = function(str){
             return i
         }
     }
-    return 6
+    return 0
 }
 
 var getStartNum = function(start_time){
-    var a = 0
-    if (start_time.indexOf('p') > -1){
-        a = 12
+    if (start_time){
+        var a = 0
+        if (start_time.indexOf('p') > -1){
+            a = 12
+        }
+        return a + parseInt(start_time.match(/\d+/))
+    } else {
+        return 0
     }
-    return a + parseInt(start_time.match(/\d+/))
 }
 
 String.prototype.capitalizeFirstLetter = function() {

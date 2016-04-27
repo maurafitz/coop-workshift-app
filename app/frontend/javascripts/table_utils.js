@@ -42,14 +42,21 @@ exports.getSignOffHash = function(shift, props){
     } else{
         if (shift.signoff_date){
             return {date: shift.signoff_date, signed_off : true, 
-            user: shift.signoff_by_id}
+            user: shift.signoff_by_id, status: getSignOffStatus(shift) }
         } 
-        return {date: null, signed_off : false, user: null}
+        return {date: null, signed_off : false, 
+        user: null, status: getSignOffStatus(shift)}
     }
 }
 
-exports.isOverDue = function(rowData){
-    return false;
+var getSignOffStatus = function(shift){
+    if (shift.signoff_date){
+        return CONST.SIGNED_OFF
+    } else if (moment(shift.date) < moment.now()){
+        return CONST.OVERDUE
+    } else{
+        return CONST.FUTURE
+    }
 }
 
 exports.getPutURI= function(first_id, props){

@@ -74,11 +74,27 @@ var SignoffComponent = React.createClass({
     console.log(this.props.rowData)
     var dat = this.props.rowData.signoff_hash
     var overdue = false
-    var user = ""
-    if (dat.signed_off){
-      user = dat.user
-    }
-    return {showPopup: dat.signed_off, user: user}
+    // var user = ""
+    // if (dat.signed_off){
+    //   user = dat.user
+    // }
+    return {showPopup: dat.signed_off}//user: user}
+  },
+  
+  getPopoverContents: function(){
+    //Assumes that this shift was signed off (meaning that theres an associated user_id and date)
+    var user_id = this.props.rowData.signoff_hash.user_id;
+    var user_full_name = getUserWithID(user_id).full_name;
+    var profile_url = '/users/' + user_id;
+    var date = this.props.rowData.signoff_hash.date;
+    return ( 
+        <div>
+          {moment(date).format('MMMM Do, h:mm:ss a')}
+          <div class='row'>
+            <Button type='button' bsStyle='success' href={profile_url}>{user_full_name}</Button>
+          </div>
+        </div>
+      )
   },
   
   signedOffButton: function(){
@@ -86,7 +102,7 @@ var SignoffComponent = React.createClass({
       <div>
         <OverlayTrigger trigger="focus" placement="left" 
             overlay={<Popover title={'Signed off?'} 
-            id={this.props.rowData.shift_id + "sign-comp"}>{this.state.showPopup}</Popover>}>
+            id={this.props.rowData.shift_id + "sign-comp"}>{this.getPopoverContents()}</Popover>}>
           {this.getStatusButton()}
         </OverlayTrigger>
       </div>

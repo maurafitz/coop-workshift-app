@@ -10,13 +10,9 @@
     <tr>
       <th data-sortable="true">Category</th>
       <th data-sortable="true">Name</th>
-      <th data-sortable="true">Monday</th>
-      <th data-sortable="true">Tuesday</th>
-      <th data-sortable="true">Wednesday</th>
-      <th data-sortable="true">Thursday</th>
-      <th data-sortable="true">Friday</th>
-      <th data-sortable="true">Saturday</th>
-      <th data-sortable="true">Sunday</th>
+      <% Workshift.days.each do |day| %>
+        <th data-sortable="true"><%= day %></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -29,7 +25,7 @@
             <% if days[day] %>
               <% days[day].each do |workshift| %>
                 <div class="input-group">
-                  <input id="market_sell_by" value="" type="text" name="policy[market_sell_by]" style="max-width:350px;"class="form-control" aria-label="Amount (to the nearest dollar)">
+                  <input id="<%= workshift.id %>" value="" type="text" name="<%= metashift.id %>[<%= workshift.id%>]" style="max-width:350px;"class="form-control" aria-label="Amount (to the nearest dollar)">
                 </div>
               <% end %>
             <% end %>
@@ -40,3 +36,7 @@
   </tbody>
 </table>
 
+
+<script>
+  
+</script>

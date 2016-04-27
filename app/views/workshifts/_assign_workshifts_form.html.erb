@@ -22,14 +22,14 @@
   <tbody>
       <tr>
         <td> Kitchen </td>
-        <td> Dish </td>
-        <td> Empty </td>
-        <td> Empty </td>
-        <td> Empty </td>
-        <td> Empty </td>
-        <td> Empty </td>
-        <td> Empty </td>
-        <td> Empty </td>
+        <td> Dishes </td>
+        <% (0..6).each do |_| %>
+          <td>
+            <div class="input-group">
+              <input id="market_sell_by" value="" type="text" name="policy[market_sell_by]" style="max-width:350px;"class="form-control" aria-label="Amount (to the nearest dollar)">
+            </div>
+          </td>
+        <% end %>
       </tr>
   </tbody>
 </table>

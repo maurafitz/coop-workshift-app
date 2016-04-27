@@ -163,7 +163,7 @@
 	          ) },
 	        React.createElement(
 	          Button,
-	          { color: 'blue', type: 'button' },
+	          { color: 'blue', type: 'button', bsStyle: 'primary' },
 	          'Description'
 	        )
 	      )

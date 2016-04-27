@@ -61,7 +61,7 @@ DescriptionComponent = React.createClass({
         <OverlayTrigger trigger="focus" placement="left" 
             overlay={<Popover title={this.props.rowData.shift} 
             id={this.props.rowData.shift_id + "he"}>{this.props.rowData.description}</Popover>}>
-          <Button color="blue" type="button">Description</Button>
+          <Button color="blue" type="button" bsStyle='primary'>Description</Button>
         </OverlayTrigger>
       </div>
     );}

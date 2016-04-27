@@ -321,7 +321,7 @@ var WorkShiftTable = React.createClass({
         "time": Util.sortableTime(shift, this.props),
         "shift_id": shift.id,
         "user_full_name": user_hash.full_name,
-        "signoff_status": Util.getSignOffHash(shift, this.props).signed_off,
+        "signoff_status": Util.getSignOffHash(shift, this.props).status,
         "signoff_hash": Util.getSignOffHash(shift, this.props)
       })
     }

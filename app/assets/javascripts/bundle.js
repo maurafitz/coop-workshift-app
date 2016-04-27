@@ -185,33 +185,7 @@
 	    return { showPopup: dat.signed_off, user: user };
 	  },
 	
-	  getPopover: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      ' '
-	    );
-	  },
-	
-	  getStatusButton: function () {
-	    var style = 'warning';
-	    var label = 'TODO';
-	    if (this.props.rowData.signoff_hash.signed_off) {
-	      var style = 'success';
-	      var label = 'Signed Off';
-	    } else if (false) {
-	      var style = 'danger';
-	      var label = 'Overdue';
-	    }
-	    return React.createElement(
-	      Button,
-	      { type: 'button', bsStyle: style, className: 'btn-block' },
-	      label
-	    );
-	  },
-	
-	  render: function () {
-	
+	  signedOffButton: function () {
 	    return React.createElement(
 	      'div',
 	      null,
@@ -227,6 +201,35 @@
 	        this.getStatusButton()
 	      )
 	    );
+	  },
+	
+	  getStatusButton: function () {
+	    var style = 'warning';
+	    var label = 'TODO';
+	    if (this.props.rowData.signoff_hash.status == CONST.SIGNED_OFF) {
+	      var style = 'success';
+	      var label = 'Signed Off';
+	    } else if (this.props.rowData.signoff_hash.status == CONST.OVERDUE) {
+	      var style = 'danger';
+	      var label = 'Overdue';
+	    }
+	    return React.createElement(
+	      Button,
+	      { type: 'button', bsStyle: style, className: 'btn-block' },
+	      label
+	    );
+	  },
+	
+	  render: function () {
+	    if (this.props.rowData.signoff_hash.status == CONST.SIGNED_OFF) {
+	      return this.signedOffButton();
+	    } else {
+	      return React.createElement(
+	        'div',
+	        null,
+	        this.getStatusButton()
+	      );
+	    }
 	  }
 	});
 	

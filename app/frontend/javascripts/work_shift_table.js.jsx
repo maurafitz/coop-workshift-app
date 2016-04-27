@@ -81,27 +81,7 @@ var SignoffComponent = React.createClass({
     return {showPopup: dat.signed_off, user: user}
   },
   
-  getPopover: function(){
-    return (
-      <div> </div>
-      )
-  },
-  
-  getStatusButton: function(){
-    var style = 'warning'
-    var label = 'TODO'
-    if (this.props.rowData.signoff_hash.signed_off){
-      var style = 'success'
-      var label = 'Signed Off'
-    } else if (false){
-      var style = 'danger'
-      var label = 'Overdue'
-    }
-    return <Button type='button' bsStyle={style} className='btn-block'>{label}</Button>;
-  },
-  
-  render: function(){
-    
+  signedOffButton: function(){
     return (
       <div>
         <OverlayTrigger trigger="focus" placement="left" 
@@ -110,7 +90,33 @@ var SignoffComponent = React.createClass({
           {this.getStatusButton()}
         </OverlayTrigger>
       </div>
-    );}
+      )
+  },
+  
+  getStatusButton: function(){
+    var style = 'warning'
+    var label = 'TODO'
+    if (this.props.rowData.signoff_hash.status == CONST.SIGNED_OFF){
+      var style = 'success'
+      var label = 'Signed Off'
+    } else if (this.props.rowData.signoff_hash.status == CONST.OVERDUE){
+      var style = 'danger'
+      var label = 'Overdue'
+    }
+    return <Button type='button' bsStyle={style} className='btn-block'>{label}</Button>;
+  },
+  
+  render: function(){
+    if (this.props.rowData.signoff_hash.status == CONST.SIGNED_OFF){
+      return this.signedOffButton()
+    } else{
+      return (
+          <div>
+            {this.getStatusButton()}
+          </div>
+        );
+    }
+  }
 });
 
 

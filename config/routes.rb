@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   post '/users/:id/pref/edit' => 'users#update_pref_and_avail', as: 'update_pref'
   get '/users/:id/admin_view_user' => 'users#admin_view_user', as: 'admin_view_user'
 
+  post '/preferences/:id/toggle' => 'preferences#toggle', as: 'toggle_preferences'
+  post '/preferences/toggle_all' => 'preferences#toggle_all', as: 'toggle_preferences_all'
 
   post '/metashifts/create' => 'metashifts#create_metashift', as: 'create_metashift'
   get '/workshifts/:id/new_timeslots' => 'workshifts#new_timeslots', as: 'new_timeslots'

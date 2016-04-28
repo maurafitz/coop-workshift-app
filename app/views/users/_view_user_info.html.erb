@@ -14,7 +14,8 @@
 </head>
 
 <h2 style="margin-top:0px;"> <%= @user.full_name %> </h2>
-<div class="col-md-9"> 
+<div class="col-md-10 col-md-offset-2"> 
+  <div class ="row" >
   <table class="table table-user-information">
     <tbody>
       <tr>
@@ -35,9 +36,42 @@
       </tr>
     </tbody>
   </table>
-</div>
-<div class="col-md-3">
-  <%= link_to 'Toggle Preference Form for ' + @user.full_name, admin_view_user_path(:change_preference_for_id => @user.id), :class=>"btn btn-theme" %>
-  <%= link_to('Edit Profile', edit_profile_path(:id => @user.id), :class => 'btn btn-theme') %>
+  </div>
+  <div class ="row" >
+    <%=form_tag toggle_preferences_path(:id => @user.id), :id => 'pref_form', remote: "true", :authenticity_token => true do %>
+      <p> Toggle whether the preference form for this user. </p>
+      <div class="col-sm-4 control-label">
+        <label for="preference_toggle">Preference Form: </label>
+      </div>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input id="preference_toggle_one" name="pref_all" <%=if @user.preference_open then "checked" end %> type="checkbox" data-toggle="toggle" data-on="Open" data-off="Closed" data-onstyle="success" data-offstyle="danger">
+        </div>
+      </div>
+    <% end %>
+    <div class="col-sm-4">
+      <%= link_to('Edit Profile', edit_profile_path(:id => @user.id), :class => 'btn btn-theme') %>
+    </div>
+  </div>
 </div>
 
+<script>
+$(document).ready(function() {
+  $('#pref_form').submit(function() {  
+      var valuesToSubmit = $(this).serialize();
+      $.ajax({
+          type: "POST",
+          url: $(this).attr('action'), //sumbits it to the given url of the form
+          data: valuesToSubmit,
+          dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json){
+          console.log("success", json);
+      });
+      return false; // prevents normal behaviour
+  });
+  $('#preference_toggle_one').change(function() {
+    console.log("Changed");
+    $( "#pref_form" ).submit();
+  });
+});
+</script>

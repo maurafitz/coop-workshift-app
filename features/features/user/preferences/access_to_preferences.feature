@@ -13,7 +13,8 @@ Feature: Workshift Manager: Set User Access to Preference Page
     | Ryan            | Riddle        | ry@berkeley.edu           |   hare         |      2           |
     And I am logged in as an admin
     And I am on my profile page
-    
+  
+  @wip  
   Scenario: I take away everyone's ability to access the form
     Then I should see "Select Workshifts Preferences"
     When I follow "View & Edit Users"
@@ -25,7 +26,8 @@ Feature: Workshift Manager: Set User Access to Preference Page
     Then I should see "false"
     When I go to my profile page
     Then I should not see "Select Workshifts Preference"
-    
+  
+  @wip  
   Scenario: I give everyone the ability to access the form
     When I follow "View & Edit Users"
     And I follow "Open Workshift Preference Form for Everyone"
@@ -33,6 +35,7 @@ Feature: Workshift Manager: Set User Access to Preference Page
     When I go to my profile page
     Then I should see "Select Workshifts Preference"
   
+  @wip  
   Scenario: I take away one person's access to the form
     When I follow "View & Edit Users"
     And I follow "Open Workshift Preference Form for Everyone"

@@ -175,7 +175,7 @@
 	  displayName: 'SignoffComponent',
 	
 	  getInitialState: function () {
-	    console.log(this.props.rowData);
+	    // console.log(this.props.rowData)
 	    var dat = this.props.rowData.signoff_hash;
 	    var overdue = false;
 	    // var user = ""

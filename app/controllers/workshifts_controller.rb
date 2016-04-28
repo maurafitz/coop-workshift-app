@@ -24,12 +24,8 @@ class WorkshiftsController < ApplicationController
     @sorted_users_rankings = User.get_rankings_for workshift, current_unit
     @rows = []
     @sorted_users_rankings.each do |user, ranking|
-      @rows << {:name => user.full_name, :ranking => ranking}
+      @rows << {:name => "<a href='#{admin_view_user_path(user.id)}'>#{user.full_name}</a>", :ranking => ranking}
     end
-    # {user: ranking}
-    # -> [{name: user, ranking: rank}]
-    
-    # render(:partial => 'sort_users_by_shift', :object => @sorted_users_rankings)
     render json: {:rows => @rows}
   end
   

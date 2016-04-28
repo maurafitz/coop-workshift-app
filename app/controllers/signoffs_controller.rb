@@ -1,5 +1,6 @@
 class SignoffsController < ApplicationController
     skip_before_filter :set_current_user
+    require "pp"
     def new
         if current_unit.nil?
             flash[:danger] = "You have not set your unit yet. Please do so now"
@@ -29,7 +30,7 @@ class SignoffsController < ApplicationController
       
     def get_shifts
         user = User.find_by_id(params[:id]) 
-        shifts = user.shifts.all.where(completed: false)
+        shifts = user.shifts.all.where(date: 2.days.ago..1.week.from_now, completed: false)
         json_info = {}
         shifts.each do |shift|
             date = shift.date.strftime("%-m/%d")

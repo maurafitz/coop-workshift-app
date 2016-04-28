@@ -59,6 +59,7 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
 # React is dope as fuck, does all work in the front-end
 gem 'react-rails', '~> 1.6.0'
 
+gem 'faker'
 # Alex added
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 
@@ -77,7 +78,6 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
   gem 'shoulda-matchers'
-  gem 'faker'
 end
 
 group :test do

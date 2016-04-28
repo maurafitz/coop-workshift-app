@@ -141,11 +141,11 @@ faker_users.each do |user|
 end
 
 ## AVAILABILITIES ##
-statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Not Preferred", "Not Preferred", "Unsure"]
+statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Unavailable", "Unavailable", "Not Preferred", "Not Preferred", "Unsure"]
 faker_users.each do |user|
     (0..6).each do |day|
         (8..23).each do |hour|
-            Avail.create!({:day => day, :hour => hour, :user => user, :status => statuses[rand(8)]})
+            Avail.create!({:day => day, :hour => hour, :user => user, :status => statuses[rand(9)]})
         end
     end
 end

@@ -1,5 +1,5 @@
 class AssignmentsController < ApplicationController
-  # GET /assignments/new
+  # GET /assignments
   def new
     @metashift_rows = {}
     current_unit.metashifts.each do |metashift|
@@ -7,26 +7,10 @@ class AssignmentsController < ApplicationController
     end
   end
   
-  # GET /assignments/edit
-  def edit
-    @metashift_rows = {}
-    current_unit.metashifts.each do |metashift|
-      @metashift_rows[metashift] = metashift.workshifts.group_by {|ws| ws.day}
-    end
-    
-  end
-  
   # POST /assignments/create
   def create
     assign_workshifts
     redirect_to user_profile_path(current_user.id)
-  end
-  
-  # POST /assignments/update
-  def update
-    assign_workshifts
-    redirect_to edit_assignments_path
-    # redirect_to user_profile_path(current_user.id)
   end
   
   def assign_workshifts

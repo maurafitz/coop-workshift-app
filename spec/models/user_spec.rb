@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pp'
 
 RSpec.describe User, type: :model do
  
@@ -45,4 +46,25 @@ RSpec.describe User, type: :model do
       expect {User.open_spreadsheet(@file)}.to raise_error(RuntimeError)
     end
   end
+  
+  describe 'updating hour balance' do
+    before(:each) do
+      @unit = Unit.create!()
+      @policy = Policy.create!(:starting_hour_balance => 5.0, 
+       :unit => @unit)
+       @member1 = User.create!(:first_name => 'Maura', :unit => @unit, :email => 'a@b.com',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:member],
+      :hour_balance => 0, :password => '12345kabsdfasdf')
+      @member2 = User.create!(:first_name => 'Henri', :unit => @unit,:email => 'b@c.com',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:manager],
+      :hour_balance => 0,:password => '12345kabsdfsdfasdf')
+      
+    end
+    
+    it 'should add 5 to each users balance' do 
+      User.weekly_hours_addition()
+      pp User.all
+      (User.find(@member1.id).hour_balance).should eq(5)
+    end 
+  end 
 end

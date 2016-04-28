@@ -114,4 +114,5 @@ RSpec.describe UsersController, type: :controller do
             expect(response).to render_template(:get_all)
         end
     end
+
 end

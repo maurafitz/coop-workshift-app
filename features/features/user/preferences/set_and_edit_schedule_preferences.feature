@@ -64,3 +64,21 @@ Feature: Set and Edit User Preferences for Schedule
     Then my availability for "Monday", "8am" should be "Available"
     And my availability for "Tuesday", "10pm" should be "Not Preferred"
       
+  Scenario: A user tried to edite without setting preferences
+    Given I have not saved any preferences
+    When I go to the edit preferences page
+    Then I should be on the set preferences page
+    And I should see "You have not yet set your preferences. Please set them here."
+    
+  Scenario: A user sets preference and tries to access new preference form
+    Given I have not saved any preferences
+    When I go to the set preferences page
+    And I select the following time preferences:
+    | day         | times              | availability  |
+    | Monday      | 8am-6pm            | Unavailable   |
+    When I fill in "Notes" with "whut"
+    And I click "Save"
+    Then I should be on my profile page
+    When I go to the set preferences page
+    Then I should be on the edit preferences page
+    And I should see "You have already set your preferences. Edit them here."

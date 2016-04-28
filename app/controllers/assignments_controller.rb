@@ -18,34 +18,15 @@ class AssignmentsController < ApplicationController
   
   # POST /assignments/create
   def create
-    workshifts = params[:workshifts]
-    workshifts.each do |id, full_name|
-      ws = Workshift.find_by_id(id)
-      if full_name
-        user = User.find_by_full_name(full_name).first
-        if user
-          ws.user = user
-          ws.save
-        end
-      end
-    end
+    assign_workshifts
     redirect_to user_profile_path(current_user.id)
   end
   
   # POST /assignments/update
   def update
-    workshifts = params[:workshifts]
-    workshifts.each do |id, full_name|
-      ws = Workshift.find_by_id(id)
-      if full_name
-        user = User.find_by_full_name(full_name).first
-        if user
-          ws.user = user
-          ws.save
-        end
-      end
-    end
-    redirect_to user_profile_path(current_user.id)
+    assign_workshifts
+    redirect_to edit_assignments_path
+    # redirect_to user_profile_path(current_user.id)
   end
   
   def assign_workshifts

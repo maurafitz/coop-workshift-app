@@ -4,7 +4,6 @@
                       data-toolbar="#toolbar"
                       data-show-columns="true" data-show-export="true"
                       data-toggle="table" data-search="true"
-                      data-show-pagination-switch="true" data-pagination="true"
                       data-page-list="[10, 25, 50, 100, ALL]">
   <thead>
     <tr>
@@ -27,7 +26,12 @@
                 <div class="input-group">
                   <input id="workshift" value="" type="text" name="<%= workshift.id%>" style="max-width:350px;"class="form-control" aria-label="Member assigned to workshift">
                 </div>
-                <a href="#" data-toggle="tooltip" title="Shift Information:">i</a>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="
+                  Start Time: <%= workshift.start_time %>
+                  End Time: <%= workshift.end_time %> 
+                  Hours: <%= workshift.length %> 
+                  Details: <%= workshift.details %>
+                ">i</button>
               <% end %>
             <% end %>
           </td>
@@ -36,6 +40,15 @@
     <% end %>
   </tbody>
 </table>
+<form class="form-inline">
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Amount</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+      <div class="input-group-addon">i</div>
+    </div>
+  </div>
+</form>
 
 
 <script>
@@ -44,6 +57,9 @@
       $.get("/workshifts/" + $(this).attr('name') + "/sort_users", function(data) {
         $("#sorted-table").bootstrapTable('load', data.rows);
       });
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
     });
   
   

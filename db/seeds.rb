@@ -136,7 +136,7 @@ faker_metashifts = []
 ## PREFERENCES ##
 faker_users.each do |user|
     faker_metashifts.each do |metashift|
-        Preference.create!({:user => user, :metashift => metashift, :rating => 1+rand(6), :cat_rating => 1+rand(6)})
+        Preference.create!({:user => user, :metashift => metashift, :rating => 1+rand(5), :cat_rating => 1+rand(5)})
     end
 end
 
@@ -208,6 +208,7 @@ days = Workshift.days
 (0..200).each {
     start_time = rand(8..22)
     end_time = rand(start_time+1..23)
+    length = 1 + rand(end_time-start_time)
     if start_time > 12
         start_time = (start_time-12).to_s + "pm"
     else
@@ -219,7 +220,7 @@ days = Workshift.days
         end_time = end_time.to_s + "am"
     end
     w = Workshift.create!({:start_time => start_time, :end_time => end_time, :details => Faker::Lorem.word,
-                            :length => Faker::Number.between(1, 5), :day => days[rand(7)], :metashift => faker_metashifts[rand(26)]})
+                            :length => length, :day => days[rand(7)], :metashift => faker_metashifts[rand(26)]})
 }
 
 ## SHIFTS ##
@@ -254,22 +255,22 @@ shifts.each do |shift|
     shift_instances << s
 end
 
-def make_shifts(weeks_before, weeks_after)
-    shifts = []
-    date = Date.today
-    Workshift.all.each do | workshift |
-        date = Chronic.parse("#{workshift.day} at #{workshift.start_time}")
-        if not workshift.day or not workshift.start_time or not date
-            puts "No workshift/workshift start_time for #{workshift}, defaulting shifts to Sunday at 3pm"
-            date = Chronic.parse("Sunday at 3pm")
-        end
-        (-weeks_after..weeks_before).each do |i|
-            shifts << {:date => date - i.weeks, :user => workshift.user, :workshift => workshift}
-        end 
-    end
-    shifts.each do |s|
-        new_shift = Shift.create!(s)
-    end 
-end
+# def make_shifts(weeks_before, weeks_after)
+#     shifts = []
+#     date = Date.today
+#     Workshift.all.each do | workshift |
+#         date = Chronic.parse("#{workshift.day} at #{workshift.start_time}")
+#         if not workshift.day or not workshift.start_time or not date
+#             puts "No workshift/workshift start_time for #{workshift}, defaulting shifts to Sunday at 3pm"
+#             date = Chronic.parse("Sunday at 3pm")
+#         end
+#         (-weeks_after..weeks_before).each do |i|
+#             shifts << {:date => date - i.weeks, :user => workshift.user, :workshift => workshift}
+#         end 
+#     end
+#     shifts.each do |s|
+#         new_shift = Shift.create!(s)
+#     end 
+# end
 
-make_shifts(5, 5)
+# make_shifts(1, 0)

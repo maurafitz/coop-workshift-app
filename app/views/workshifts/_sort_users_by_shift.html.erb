@@ -9,11 +9,5 @@
     </tr>
   </thead>
   <tbody>
-    <% @sorted_users_rankings.each do |user, ranking| %>
-      <tr>
-        <td><%= link_to "#{user.full_name}", admin_view_user_path(user.id) %></td>
-        <td><%= ranking %></td>
-      </tr>
-    <% end %>
   </tbody>
 </table>

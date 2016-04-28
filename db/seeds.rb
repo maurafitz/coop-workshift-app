@@ -140,6 +140,7 @@ head_cook.save
 #     end
 # end
 
+<<<<<<< HEAD
 # ## AVAILABILITIES ##
 # statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Not Preferred", "Not Preferred", "Unsure"]
 # faker_users.each do |user|
@@ -149,6 +150,17 @@ head_cook.save
 #         end
 #     end
 # end
+=======
+## AVAILABILITIES ##
+statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Unavailable", "Unavailable", "Not Preferred", "Not Preferred", "Unsure"]
+faker_users.each do |user|
+    (0..6).each do |day|
+        (8..23).each do |hour|
+            Avail.create!({:day => day, :hour => hour, :user => user, :status => statuses[rand(9)]})
+        end
+    end
+end
+>>>>>>> AssignWorkshifts
 
 
 string_day_to_int = {"Sunday" => 0,"Monday" => 1, "Tuesday" => 2, 'Wednesday' => 3, 'Thursday' => 4, "Friday"=> 5, "Saturday" => 6, 'Weeklong' => 0}

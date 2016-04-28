@@ -1,0 +1,29 @@
+<head>
+  <style type="text/css">
+    .row {
+      margin-top:5px;
+      margin-bottom:5px;
+    }
+  </style>
+</head>
+
+<div class="row">
+    <h4>Format:</h4>
+    Columns: category, name, description, multiplier, times.
+</div>
+<div class="row">
+    <strong>Multiplier</strong> is the hour value of the workshift.
+</div>
+<div class="row">
+    <strong>Length</strong> is the amount of time a member must do the workshift between its start and end times. <br>
+    The default <strong>length</strong> is 1.0 hours.
+</div>
+<div class="row">
+    Times column format: <br>Wednesday, XX:XXAM to YY:YYPM (1); Friday, ZZ:ZZPM to YY:YYPM (2)<br>
+    - place semi-colon after each day/time pair <br>
+    - the number in parenthesis is the length, if omitted the default length will be assigned</p>
+</div>
+<div class="row" style="margin-bottom:30px;">
+  <h4>An example:</h4>
+    <img src=<%= asset_path( 'csv_workshift_row.png' ) %> >  
+</div>

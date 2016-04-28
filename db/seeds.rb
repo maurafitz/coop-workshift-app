@@ -70,7 +70,7 @@ faker_users = []
     faker_users << User.create!({:first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, 
           :email => Faker::Internet.email, 
           :permissions => User::PERMISSION[:member],
-          :password => 'member', :has_confirmed => true,
+          :password => 'member',
           :hour_balance => Faker::Number.between(1, 50), :fine_balance => Faker::Number.between(20, 100),
           :sent_confirmation => true, :has_confirmed => true, :unit => cloyne })
 }

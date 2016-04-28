@@ -5,6 +5,12 @@ class Workshift < ActiveRecord::Base
   
   before_save :update_future_shifts, if: :user_id_changed?
   
+  DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  
+  def self.days
+    DAYS
+  end
+  
   def get_name
     name = self.metashift.name
     details = self.get_details

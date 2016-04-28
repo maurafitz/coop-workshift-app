@@ -1,0 +1,71 @@
+<div id="toolbar">
+</div>
+<table  class="table table-striped table-hover" id="signed-off-shifts"
+                      data-toolbar="#toolbar"
+                      data-show-columns="true" data-show-export="true"
+                      data-toggle="table" data-search="true"
+                      data-page-list="[10, 25, 50, 100, ALL]">
+  <thead>
+    <tr>
+      <th data-sortable="true">Category</th>
+      <th data-sortable="true">Name</th>
+      <% Workshift.days.each do |day| %>
+        <th data-sortable="true"><%= day %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @metashift_rows.each do |metashift, days| %>
+      <tr>
+        <td><%= metashift.category %></td>
+        <td><%= metashift.name %></td>
+        <% Workshift.days.each do |day| %>
+          <td>
+            <% if days[day] %>
+              <% days[day].each do |workshift| %>
+                <div class="input-group">
+                  <input id="workshift" value="" type="text" name="<%= workshift.id%>" style="max-width:350px;"class="form-control" aria-label="Member assigned to workshift">
+                </div>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="
+                  Start Time: <%= workshift.start_time %>
+                  End Time: <%= workshift.end_time %> 
+                  Hours: <%= workshift.length %> 
+                  Details: <%= workshift.details %>
+                ">i</button>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<form class="form-inline">
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Amount</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+      <div class="input-group-addon">i</div>
+    </div>
+  </div>
+</form>
+
+
+<script>
+  $(document).ready(function(){
+    $("input#workshift").focus(function() {
+      $.get("/workshifts/" + $(this).attr('name') + "/sort_users", function(data) {
+        $("#sorted-table").bootstrapTable('load', data.rows);
+      });
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  
+  
+  
+  
+  
+  
+  });
+</script>

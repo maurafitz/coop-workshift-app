@@ -7,7 +7,9 @@ class AssignmentsController < ApplicationController
     end
   end
   
+  # POST /assignments/create
   def create
+    redirect_to user_profile_path(current_user.id)
   end
   
   def edit

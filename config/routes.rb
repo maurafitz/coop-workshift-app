@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   put '/workshifts/:id/change_users' => 'workshifts#change_users', as: 'change_workshift_users'
   resources :workshifts
   get '/assignments/new' => 'assignments#new', as: 'new_assignments'
+  post 'assignments/create' => 'assignments#create', as: 'create_assignments'
   get '/assignments/:id/sort_users' => 'assignments#sort_users', as: 'sort_users'
   
   put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_shift_user'

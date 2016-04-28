@@ -31,13 +31,11 @@ class AssignmentsController < ApplicationController
   
   def assign_workshifts
     workshifts = params[:workshifts]
-    workshifts.each do |id, full_name|
-      ws = Workshift.find_by_id(id)
-      if full_name
-        user = User.find_by_full_name(full_name).first
-        if user
-          ws.user = user
-        end
+    workshifts.each do |ws_id, u_id|
+      ws = Workshift.find_by_id(ws_id)
+      user = User.find_by_id(u_id)
+      if user 
+        ws.user = user
       else
         ws.user = nil
       end

@@ -51,11 +51,6 @@ class User < ActiveRecord::Base
       self.first_name.capitalize + " " + self.last_name.capitalize
     end
     
-    def self.find_by_full_name full_name
-      first_name, last_name = full_name.split(" ")
-      where(first_name: first_name, last_name: last_name)
-    end
-    
     def self.send_confirmation(id)
       user = find(id)
       if user

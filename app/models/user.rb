@@ -153,13 +153,14 @@ class User < ActiveRecord::Base
     end
     
     def convert_to_military time
-      matcher = /^(\d?\d)(a|p)m$/
+      time = time.downcase
+      matcher = /^(\d?\d):(\d\d)(a|p)m$/
       time = matcher =~ time
-      hour, ampm = $1.to_i, $2
+      hour, ampm, = $1.to_i, $3
       if ampm == 'p'
-        hour + 12
+        return hour + 12
       else
-        hour
+        return hour
       end
     end
     

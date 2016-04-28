@@ -42,17 +42,18 @@ exports.getSignOffHash = function(shift, props){
     } else{
         if (shift.signoff_date){
             return {date: shift.signoff_date, signed_off : true, 
-            user: shift.signoff_by_id, status: getSignOffStatus(shift) }
+            user_id: shift.signoff_by_id, status: getSignOffStatus(shift) }
         } 
         return {date: null, signed_off : false, 
-        user: null, status: getSignOffStatus(shift)}
+        user_id: null, status: getSignOffStatus(shift)}
     }
 }
 
 var getSignOffStatus = function(shift){
     if (shift.signoff_date){
         return CONST.SIGNED_OFF
-    } else if (moment(shift.date) < moment.now()){
+    } else if (moment(shift.date) < moment().startOf('isoWeek')){
+        //This is assuming we consider things overdue if Sunday has passed
         return CONST.OVERDUE
     } else{
         return CONST.FUTURE

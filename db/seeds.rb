@@ -141,7 +141,7 @@ faker_users.each do |user|
 end
 
 ## AVAILABILITIES ##
-statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Not Preferred", "Not Peferred", "Unsure"]
+statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Not Preferred", "Not Preferred", "Unsure"]
 faker_users.each do |user|
     (0..6).each do |day|
         (8..23).each do |hour|

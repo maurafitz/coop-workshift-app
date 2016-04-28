@@ -10,9 +10,15 @@ class AssignmentsController < ApplicationController
   # POST /assignments/create
   def create
     workshifts = params[:workshifts]
-    workshifts.each do |id|
+    workshifts.each do |id, full_name|
       ws = Workshift.find_by_id(id)
-      # ws.user
+      if full_name
+        user = User.find_by_full_name(full_name).first
+        if user
+          ws.user = user
+          ws.save
+        end
+      end
     end
     redirect_to user_profile_path(current_user.id)
   end

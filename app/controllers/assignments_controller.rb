@@ -50,8 +50,8 @@ class AssignmentsController < ApplicationController
     @sorted_users_rankings = User.get_rankings_for workshift, current_unit
     @rows, @names = [], []
     @sorted_users_rankings.each do |user, ranking|
-      @rows << {:name => "<a href='#{admin_view_user_path(user.id)}'>#{user.full_name}</a>", :ranking => ranking}
-      @names << [user.full_name]
+      @rows << {:name => "<a id='#{user.last_name}' href='#{admin_view_user_path(user.id)}'>#{user.full_name}</a>", :ranking => ranking}
+      @names << user.full_name
     end
     render json: {:rows => @rows, :names => @names}
   end

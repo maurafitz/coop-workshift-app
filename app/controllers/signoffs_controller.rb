@@ -1,5 +1,6 @@
 class SignoffsController < ApplicationController
     skip_before_filter :set_current_user
+
     def new
         if current_unit.nil?
             flash[:danger] = "You have not set your unit yet. Please do so now"
@@ -29,7 +30,7 @@ class SignoffsController < ApplicationController
       
     def get_shifts
         user = User.find_by_id(params[:id]) 
-        shifts = user.shifts.all.where(completed: false)
+        shifts = user.shifts.all.where(date: 2.days.ago..1.week.from_now, completed: false)
         json_info = {}
         shifts.each do |shift|
             date = shift.date.strftime("%-m/%d")
@@ -73,7 +74,11 @@ class SignoffsController < ApplicationController
     def submit
         signoff = params[:signoff]
         verifier_signed_in = signoff[:verifier_signed_in] == "true"
-        verif_user = User.find_by_id(signoff[:verifier_id])
+        if verifier_signed_in == true
+            verif_user = current_user
+        else
+            verif_user = User.find_by_id(signoff[:verifier_id])
+        end
         if not verifier_signed_in and not verif_user.authenticate(signoff[:verifier_pw])
 
             puts signoff[:verifier_pw]

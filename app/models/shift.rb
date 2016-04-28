@@ -35,4 +35,17 @@ class Shift < ActiveRecord::Base
   def get_signoff_datetime
     self.signoff_date.strftime('%l:%M%P %A %_m/%e')
   end
+  
+  def self.get_blown_shifts_last_n_days(n)
+    shifts = Shift.all.where(date: (Date.current - n.days)..Date.current)
+    blown = []
+    shifts.each do |shift|
+      if not (shift.completed and shift.signoff_date)
+        blown << shift
+      end 
+    end
+    blown
+  end 
+  
+  
 end

@@ -26,7 +26,8 @@
                 <div class="form-group sm-bottom-margin">
                   <div class="input-group">
                     <div id="scrollable-dropdown-menu">
-                      <input type="text" class="form-control workshift typeahead" id="<%= workshift.id %>" value="<%= workshift.user.full_name if workshift.user %>" name="workshifts[<%= workshift.id %>]">
+                      <input type="text" class="form-control workshift typeahead" id="<%= workshift.id %>" value="<%= workshift.user.full_name if workshift.user %>">
+                      <input type="hidden" class="form-control workshift typeahead" id="hidden<%= workshift.id %>" value="<%= workshift.user.id if workshift.user %>" name="workshifts[<%= workshift.id %>]">
                     </div>
                     <div class="input-group-addon workshift">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
@@ -54,6 +55,9 @@
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
   $(document).ready(function(){
+    _renderItem = function( ul, item ) {
+            return $( "<li>" ).val( item.val ).appendTo( ul );
+          }
     $("table#assign-shifts").on("post-body.bs.table", function(){
       
       $("input.workshift").on("focus", function() {
@@ -61,9 +65,22 @@
           $("#sorted-table").bootstrapTable('load', data.rows);
           console.log(data.names)
           $( ".typeahead" ).autocomplete({
-            source: data.names,
             minLength: 0,
-          });
+            source: data.names,
+            focus: function( event, ui ) {
+              $( this ).val( ui.item.val );
+              return false;
+            },
+            select: function( event, ui ) {
+
+              console.log($(this))
+              console.log( data.mapping[ui.item.label] );
+              console.log( $( "#hidden"+$(this).attr("id") ) );
+              $(this).val( ui.item.label );
+              $( "#hidden"+$(this).attr("id")).val( data.mapping[ui.item.label] );
+              return false;
+            }
+          })
         });
       });
     })

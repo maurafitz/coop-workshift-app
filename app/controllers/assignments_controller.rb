@@ -67,11 +67,12 @@ class AssignmentsController < ApplicationController
   def sort_users
     workshift = Workshift.find_by_id(params[:id])
     @sorted_users_rankings = User.get_rankings_for workshift, current_unit
-    @rows, @names = [], []
+    @rows, @names, @mapping= [], [], {}
     @sorted_users_rankings.each do |user, ranking|
       @rows << {:name => "<a id='#{user.last_name}' href='#{admin_view_user_path(user.id)}'>#{user.full_name}</a>", :ranking => ranking}
       @names << user.full_name
+      @mapping[user.full_name] = user.id
     end
-    render json: {:rows => @rows, :names => @names}
+    render json: {:rows => @rows, :names => @names, :mapping => @mapping}
   end
 end

@@ -398,7 +398,7 @@
 	  "customComponent": SignoffComponent
 	}];
 	
-	var columnsNotToShow = ['user.full_name', 'user', 'formattedTime', 'shift_id'];
+	var columnsNotToShow = ['user.full_name', 'user', 'formattedTime', 'shift_id', 'signoff_hash', 'signoff_hash.date', 'signoff_hash.signed_off', 'signoff_hash.user_id', 'signoff_hash.status'];
 	
 	var columns = ['category', 'name', 'user_full_name', 'time', 'description'];
 	

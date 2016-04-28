@@ -29,6 +29,7 @@ Feature: Workshift Manager: View User Profile
     When I follow "Create Workshifts"
     Then I should be on the create workshifts page
     
+  @wip
   Scenario: A manager assigns workshifts from their profile page
     Given I am on my profile page
     When I follow "Assign Workshifts"

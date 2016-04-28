@@ -48,13 +48,30 @@ class AssignmentsController < ApplicationController
     redirect_to user_profile_path(current_user.id)
   end
   
+  def assign_workshifts
+    workshifts = params[:workshifts]
+    workshifts.each do |id, full_name|
+      ws = Workshift.find_by_id(id)
+      if full_name
+        user = User.find_by_full_name(full_name).first
+        if user
+          ws.user = user
+        end
+      else
+        ws.user = nil
+      end
+      ws.save
+    end
+  end
+  
   def sort_users
     workshift = Workshift.find_by_id(params[:id])
     @sorted_users_rankings = User.get_rankings_for workshift, current_unit
-    @rows = []
+    @rows, @names = [], []
     @sorted_users_rankings.each do |user, ranking|
       @rows << {:name => "<a href='#{admin_view_user_path(user.id)}'>#{user.full_name}</a>", :ranking => ranking}
+      @names << [user.full_name]
     end
-    render json: {:rows => @rows}
+    render json: {:rows => @rows, :names => @names}
   end
 end

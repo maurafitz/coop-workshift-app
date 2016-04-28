@@ -85,6 +85,14 @@ class User < ActiveRecord::Base
       return x
     end
     
+    def self.weekly_hours_addition
+      #Should be called once a week, adds hours for every user
+      User.all.each do |usr|
+        usr.hour_balance += usr.unit.policy.starting_hour_balance
+        usr.save()
+      end
+    end
+    
     def has_saved_availability?
       self.avails.length > 0
     end

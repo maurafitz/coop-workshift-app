@@ -42,3 +42,8 @@ Feature: Workshift Manager: Add Workshifts
     When I press "Import"
     Then I should be on the create workshifts page
     And I should see "You must select a file to upload."
+    
+  Scenario: an admin imports a file of the wrong format
+    When I upload "rando_file.rtf"
+    And I press "Import"
+    Then I should see "Unknown file type:" 

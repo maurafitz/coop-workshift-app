@@ -43,55 +43,45 @@ class SignoffsController < ApplicationController
     end
     
     def get_all_shifts
-        begin
-            json_info = {}
-            metashifts = current_unit.metashifts
-            metashifts.each do |ms|
-                workshifts = ms.workshifts
-                workshifts.each do |ws|
-                    shifts = ws.shifts.where(date: 2.days.ago..1.week.from_now, completed: false)
-                    shifts.each do |s|
-                        time = ws.day + " " + s.date.strftime("%-m/%d")
-                        if not json_info.key? time
-                            json_info[time] = {}
-                        end
-                        desc = ms.name + " " + ws.get_details
-                        if not json_info[time].key? desc
-                            json_info[time][desc] = []
-                        end
-                        u = s.user 
-                        if not u 
-                            json_info[time][desc] << {"name" => "Unassigned",
-                                                        "id" => "",
-                                                        "hours" => ws.length,
-                                                        "shift_id" => s.id  }
-                        end
-                        if not json_info[time][desc].include? u.full_name
-                            json_info[time][desc] << {"name" => u.full_name,
-                                                        "id" => u.id,
-                                                        "hours" => ws.length,
-                                                        "shift_id" => s.id  }
-                        end
+        json_info = {}
+        metashifts = current_unit.metashifts
+        metashifts.each do |ms|
+            workshifts = ms.workshifts
+            workshifts.each do |ws|
+                shifts = ws.shifts.where(date: 2.days.ago..1.week.from_now, completed: false)
+                shifts.each do |s|
+                  begin
+                    time = ws.day + " " + s.date.strftime("%-m/%d")
+                    if not json_info.key? time
+                        json_info[time] = {}
                     end
+                    desc = ms.name + " " + ws.get_details
+                    if not json_info[time].key? desc
+                        json_info[time][desc] = []
+                    end
+                    u = s.user 
+                    if not u 
+                        json_info[time][desc] << {"name" => "Unassigned",
+                                                    "id" => "",
+                                                    "hours" => ws.length,
+                                                    "shift_id" => s.id  }
+                    end
+                    if not json_info[time][desc].include? u.full_name
+                        json_info[time][desc] << {"name" => u.full_name,
+                                                    "id" => u.id,
+                                                    "hours" => ws.length,
+                                                    "shift_id" => s.id  }
+                    end
+                  rescue Exception => e
+
+                    puts "%" * 67
+                    puts e.message
+                    puts "%" * 67
+                    
+                  end
                 end
             end
-        rescue Exception => e
-            puts
-            puts
-            puts
-            puts
-            puts "%" * 67
-            puts e.message
-            puts "%" * 67
-            puts
-            puts
-            puts
-            puts
-            puts
-            puts
-            puts
-            
-        end
+            end
         pp json_info
         render json: json_info
     end

@@ -23,7 +23,7 @@
           <td class="workshift">
             <% if days[day] %>
               <% days[day].each do |workshift| %>
-                <div class="form-group">
+                <div class="form-group sm-bottom-margin">
                   <div class="input-group">
                     <div id="scrollable-dropdown-menu">
                       <input type="text" class="form-control workshift typeahead" id="<%= workshift.id %>" value="<%= workshift.user.full_name if workshift.user %>" name="workshifts[<%= workshift.id %>]">

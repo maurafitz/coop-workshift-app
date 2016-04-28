@@ -1,8 +1,32 @@
-<div class="col-lg-3">
-  <%=render "sort_users_by_shift" %>
-</div>
-<div class="col-lg-9">
-  <h2>Assign Workshifts</h2>
+    <!-- Sidebar -->
+<div id="wrapper" > 
+	<div id="slidebar-white" class="slidebar-nav top-bufferXL">
+    <%=render "sort_users_by_shift" %>
+  </div>
+<!--<div class="col-lg-3">-->
+<!--</div>-->
+<div>
+  <button href="#menu-toggle" class="slidebar-toggle" id="menu-toggle">
+          <span class="sr-only">Toggle sidebar</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+  <h2>Assign Workshifts</h2> 
   <div class="hline"></div>
   <%=render "assign_workshifts_form" %>
 </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    // add to footer
+    $("#menu-toggle").click(function(e){e.preventDefault();$("#wrapper").toggleClass("toggled");});
+  })
+</script>

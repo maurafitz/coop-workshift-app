@@ -5,6 +5,30 @@ Given(/^the following shifts exist:$/) do |shifts|
   end
 end
 
+Given(/^I choose the day "(.*)"/) do |day|
+  #select '#{day}', from: "workdays"
+  find('#weekday_btn').click
+  click_on "#{day}"
+end
+
+Given(/^I choose the "(.*)" time as "(.*)" "(.*)"/) do |start_or_end, time, am_pm|
+  if start_or_end == "start"
+    fill_in("start_time", :with => time)
+    find('#start_btn').click
+    click_on "#{am_pm}"
+  elsif start_or_end == "end"
+    fill_in("end_time", :with => time)
+    find('#end_btn').click
+    within("#end_am_pm") do
+      click_on "#{am_pm}"
+    end
+  end
+end
+
+Given(/I set the length to be "(.*)"/) do |len|
+  fill_in("shift_length", :with => len)
+end
+
 Then(/^([^"]*)'s shift for "([^"]*)" on "([^"]*)" should (not )?be completed$/) do |first_name, metashift_name, date, bool|
   user = User.find_by_first_name(first_name)
   metashift = Metashift.find_by_name(metashift_name)

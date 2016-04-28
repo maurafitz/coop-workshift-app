@@ -48,9 +48,9 @@ class WorkshiftsController < ApplicationController
   
   def create_timeslots
     shift = params[:shift]
-    puts("PARAMS: ", params[:shift])
     @metashift = Metashift.find_by_id(shift[:metashift_id])
-    Workshift.add_workshift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift, shift[:length])
+    @shift = Workshift.add_workshift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift, shift[:length])
+    flash[:success] = "Created workshift '#{@metashift.name}' on #{@shift.day}s from #{@shift.start_time} to #{@shift.end_time}"
     redirect_to workshifts_path
   end
   

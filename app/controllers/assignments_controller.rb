@@ -7,6 +7,15 @@ class AssignmentsController < ApplicationController
     end
   end
   
+  # GET /assignments/edit
+  def edit
+    @metashift_rows = {}
+    current_unit.metashifts.each do |metashift|
+      @metashift_rows[metashift] = metashift.workshifts.group_by {|ws| ws.day}
+    end
+    
+  end
+  
   # POST /assignments/create
   def create
     workshifts = params[:workshifts]
@@ -23,10 +32,20 @@ class AssignmentsController < ApplicationController
     redirect_to user_profile_path(current_user.id)
   end
   
-  def edit
-  end
-  
+  # POST /assignments/update
   def update
+    workshifts = params[:workshifts]
+    workshifts.each do |id, full_name|
+      ws = Workshift.find_by_id(id)
+      if full_name
+        user = User.find_by_full_name(full_name).first
+        if user
+          ws.user = user
+          ws.save
+        end
+      end
+    end
+    redirect_to user_profile_path(current_user.id)
   end
   
   def sort_users

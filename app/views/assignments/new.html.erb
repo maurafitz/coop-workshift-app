@@ -1,4 +1,6 @@
-    <!-- Sidebar -->
+<!-- views/assignments/new -->
+
+<!-- Sidebar -->
 <div id="wrapper" > 
 	<div id="slidebar-white" class="slidebar-nav top-bufferXL">
     <%=render "sort_users_by_shift" %>
@@ -16,7 +18,9 @@
   </div>
 </div>
   <div class="hline"></div>
-  <%=render "assign_workshifts_form" %>
+  <%=form_tag create_assignments_path, :id => "assign_workshifts_form" do %>
+    <%= render "assign_workshifts_form" %>
+  <% end %>
 </div>
 
 <script>

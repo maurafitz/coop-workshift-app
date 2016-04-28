@@ -77,6 +77,7 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
   gem 'shoulda-matchers'
+  gem 'faker'
 end
 
 group :test do

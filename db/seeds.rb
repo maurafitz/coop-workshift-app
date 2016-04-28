@@ -69,6 +69,15 @@ users = [{:first_name => 'admin', :last_name => 'Z',
           :hour_balance => 10, :fine_balance => 50},
     	  ]
     	  
+(0..100).each {
+    u = User.create!({:first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, 
+          :email => Faker::Internet.email, 
+          :permissions => User::PERMISSION[:member],
+          :password => 'member', :has_confirmed => true,
+          :hour_balance => Faker::Number.between(1, 50), :fine_balance => Faker::Number.between(20, 100)})
+}
+
+    	  
 user_instances = []
 users.each do |user|
     new_user =  User.create!(user)
@@ -210,22 +219,17 @@ def make_shifts(weeks_before, weeks_after)
     shifts = []
     date = Date.today
     Workshift.all.each do | workshift |
-        puts workshift
-        puts workshift.day
-        puts "#{workshift.day}"
         date = Chronic.parse("#{workshift.day} at #{workshift.start_time}")
         if not workshift.day or not workshift.start_time or not date
             puts "No workshift/workshift start_time for #{workshift}, defaulting shifts to Sunday at 3pm"
             date = Chronic.parse("Sunday at 3pm")
         end
-        puts date
         (-weeks_after..weeks_before).each do |i|
             shifts << {:date => date - i.weeks, :user => workshift.user, :workshift => workshift}
         end 
     end
     shifts.each do |s|
         new_shift = Shift.create!(s)
-        puts new_shift.date
     end 
 end
 

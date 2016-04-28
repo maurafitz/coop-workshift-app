@@ -40,7 +40,7 @@ class Shift < ActiveRecord::Base
     shifts = Shift.all.where(date: (Date.current - n.days)..Date.current)
     blown = []
     shifts.each do |shift|
-      if not (shift.completed or shift.signoff_date)
+      if not (shift.completed and shift.signoff_date)
         blown << shift
       end 
     end

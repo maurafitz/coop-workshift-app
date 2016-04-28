@@ -9,6 +9,7 @@ RSpec.describe ShiftsController, type: :controller do
         @shift = create(:workshift, metashift: @meta_shift, user: @user1)
         @shift.save
     end
+
     
     describe 'viewing shifts' do
         before(:each) do

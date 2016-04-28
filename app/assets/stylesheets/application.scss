@@ -562,11 +562,12 @@ input .signoff-form {
 .no-top-margin { 
 	margin-top:0px !important;
 }
-.scrollit {
-    overflow:scroll;
-    height:800px;
+
+.scroll-table {
+	display: block !important;; 
+	width:100% !important;; 
+	height: 600px !important;; 
+	overflow-y: scroll !important;
 }
-
-
 
 

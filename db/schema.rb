@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427230442) do
+ActiveRecord::Schema.define(version: 20160428024433) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(version: 20160427230442) do
     t.string   "password_digest"
     t.boolean  "sent_confirmation",   default: false
     t.boolean  "has_confirmed",       default: false
-    t.integer  "hour_balance",        default: 0
-    t.integer  "fine_balance",        default: 0
+    t.float    "hour_balance",        default: 0.0
+    t.float    "fine_balance",        default: 0.0
     t.integer  "unit_id"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 20160427230442) do
     t.string  "end_time",     default: "3pm"
     t.string  "day"
     t.integer "user_id"
-    t.decimal "length",       default: 1.0
+    t.float   "length",       default: 1.0
     t.string  "details"
   end
 

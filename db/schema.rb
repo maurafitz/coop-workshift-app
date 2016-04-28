@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428024433) do
+ActiveRecord::Schema.define(version: 20160428025442) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -42,9 +42,10 @@ ActiveRecord::Schema.define(version: 20160428024433) do
     t.integer  "fine_amount"
     t.text     "fine_days"
     t.integer  "market_sell_by"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "unit_id"
+    t.float    "starting_hour_balance", default: 5.0
   end
 
   create_table "preferences", force: :cascade do |t|

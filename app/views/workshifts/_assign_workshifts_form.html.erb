@@ -40,7 +40,6 @@
 <script>
   $(document).ready(function(){
     $("input#workshift").focus(function() {
-      console.log("here")
       $.get("/workshifts/" + $(this).attr('name') + "/sort_users", function(data) {
         $("#sorted-table").bootstrapTable('load', data.rows);
       });

@@ -21,7 +21,6 @@
 //= require moment
 //= require validator
 //= require bootstrap-datepicker
-//= require typeahead.bundle.min
 //= require fixed-header
 
 

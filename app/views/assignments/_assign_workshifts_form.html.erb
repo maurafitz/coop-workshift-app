@@ -55,18 +55,6 @@
 <script>
   $(document).ready(function(){
     $("table#assign-shifts").on("post-body.bs.table", function(){
-      // $('#scrollable-dropdown-menu .typeahead').typeahead({
-      //   hint: true,
-      //   highlight: true,
-      //   minLength: 1
-      // },
-      // {
-      //   name: 'states',
-      //   source: substringMatcher(states)
-      // });
-      $( ".typeahead" ).autocomplete({
-        source: availableTags
-      });
       
       $("input.workshift").on("focus", function() {
         $.get("/assignments/" + $(this).attr('id') + "/sort_users", function(data) {

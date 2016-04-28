@@ -203,7 +203,7 @@ class UsersController < ApplicationController
   
   def admin_view_user
     @user = User.find_by_id(params[:id])
-    @users = User.all
+    @users = User.all.where(unit: current_unit)
     if not admin_rights?
       redirect_to '/'
     end

@@ -8,7 +8,7 @@
         <div class='input-group date datetimepicker' id='datetimepicker_start' style="max-width:350px;">
             <input id="first_day" value="<%=@policy.get_first_day %>" type='text' name="policy[first_day]" class="form-control" />
             <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <span data-click = "first_day" class="glyphicon glyphicon-calendar"></span>
             </span>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class='input-group date datetimepicker' id='datetimepicker_end' style="max-width:350px;">
             <input id="last_day" value="<%=@policy.get_last_day %>" type='text' name="policy[last_day]" class="form-control" />
             <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <span data-click = "last_day" class="glyphicon glyphicon-calendar"></span>
             </span>
         </div>
     </div>
@@ -37,7 +37,7 @@
         <div class='input-group date datetimepicker' id='datetimepicker_fine1' style="max-width:350px;">
             <input id="fine_days" type='text' name="policy[fine_days]" class="form-control" value="<%=@policy.get_fine_days %>"   />
             <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <span data-click = "fine_days" class="glyphicon glyphicon-calendar"></span>
             </span>
         </div>
     </div>
@@ -92,17 +92,11 @@
             multidateSeparator: "; ",
             format: "M d, yyyy"
         });
-        // console.log(first)
-        // first_day_str = Date.parse($('#first_day').attr("value"))
-        // console.log(first_day_str);
-        // $('#first_day').val(first_day_str);
-        // $('#last_day').val(moment($('#last_day').attr("value")).format(date_format));
-        // fine_days = $('#fine_days').attr("value");
-        // console.log(fine_days);
-        // str = "";
-        // for(day in fine_days){
-        //     str += moment(day).format(date_format) + "; ";
-        // }
-        // $('#fine_days').val(str);
+        
+        $(".glyphicon-calendar").click(function(){
+            input_id = $(this).data("click")
+            console.log(input_id)
+            $("#"+input_id).focus()
+        })
     });
 </script>

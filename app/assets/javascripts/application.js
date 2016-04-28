@@ -49,3 +49,14 @@ var compareDates = function(a, b, matcher) {
     if (a.isBefore(b)) return -1;
     return 0;
 }
+
+$(document).ready(function() {
+    $(".alert").fadeTo(5000, 500).slideUp(500, function(){
+        $(".alert").alert('close');
+    });
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+});

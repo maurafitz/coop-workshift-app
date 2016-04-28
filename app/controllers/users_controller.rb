@@ -207,23 +207,6 @@ class UsersController < ApplicationController
     if not admin_rights?
       redirect_to '/'
     end
-    if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "all")
-      User.all.each do | u |
-        u.update_attribute(:preference_open, true)
-      end
-      redirect_to admin_view_user_path
-    end
-    if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "none")
-      User.all.each do | u |
-        u.update_attribute(:preference_open, false)
-      end
-      redirect_to admin_view_user_path
-    end
-    u = User.find_by_id(params[:change_preference_for_id])
-    if (u != nil)
-      u.update_attribute(:preference_open, false == u.preference_open)
-      redirect_to admin_view_user_path
-    end
     if @user.has_saved_availability? 
       @render_user = true
       @day_mapping = Preference.day_mapping
@@ -245,36 +228,6 @@ class UsersController < ApplicationController
     end
     return
   end
-
-  
-  # def preference_access
-  #   if not admin_rights?
-  #     redirect_to '/'
-  #   end
-  #   @user = User.all.first
-  #   @users = User.all
-  #   if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "all")
-  #     User.all.each do | u |
-  #       u.update_attribute(:preference_open, true)
-  #     end
-  #     redirect_to '/preference_access'
-  #   end
-  #   if (defined? params[:change_preference_for_id] and params[:change_preference_for_id] == "none")
-  #     User.all.each do | u |
-  #       u.update_attribute(:preference_open, false)
-  #     end
-  #     redirect_to '/preference_access'
-  #   end
-  #   user = User.find_by_id(params[:change_preference_for_id])
-  #   if user == nil
-  #     return
-  #   end
-  #   if (defined? user and defined? params[:change_preference_for_id])
-  #     user = User.find_by_id(params[:change_preference_for_id])
-  #     user.update_attribute(:preference_open, false == user.preference_open)
-  #   end
-  #   redirect_to '/preference_access'
-  # end
   
 private
 

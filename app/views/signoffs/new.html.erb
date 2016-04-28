@@ -1,3 +1,4 @@
+<%= javascript_include_tag "signoff_page.js" %>
 <h2> Shift sign-off  </h2>
 <div class="col-md-1 col-lg-1"></div>
 <div class=" col-md-10 col-lg-10 ">
@@ -9,7 +10,7 @@
             <div class="form-group">
               <label for="workshifter" class="col-sm-2 control-label">Workshifter</label>
               <div class="col-sm-10">
-                <select id="workshifter" name="signoff[workshifter_id]" class="selectpicker dynamic" data-live-search="true">
+                <select id="workshifter" name="signoff[workshifter_id]" class="selectpicker-signoff dynamic" data-live-search="true">
                   <% @all_users.each do |user| %>
                     <option value="<%=user.id%>">
                       <%=user.full_name %>
@@ -27,13 +28,13 @@
               <div class="col-sm-10">
                 <% if current_user %>
                   <input type = "hidden" value="true" name="signoff[verifier_signed_in]" >
-                  <select id="verifier" disabled = "disabled" name="signoff[verifier_id]" class="selectpicker dynamic" data-live-search="true">
+                  <select id="verifier" disabled = "disabled" name="signoff[verifier_id]" class="selectpicker-signoff dynamic" data-live-search="true">
                     <option value="<%=current_user.id%>">
                       <%=current_user.full_name %>
                     </option>
                   <% else %>
                   <input type = "hidden" value="false" name="signoff[verifier_signed_in]" >
-                  <select id="verifier" name="signoff[verifier_id]" class="selectpicker dynamic" data-live-search="true">
+                  <select id="verifier" name="signoff[verifier_id]" class="selectpicker-signoff dynamic" data-live-search="true">
                     <% @all_users.each do |user| %>
                       <option value="<%=user.id%>">
                         <%=user.full_name %>
@@ -97,21 +98,21 @@
                 <div class="form-group">
                   <label for="dates" class="col-sm-2 control-label">All Shifts</label>
                   <div class="col-sm-10">
-                    <select id="dates" name="signoff[all][date]" class="selectpicker dynamic" data-live-search="true">
+                    <select id="dates" name="signoff[all][date]" class="selectpicker-signoff dynamic" data-live-search="true">
                     </select>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label"></label>
                   <div class="col-sm-10">
-                    <select id="shifts" name="signoff[all][shift_id]" class="selectpicker dynamic" data-live-search="true">
+                    <select id="shifts" name="signoff[all][shift_id]" class="selectpicker-signoff dynamic" data-live-search="true">
                     </select>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Person</label>
                   <div class="col-sm-10">
-                    <select id="person" name="signoff[all][shift_id]" class="selectpicker dynamic" data-live-search="true">
+                    <select id="person" name="signoff[all][shift_id]" class="selectpicker-signoff dynamic" data-live-search="true">
                     </select>
                   </div>
                 </div>
@@ -156,81 +157,3 @@
   <%=render "signoff_history" %>
 </div>
 <div class="col-md-1 col-lg-1"></div>
-
-
-<script>
-$(document).ready(function() {
-  $("#workshifter").change(function(){
-    $.getJSON( "/signoffs/" + $(this).val() + "/get_shifts", function( data ) {
-      html = ''
-      $.each(data, function(key,value){
-        html += '<option data-hour="' + value["hours"] +  '" value="' + key + '">' + value["description"] + '</option>';
-      }) 
-      $("#pers_shifts").find('option').remove().end().append(html).selectpicker("refresh")
-      $("#pers_shifts").trigger("change");
-    });
-  });
-  
-  $("#pers_shifts").change(function(){
-    $("#pers_shifts_hr").val( $(this).find(":selected").data("hour") );
-  });
-  
-  $("#workshifter").trigger("change");
-  
-  $("#dates").change(function(){
-    $.getJSON( "/signoffs/get_all_shifts", function( data ) {
-      html = '';
-      console.log(  $("#dates").val() );
-      data = data[$("#dates").val()]
-      $.each(data, function(key,value){
-        html += '<option value="' + key + '">' + key + '</option>';
-      }) 
-      $("#shifts").find('option').remove().end().append(html).selectpicker("refresh");
-      $("#shifts").trigger("change");
-    });
-  });
-  
-  $("#shifts").change(function(){
-    $.getJSON( "/signoffs/get_all_shifts", function( data ) {
-      html = '';
-      data = data[$("#dates").val()][$("#shifts").val()];
-      $.each(data, function(key, dict){
-        hours = dict["hours"]
-        html += '<option value="' + dict["shift_id"] + '">' + dict["name"] + '</option>';
-      }) 
-      $("#person").find('option').remove().end().append(html).selectpicker("refresh");
-      $("#all_shifts_hr").val( hours );
-    });
-  });
-  
-  $.getJSON( "/signoffs/get_all_shifts", function( data ) {
-      html = '';
-      $.each(data, function(key,value){
-        html += '<option value="' + key + '">' + key + '</option>';
-      }) 
-      $("#dates").append(html).selectpicker("refresh");
-      $("#dates").trigger("change");
-  });
-  
-  $("a").click(function(){
-    $("#form_type").val( $(this).attr('id') );
-  })
-
-  $("#email_form").validator();
-  
-  $(".email_link").click(function(){
-    html ="<ul>"
-    shift_id = $(this).data("id");
-    $("#" + shift_id).find("td").each(function(ind) {
-      if(ind < 3){
-        var info = $(this).text();
-        html += "<li>" + info + "</li>";
-      }
-    });
-    html += "</ul>";
-    
-    $("#shift_info_email").append(html);
-  });
-  
-});
-</script>

@@ -61,7 +61,7 @@ DescriptionComponent = React.createClass({
         <OverlayTrigger trigger="focus" placement="left" 
             overlay={<Popover title={this.props.rowData.shift} 
             id={this.props.rowData.shift_id + "he"}>{this.props.rowData.description}</Popover>}>
-          <Button color="blue" type="button">Description</Button>
+          <Button color="blue" type="button" bsStyle='primary'>Description</Button>
         </OverlayTrigger>
       </div>
     );}
@@ -71,22 +71,39 @@ var SignoffComponent = React.createClass({
   displayName: 'SignoffComponent',
   
   getInitialState: function(){
-    console.log(this.props.rowData)
+    // console.log(this.props.rowData)
     var dat = this.props.rowData.signoff_hash
     var overdue = false
-    var user = ""
-    if (dat.signed_off){
-      user = dat.user
-    }
-    return {showPopup: dat.signed_off, user: user}
+    // var user = ""
+    // if (dat.signed_off){
+    //   user = dat.user
+    // }
+    return {showPopup: dat.signed_off}//user: user}
+  },
+  
+  getPopoverContents: function(){
+    //Assumes that this shift was signed off (meaning that theres an associated user_id and date)
+    var user_id = this.props.rowData.signoff_hash.user_id;
+    var user_full_name = getUserWithID(user_id).full_name;
+    var profile_url = '/users/' + user_id;
+    var date = this.props.rowData.signoff_hash.date;
+    return ( 
+        <div>
+          <div class='row'>
+            By: <Button type='button' bsStyle='success' href={profile_url}>{user_full_name}</Button>
+          </div>
+          At: <b> {moment(date).format('MMMM Do, h:mm:ss a')} </b>
+          
+        </div>
+      )
   },
   
   signedOffButton: function(){
     return (
       <div>
         <OverlayTrigger trigger="focus" placement="left" 
-            overlay={<Popover title={'Signed off?'} 
-            id={this.props.rowData.shift_id + "sign-comp"}>{this.state.showPopup}</Popover>}>
+            overlay={<Popover title={'Signed Off'} 
+            id={this.props.rowData.shift_id + "sign-comp"}>{this.getPopoverContents()}</Popover>}>
           {this.getStatusButton()}
         </OverlayTrigger>
       </div>
@@ -256,7 +273,8 @@ var columnMeta = [
 ];
 
 var columnsNotToShow = [
-  'user.full_name', 'user', 'formattedTime', 'shift_id'
+  'user.full_name', 'user', 'formattedTime', 'shift_id', 'signoff_hash', 'signoff_hash.date',
+  'signoff_hash.signed_off', 'signoff_hash.user_id', 'signoff_hash.status'
   ];
 
 var columns = [

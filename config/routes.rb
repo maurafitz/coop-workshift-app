@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   post '/workshifts/create_timeslots' => 'workshifts#create_timeslots', as: 'create_timeslots'
   get '/workshifts/assign' => 'workshifts#assign', as: 'assign_workshifts'
   put '/workshifts/:id/change_users' => 'workshifts#change_users', as: 'change_workshift_users'
+  get '/workshifts/:id/sort_users' => 'workshifts#sort_users', as: 'sort_users'
   resources :workshifts
   put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_shift_user'
   

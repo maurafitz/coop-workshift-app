@@ -25,7 +25,7 @@
             <% if days[day] %>
               <% days[day].each do |workshift| %>
                 <div class="input-group">
-                  <input id="workshift" value="" type="text" name="<%= metashift.id %>[<%= workshift.id%>]" style="max-width:350px;"class="form-control" aria-label="Amount (to the nearest dollar)">
+                  <input id="workshift" value="" type="text" name="<%= workshift.id%>" style="max-width:350px;"class="form-control" aria-label="Member assigned to workshift">
                 </div>
               <% end %>
             <% end %>
@@ -39,8 +39,11 @@
 
 <script>
   $(document).ready(function(){
-    $("#workshift").change(function() {
-      $.getJSON("/")
+    $("input#workshift").focus(function() {
+      console.log("here")
+      $.get("/workshifts/" + $(this).attr('name') + "/sort_users", function(data) {
+        $("#sorted-table").bootstrapTable('load', data.rows);
+      });
     });
   
   

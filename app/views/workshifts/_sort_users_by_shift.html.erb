@@ -1,21 +1,17 @@
 <div id="toolbar">
 </div>
-<table  class="table table-striped table-hover" id="signed-off-shifts"
-                      data-toolbar="#toolbar"
-                      data-show-columns="true" data-show-export="true"
-                      data-toggle="table" data-search="true"
-                      data-show-pagination-switch="true" data-pagination="true"
-                      data-page-list="[10, 25, 50, 100, ALL]">
+<table  class="table table-striped table-hover" id="sorted-table"
+                      data-toggle="table" data-search="true">
   <thead>
     <tr>
-      <th data-sortable="true">Name</th>
-      <th data-sortable="true">Ranking</th>
+      <th data-field="name" data-sortable="true">Name</th>
+      <th data-field="ranking" data-sortable="true">Ranking</th>
     </tr>
   </thead>
   <tbody>
     <% @sorted_users_rankings.each do |user, ranking| %>
       <tr>
-        <td><li><%= link_to "#{user.full_name}", admin_view_user_path(user.id) %></li></td>
+        <td><%= link_to "#{user.full_name}", admin_view_user_path(user.id) %></td>
         <td><%= ranking %></td>
       </tr>
     <% end %>

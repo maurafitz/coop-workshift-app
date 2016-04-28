@@ -19,6 +19,20 @@ class WorkshiftsController < ApplicationController
     end
   end
   
+  def sort_users
+    workshift = Workshift.find_by_id(params[:id])
+    @sorted_users_rankings = User.get_rankings_for workshift, current_unit
+    @rows = []
+    @sorted_users_rankings.each do |user, ranking|
+      @rows << {:name => user.full_name, :ranking => ranking}
+    end
+    # {user: ranking}
+    # -> [{name: user, ranking: rank}]
+    
+    # render(:partial => 'sort_users_by_shift', :object => @sorted_users_rankings)
+    render json: {:rows => @rows}
+  end
+  
   def show
   end
     

@@ -27,7 +27,7 @@
                   <form class="form-inline">
                     <div class="form-group">
                       <div class="input-group">
-                        <input type="text" class="form-control workshift" id="<%= workshift.id %>" placeholder="">
+                        <input type="text" class="form-control workshift" id="<%= workshift.id %>" placeholder="" name="workshifts[<%= workshift.id %>]">
                         <div class="input-group-addon">
                           <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
                             Start Time: <%= workshift.start_time %>
@@ -58,7 +58,7 @@
   $(document).ready(function(){
     $("table#assign-shifts").on("post-body.bs.table", function(){
       $("input.workshift").on("focus", function() {
-        $.get("/workshifts/" + $(this).attr('id') + "/sort_users", function(data) {
+        $.get("/assignments/" + $(this).attr('id') + "/sort_users", function(data) {
           $("#sorted-table").bootstrapTable('load', data.rows);
         });
       });

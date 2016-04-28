@@ -1,6 +1,6 @@
 class SignoffsController < ApplicationController
     skip_before_filter :set_current_user
-    require "pp"
+
     def new
         if current_unit.nil?
             flash[:danger] = "You have not set your unit yet. Please do so now"
@@ -74,7 +74,11 @@ class SignoffsController < ApplicationController
     def submit
         signoff = params[:signoff]
         verifier_signed_in = signoff[:verifier_signed_in] == "true"
-        verif_user = User.find_by_id(signoff[:verifier_id])
+        if verifier_signed_in == true
+            verif_user = current_user
+        else
+            verif_user = User.find_by_id(signoff[:verifier_id])
+        end
         if not verifier_signed_in and not verif_user.authenticate(signoff[:verifier_pw])
 
             puts signoff[:verifier_pw]

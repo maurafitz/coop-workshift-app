@@ -1,6 +1,6 @@
 class SignoffsController < ApplicationController
     skip_before_filter :set_current_user
-
+    require "pp"
     def new
         if current_unit.nil?
             flash[:danger] = "You have not set your unit yet. Please do so now"
@@ -50,6 +50,7 @@ class SignoffsController < ApplicationController
             workshifts.each do |ws|
                 shifts = ws.shifts.where(date: 2.days.ago..1.week.from_now, completed: false)
                 shifts.each do |s|
+                  begin
                     time = ws.day + " " + s.date.strftime("%-m/%d")
                     if not json_info.key? time
                         json_info[time] = {}
@@ -58,16 +59,30 @@ class SignoffsController < ApplicationController
                     if not json_info[time].key? desc
                         json_info[time][desc] = []
                     end
-                    u = s.user
+                    u = s.user 
+                    if not u 
+                        json_info[time][desc] << {"name" => "Unassigned",
+                                                    "id" => "",
+                                                    "hours" => ws.length,
+                                                    "shift_id" => s.id  }
+                    end
                     if not json_info[time][desc].include? u.full_name
                         json_info[time][desc] << {"name" => u.full_name,
                                                     "id" => u.id,
                                                     "hours" => ws.length,
                                                     "shift_id" => s.id  }
                     end
+                  rescue Exception => e
+
+                    puts "%" * 67
+                    puts e.message
+                    puts "%" * 67
+                    
+                  end
                 end
             end
-        end
+            end
+        pp json_info
         render json: json_info
     end
     

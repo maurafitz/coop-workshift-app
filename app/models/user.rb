@@ -69,17 +69,6 @@ class User < ActiveRecord::Base
       end
     end
     
-    def is_available? day_int, start_int, duration=1
-      avail = true
-      (start_int...start_int+duration).each do |hour_int|
-        a = self.avails.where(day: day_int, hour: hour_int).first
-        if not a or a.status == "Unavaiable" or a.status == ""
-          return false
-        end
-      end
-      return avail
-    end
-    
     def self.random_pw
       x = ('0'..'z').to_a.shuffle.first(8).join
       return x
@@ -118,6 +107,72 @@ class User < ActiveRecord::Base
         return "Workshift-Manager"
       end
     end
+    
+    def self.get_rankings_for ws, unit
+      available_users = []
+      all.each do |user|
+        available_users << user if (user.unit == unit) and (user.is_available? ws)
+      end
+      
+      preferences = Preference.joins(metashift: :workshifts).where(workshifts: {id: ws.id})
+                               
+      rankings = {}
+      available_users.each do |user|
+        rankings[user] = preferences.where(user: user).first.get_rating
+      end
+      rankings.sort_by {|_, rank| rank}.reverse.to_h
+    end
+    
+    def is_available?(workshift)
+      start_time = convert_to_military workshift.start_time
+      end_time = convert_to_military workshift.end_time
+      day = Preference.day_mapping.key(workshift.day)
+      
+      workshift_avails = self.avails.where(day: day, hour: start_time..end_time).order(:hour)
+      length = workshift.length
+      
+      # check if user is available for `length` consecutive hours
+      avail = false
+      count = 0
+      workshift_avails.each do |a|
+        if a.status != "Unavailable" and a.status != ""
+          if count == length - 1
+            return true
+          elsif avail
+            count += 1
+          else
+            avail = true
+            count += 1
+          end
+        else
+          avail = false
+          count = 0
+        end
+      end
+      return false
+    end
+    
+    def convert_to_military time
+      matcher = /^(\d?\d)(a|p)m$/
+      time = matcher =~ time
+      hour, ampm = $1.to_i, $2
+      if ampm == 'p'
+        hour + 12
+      else
+        hour
+      end
+    end
+    
+    # def is_available? day_int, start_int, duration=1
+    #   avail = true
+    #   (start_int...start_int+duration).each do |hour_int|
+    #     a = self.avails.where(day: day_int, hour: hour_int).first
+    #     if not a or a.status == "Unavaiable" or a.status == ""
+    #       return false
+    #     end
+    #   end
+    #   return avail
+    # end
     
     private
     def check_attrs_exist

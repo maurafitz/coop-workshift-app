@@ -1,6 +1,6 @@
 <div id="toolbar">
 </div>
-<table  class="table table-striped table-hover" id="signed-off-shifts"
+<table  class="table table-striped table-hover" id="assign-shifts"
                       data-toolbar="#toolbar"
                       data-show-columns="true" data-show-export="true"
                       data-toggle="table" data-search="true"
@@ -23,15 +23,21 @@
           <td>
             <% if days[day] %>
               <% days[day].each do |workshift| %>
-                <div class="input-group">
-                  <input id="workshift" value="" type="text" name="<%= workshift.id%>" style="max-width:350px;"class="form-control" aria-label="Member assigned to workshift">
-                </div>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="
-                  Start Time: <%= workshift.start_time %>
-                  End Time: <%= workshift.end_time %> 
-                  Hours: <%= workshift.length %> 
-                  Details: <%= workshift.details %>
-                ">i</button>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="text" class="form-control workshift" id="<%= workshift.id %>" placeholder="">
+                      <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
+                          Start Time: <%= workshift.start_time %>
+                          End Time: <%= workshift.end_time %> 
+                          Hours: <%= workshift.length %> 
+                          Details: <%= workshift.details %>
+                        "></span>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               <% end %>
             <% end %>
           </td>
@@ -40,32 +46,25 @@
     <% end %>
   </tbody>
 </table>
-<form class="form-inline">
-  <div class="form-group">
-    <label class="sr-only" for="exampleInputAmount">Amount</label>
-    <div class="input-group">
-      <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
-      <div class="input-group-addon">i</div>
-    </div>
-  </div>
-</form>
+
+
 
 
 <script>
   $(document).ready(function(){
-    $("input#workshift").focus(function() {
-      $.get("/workshifts/" + $(this).attr('name') + "/sort_users", function(data) {
-        $("#sorted-table").bootstrapTable('load', data.rows);
+    $("table#assign-shifts").on("post-body.bs.table", function(){
+      $("input.workshift").on("focus", function() {
+        $.get("/workshifts/" + $(this).attr('id') + "/sort_users", function(data) {
+          $("#sorted-table").bootstrapTable('load', data.rows);
+        });
       });
-    });
+    })
+    
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
-  
-  
-  
-  
-  
-  
+    $("#assign-shifts").on('reset-view.bs.table', function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
   });
 </script>

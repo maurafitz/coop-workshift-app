@@ -7,17 +7,16 @@
                         data-toggle="table" data-search="true"
                         data-page-list="[10, 25, 50, 100, ALL]">
     <thead>
-
-    <tr>
-      <th data-sortable="true">Category</th>
-      <th data-sortable="true">Name</th>
-      <% Workshift.days.each do |day| %>
-        <th><%= day %></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @metashift_rows.each do |metashift, days| %>
+      <tr>
+        <th data-sortable="true">Category</th>
+        <th data-sortable="true">Name</th>
+        <% Workshift.days.each do |day| %>
+          <th><%= day %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @metashift_rows.each do |metashift, days| %>
         <tr>
           <td><%= metashift.category %></td>
           <td><%= metashift.name %></td>
@@ -25,19 +24,19 @@
             <td class="workshift">
               <% if days[day] %>
                 <% days[day].each do |workshift| %>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <input type="text" class="form-control workshift" id="<%= workshift.id %>" placeholder="" name="workshifts[<%= workshift.id %>]">
-                        <div class="input-group-addon workshift">
-                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
-                            Start Time: <%= workshift.start_time %>
-                            End Time: <%= workshift.end_time %> 
-                            Hours: <%= workshift.length %> 
-                            Details: <%= workshift.details %>
-                          "></span>
-                        </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="text" class="form-control workshift" id="<%= workshift.id %>" placeholder="" name="workshifts[<%= workshift.id %>]">
+                      <div class="input-group-addon workshift">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
+                          Start Time: <%= workshift.start_time %>
+                          End Time: <%= workshift.end_time %> 
+                          Hours: <%= workshift.length %> 
+                          Details: <%= workshift.details %>
+                        "></span>
                       </div>
                     </div>
+                  </div>
                 <% end %>
               <% end %>
             </td>
@@ -46,9 +45,9 @@
       <% end %>
     </tbody>
   </table>
-<div class="pull-right">
-  <button type="submit" class="btn btn-theme">Assign Shifts</button>
-</div>
+  <div class="pull-right">
+    <button type="submit" class="btn btn-theme">Assign Shifts</button>
+  </div>
 <% end %>
 
 

@@ -36,10 +36,30 @@ var dateSorter = function (a, b) {
     var matcher = "dddd M/D";
     return compareDates(a, b, matcher);
 };
+var opt_dateSorter = function (a, b) {
+    var matcher = "dddd M/D";
+    return compareDates( $(a).text(), $(b).text(), matcher);
+};
 
 var timeSorter = function(a, b) {
     var matcher = "h:mma dddd M/D";
     return compareDates(a, b, matcher);
+};
+
+var shiftSorter = function(a, b) {
+    var matcher = "M/D";
+    a_split = a.split(" ");
+    b_split = b.split(" ");
+    date_comp = compareDates(a_split[0], b_split[0], matcher);
+    if (date != 0){
+        return date_comp
+    } else {
+        if(a_split[1] < b_split[1]) {
+            return -1;
+        }else{
+            return 1;
+        }
+    }
 };
 
 var compareDates = function(a, b, matcher) {

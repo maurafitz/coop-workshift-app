@@ -20,14 +20,14 @@
         <td><%= metashift.category %></td>
         <td><%= metashift.name %></td>
         <% Workshift.days.each do |day| %>
-          <td>
+          <td class="workshift">
             <% if days[day] %>
               <% days[day].each do |workshift| %>
                 <form class="form-inline">
                   <div class="form-group">
                     <div class="input-group">
                       <input type="text" class="form-control workshift" id="<%= workshift.id %>" placeholder="">
-                      <div class="input-group-addon">
+                      <div class="input-group-addon workshift">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
                           Start Time: <%= workshift.start_time %>
                           End Time: <%= workshift.end_time %> 

@@ -33,7 +33,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Hour Value</th>
-      <th>Times</th>
+      <th>Times (Length)</th>
       <th>Add Timeslots</th>
     </tr>
     <% @metashifts_uploaded.each do |metashift, shift_array| %>
@@ -53,7 +53,7 @@
         <td>
           <% if shift_array %>
             <% shift_array.each do |shift| %>
-                <%= simple_format(shift.get_time_formatted + "\n") %>
+                <%= simple_format(shift.get_time_formatted + " (" + shift.length.to_s + ")" + "\n") %>
             <% end %>
           <% end %>
         </td>

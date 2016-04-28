@@ -21,6 +21,7 @@ class Metashift < ActiveRecord::Base
     
     def self.create_workshift_instances(metashift, csv_times) 
       metashift_times = []
+      length = nil
       all_times = csv_times.split(';')
       all_times.each do |time_slot|
         time_slot = time_slot.squish
@@ -28,8 +29,12 @@ class Metashift < ActiveRecord::Base
         day = time_details[0].squish
         start_and_end = time_details[1].split('to')
         start_time = start_and_end[0].squish
-        end_time = start_and_end[1].squish 
-        workshift = Workshift.add_workshift(day, start_time, end_time, metashift)
+        end_time = start_and_end[1].split('(')[0].squish
+        length_regex = start_and_end[1].match(/\((\d*\.?\d*)\)/)
+        if length_regex
+          length = length_regex.captures[0]
+        end
+        workshift = Workshift.add_workshift(day, start_time, end_time, metashift, length)
         metashift_times << workshift
       end
       return metashift_times

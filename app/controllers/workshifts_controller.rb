@@ -21,8 +21,9 @@ class WorkshiftsController < ApplicationController
   
   def create_timeslots
     shift = params[:shift]
+    puts("PARAMS: ", params[:shift])
     @metashift = Metashift.find_by_id(shift[:metashift_id])
-    Workshift.add_workshift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift)
+    Workshift.add_workshift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift, shift[:length])
     redirect_to workshifts_path
   end
   
@@ -55,7 +56,7 @@ class WorkshiftsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def workshift_params
-      params.require(:workshift).permit(:start_time, :end_time, :day, :metashift_id)
+      params.require(:workshift).permit(:start_time, :end_time, :day, :metashift_id, :length, :user_id)
     end
     
     #Keys: shift, user, start_time, end_time, description

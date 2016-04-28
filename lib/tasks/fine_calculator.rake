@@ -10,8 +10,8 @@ namespace :fine_calculator do
   task :start => :environment do
     pp "Scheduler woke up at #{Time.now}, iterating over recent shifts"
     
-    pp getBlownShifts
-    blown = getBlownShifts
+    blown = Shift.get_blown_shifts_last_n_days(7)
+    pp blown
     blown.each do |shift|
       pp shift.signoff_date
     end 
@@ -21,15 +21,5 @@ namespace :fine_calculator do
       Shift.all.where(date: (Date.current - n.days)..Date.current)
   end 
   
-  def getBlownShifts
-    shifts = getShiftsForLastNDays(7)
-    blown = []
-    shifts.each do |shift|
-      if not (shift.completed or shift.signoff_date)
-        blown << shift
-      end 
-    end
-    blown
-  end 
   
 end

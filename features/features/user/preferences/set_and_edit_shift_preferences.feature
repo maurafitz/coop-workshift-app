@@ -17,7 +17,6 @@ Feature: Set and Edit User Preferences for Workshifts
     
     And I am on the set preferences page
 
-  @wip
   Scenario: A user views workshifts organized by category
     Then I should see "Rank the Workshifts"
     And I should see the following: "Kitchen", "Garbage"
@@ -28,8 +27,7 @@ Feature: Set and Edit User Preferences for Workshifts
     And I should see the following: "Shift", "Description"
     When I click "Kitchen"
     Then I should not see the following: "Kitchen Manager", "Dishes", "Head Cook"
-    
-  @wip
+
   Scenario: A user views workshift descriptions
     When I click "Kitchen"
     Then I should see "Put away any clean dishes."
@@ -52,8 +50,7 @@ Feature: Set and Edit User Preferences for Workshifts
     Then I should be on my profile page
     And I should see "Your preferences have been saved"
     And my shift preferences should be saved
-    
-  @wip
+
   Scenario: A user sets invalid workshift preferences
     Given I have not saved any preferences
     When I fill in the following rankings:
@@ -62,8 +59,8 @@ Feature: Set and Edit User Preferences for Workshifts
     Then the "Save" button should be disabled
     And I click "Save"
     Then I should be on the set preferences page
-    
-  @wip
+
+
   Scenario: A user edits their workshift preferences
     Given I have saved the following shift preferences:
     | Kitchen         | 4       |

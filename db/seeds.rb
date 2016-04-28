@@ -71,9 +71,9 @@ faker_users = []
           :email => Faker::Internet.email, 
           :permissions => User::PERMISSION[:member],
           :password => 'member', :has_confirmed => true,
-          :hour_balance => Faker::Number.between(1, 50), :fine_balance => Faker::Number.between(20, 100)})
+          :hour_balance => Faker::Number.between(1, 50), :fine_balance => Faker::Number.between(20, 100),
+          :sent_confirmation => true, :has_confirmed => true, :unit => cloyne })
 }
-
     	  
 user_instances = []
 users.each do |user|
@@ -130,7 +130,7 @@ categories = ['Board', 'Central', 'Common Space', 'Crew', 'Food', 'Kitchen', 'Ma
 faker_metashifts = []
 (0..25).each {
     faker_metashifts << Metashift.create!({:category => categories[rand(11)], :name => Faker::Lorem.word, :multiplier => Faker::Number.between(1, 5),
-                        :description => Faker::Lorem.paragraph(rand(20))})
+                        :description => Faker::Lorem.paragraph(rand(20)), :unit => cloyne})
 }
 
 ## PREFERENCES ##
@@ -141,11 +141,11 @@ faker_users.each do |user|
 end
 
 ## AVAILABILITIES ##
-statuses = ["Available", "Unavailable", "Not Preferred", "Unsure"]
+statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Not Preferred", "Not Peferred", "Unsure"]
 faker_users.each do |user|
     (0..6).each do |day|
         (8..23).each do |hour|
-            Avail.create!({:day => day, :hour => hour, :user => user, :status => statuses[rand(4)]})
+            Avail.create!({:day => day, :hour => hour, :user => user, :status => statuses[rand(8)]})
         end
     end
 end

@@ -9,7 +9,7 @@ class WorkshiftsController < ApplicationController
   def assign
     workshift = Workshift.all.first
     if workshift 
-      @sorted_users_rankings = User.get_rankings_for workshift, current_unit
+      # @sorted_users_rankings = User.get_rankings_for workshift, current_unit
       @metashift_rows = {}
       current_unit.metashifts.each do |metashift|
         @metashift_rows[metashift] = metashift.workshifts.group_by {|ws| ws.day}

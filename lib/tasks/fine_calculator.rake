@@ -9,11 +9,27 @@ namespace :fine_calculator do
                 rate*hrs down and your hrs are reset to 0"
   task :start => :environment do
     pp "Scheduler woke up at #{Time.now}, iterating over recent shifts"
-
-    pp getShiftsForLastNDays(7)
+    
+    pp getBlownShifts
+    blown = getBlownShifts
+    blown.each do |shift|
+      pp shift.signoff_date
+    end 
   end
   
   def getShiftsForLastNDays(n)
       Shift.all.where(date: (Date.current - n.days)..Date.current)
   end 
+  
+  def getBlownShifts
+    shifts = getShiftsForLastNDays(7)
+    blown = []
+    shifts.each do |shift|
+      if not (shift.completed or shift.signoff_date)
+        blown << shift
+      end 
+    end
+    blown
+  end 
+  
 end

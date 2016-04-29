@@ -98,19 +98,4 @@ $(document).ready(function() {
   
   $('.selectpicker-signoff').selectpicker();
   
-  $.fn.sortOptions = function(sort_fn){
-    $(this).each(function(){
-        var op = $(this).children("option");
-        console.log("Original")
-        console.log(op)
-        console.log()
-        op.sort()
-        return $(this).empty().append(op);
-        console.log("sorted")
-        console.log(op)
-    });
-  }
-  // $(".shift_sort").sortOptions(shiftSorter);
-
-  // $(".date_sort").sortOptions(dateSorter);
 });

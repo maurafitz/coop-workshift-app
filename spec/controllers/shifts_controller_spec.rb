@@ -58,7 +58,7 @@ RSpec.describe ShiftsController, type: :controller do
         end 
     end
     
-    describe 'updating a shift' do
+    describe 'updating a shift successfully' do
         before(:each) do
             @user2 = User.create!(:first_name => 'my user2', :last_name => 'last2',
                 :email => 'auser2@gmail.com', :password => '3ljkd;a3', :permissions =>
@@ -90,6 +90,19 @@ RSpec.describe ShiftsController, type: :controller do
         it 'should not update other shifts under the same workshift' do
             shifts = @workshift2.shifts.where('id != ?', @shift1.id)
             (shifts[0].user.id).should eq(@user2.id)
-        end 
-    end 
+        end
+    end
+    
+    describe 'changing users with invalid user id' do
+        it 'should display an error' do
+            @workshift2 = Workshift.create!(:start_time => '10:00am',
+                                    :end_time => '11:00am', :day => 'Monday',
+                                    :metashift_id => '', :user => @a_user, :id => 22)
+            @shift1 = Shift.create!(:workshift=> @workshift2, :date => DateTime.yesterday, 
+                                    :user => @a_user)
+            put :change_users, {:id => @shift1.id, :user_ids => [389], 
+                                  :shift_ids => [@shift1.id]}
+            response.body.should eq("Error saving shifts")
+        end
+    end
 end

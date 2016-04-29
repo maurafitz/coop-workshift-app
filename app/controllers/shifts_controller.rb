@@ -5,8 +5,6 @@ class ShiftsController < ApplicationController
   #before_action :set_shift, only: [:show, :edit, :update, :destroy]
   skip_before_filter :set_current_user
 
-  # GET /shifts
-  # GET /shifts.json
   def index
     @shifts = Shift.all
     @serializedShifts = json_shifts(@shifts)
@@ -28,27 +26,13 @@ class ShiftsController < ApplicationController
     render :text => "Successfully saved shifts", :status => 200, :content_type => 'text/html'
   end
 
-  # GET /shifts/1
-  # GET /shifts/1.json
-  def show
-  end
+  # def show
+  # end
+  # def new
+  # end
+  # def edit
+  # end
 
-  # GET /shifts/new
-  def new
-  end
-
-  # GET /shifts/1/edit
-  def edit
-  end
-
-
-  # PATCH/PUT /shifts/1
-  # PATCH/PUT /shifts/1.json
-  def update
-  end
-
-  # DELETE /shifts/1
-  # DELETE /shifts/1.json
   def destroy
     @shift = Shift.find_by_id(params[:id])
     @shift.destroy
@@ -59,12 +43,6 @@ class ShiftsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    #def set_shift
-    #  @shift = Shift.find(params[:id])
-    #end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
     def shift_params
       params.require(:shift).permit(:start_time, :end_time, :metashift_id)
     end

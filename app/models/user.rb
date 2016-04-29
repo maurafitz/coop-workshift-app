@@ -164,17 +164,6 @@ class User < ActiveRecord::Base
       end
     end
     
-    # def is_available? day_int, start_int, duration=1
-    #   avail = true
-    #   (start_int...start_int+duration).each do |hour_int|
-    #     a = self.avails.where(day: day_int, hour: hour_int).first
-    #     if not a or a.status == "Unavaiable" or a.status == ""
-    #       return false
-    #     end
-    #   end
-    #   return avail
-    # end
-    
     private
     def check_attrs_exist
       if (self.compensated_hours.blank?)

@@ -74,6 +74,27 @@ class User < ActiveRecord::Base
       return x
     end
     
+    def self.weekly_hours_addition
+      #Should be called once a week, adds hours for every user
+      User.all.each do |usr|
+        usr.hour_balance += usr.unit.policy.starting_hour_balance
+        usr.save()
+      end
+    end
+    
+    def self.add_hours_from_blown(user_blown_hours)
+      #user_blown_hours maps user_id => blown_hours * 2
+      user_blown_hours.each do |user_id, hours_to_add|
+        user = User.find(user_id)
+        if user
+          user.hour_balance += hours_to_add
+          user.save()
+        else 
+          puts "\nCannot find user with id #{user_id} while adding blown hours"
+        end 
+      end 
+    end
+    
     def has_saved_availability?
       self.avails.length > 0
     end

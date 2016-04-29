@@ -30,4 +30,10 @@ class Policy < ActiveRecord::Base
             nil
         end
     end
+    
+    # def is_fine_day?
+    #     get_fine_days.each do |day|
+    #         check_day
+    #     end 
+    # end 
 end

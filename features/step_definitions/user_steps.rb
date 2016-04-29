@@ -130,3 +130,9 @@ end
 When(/^I refresh the page$/) do
   visit current_path
 end
+
+When(/^I select member from dropdown$/) do
+  find(:css, "[id='dropdownMenu1']").click # assuming you only have one a.dropdown-toggle
+  click_on 'Member'
+  # select 'Member', from: "dropdownMenu1"
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428025442) do
+ActiveRecord::Schema.define(version: 20160429214656) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20160428025442) do
   create_table "policies", force: :cascade do |t|
     t.datetime "first_day"
     t.datetime "last_day"
-    t.integer  "fine_amount"
+    t.integer  "fine_amount",           default: 0
     t.text     "fine_days"
     t.integer  "market_sell_by"
     t.datetime "created_at",                          null: false
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20160428025442) do
     t.integer  "permissions"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "password"
     t.string   "password_digest"
     t.boolean  "sent_confirmation",   default: false
     t.boolean  "has_confirmed",       default: false

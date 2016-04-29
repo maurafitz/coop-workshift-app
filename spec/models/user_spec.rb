@@ -108,13 +108,28 @@ RSpec.describe User, type: :model do
     end
   end
   
-  describe ""
+  describe "checking user avalibility" do
     before(:each) do
-      @member1 = FactoryGirl.build(:user, :first_name => 'Ryan',
-      :last_name => 'Riddle', :permissions => User::PERMISSION[:member])
-      @workshift = FactoryGirl.build(:workshift)
+      @member1 = User.create!(:first_name => 'Ryan', :last_name => 'Riddle',
+        :permissions => User::PERMISSION[:member], :password => 'saef', :email => 'ry@berkeley.edu')
+      @workshift1 = Workshift.create!(:day => 'Monday', :start_time => '1:00pm', :end_time => '2:00pm')
+      @workshift2 = Workshift.create!(:day => 'Monday', :start_time => '6:00pm', :end_time => '8:00pm')
+      @member2 = User.create!(:first_name => 'Maura', :last_name => 'Fitz',
+        :permissions => User::PERMISSION[:member], :password => 'awef', :email => 'm@berkeley.edu')
+      Avail.create!(:day => 0, :hour => 13, :status => 'Available', :user => @member2)
     end
-    it "should show avaliability" do
-      expect(@member1.is_available?(@workshift)).to be false
+
+    it "should show that I am not avaliable" do
+      expect(@member1.is_available?(@workshift1)).to be false
     end
+
+    it "should show that I am avaliable" do
+      expect(@member2.is_available?(@workshift1)).to be true
+    end
+    
+    it "should show that I am not avaliable" do
+      expect(@member2.is_available?(@workshift2)).to be false
+    end
+  end
+    
 end

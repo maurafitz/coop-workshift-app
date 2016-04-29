@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
     validates :first_name, presence: true
     validates :last_name, presence: true
     before_create :check_attrs_exist
+    before_create :format_name
     
 
     has_attached_file :avatar, styles: { profile: "150x150>", thumb: "100x100>" }, default_url: "https://socialbelly.com/assets/icons/blank_user-586bd979abac4d7c7007414f5e94fe71.png"
@@ -183,5 +184,12 @@ class User < ActiveRecord::Base
       if (self.permissions.blank?)
         self.permissions = PERMISSION[:member]
       end
+    end
+    
+    def format_name
+      first = self.first_name.downcase
+      self.first_name = first.split.map(&:capitalize).join(' ')
+      last = self.last_name.downcase
+      self.last_name = last.split.map(&:capitalize).join(' ')
     end
 end

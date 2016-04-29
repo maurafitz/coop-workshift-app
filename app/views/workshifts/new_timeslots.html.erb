@@ -1,3 +1,25 @@
+<head>
+  <style>
+    #errors { 
+      color: #E63946;
+    }
+    #error_list {
+      margin-left:40px;
+    }
+  </style>
+</head>
+
+<% if !@errors.blank? %>
+    <h2 id="errors">Input Error:</h2>
+    <div id="error_list">
+    <ul>
+      <% @errors.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <h1 style="margin-bottom:15px;"> <%= @metashift.category%></h4>
 
 <h3 style="margin-bottom:15px;"> Description: <small> <%= @metashift.description%></small> </h4>

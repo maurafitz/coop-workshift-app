@@ -14,7 +14,6 @@ class ShiftsController < ApplicationController
   end
   
   def change_users
-    
     params[:shift_ids].zip(params[:user_ids]).each do |shift_id, user_id|
       shift = Shift.find_by_id(shift_id)
       user = User.find_by_id(user_id)

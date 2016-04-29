@@ -205,7 +205,7 @@ Workshift.all.where('user_id' => nil).each do |ws|
 end 
 
 days = Workshift.days
-(0..50).each {
+(0..100).each {
     start_time = rand(8..22)
     end_time = rand(start_time+1..23)
     length = rand(1..end_time-start_time)
@@ -273,4 +273,3 @@ def make_shifts(weeks_before, weeks_after)
     end 
 end
 
-# make_shifts(2 , 2)

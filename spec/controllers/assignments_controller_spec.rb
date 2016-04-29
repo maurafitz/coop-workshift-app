@@ -5,10 +5,7 @@ RSpec.describe AssignmentsController, type: :controller do
         context 'when the current user is an admin' do
             before :each do
                 @unit = double("Cloyne")
-                @admin = User.create!({:first_name => "coop", :last_name => "admin", :email => 'a@gmail.com', :password => 'pwd'})
-                allow(@admin).to receive(:is_ws_manager?).and_return(true) 
-                allow(@admin).to receive(:unit).and_return(@unit) 
-                # @admin = double("Admin", :unit => @unit, :is_ws_manager? => true, :id => "0")
+                @admin = double("Admin", :unit => @unit, :is_ws_manager? => true, :id => "0")
                 @metashift_rows = double("Metashifts")
                 @workshift1, @workshift2, @workshift3 = double("Workshift1"), double("Workshift2"), double("Workshift3")
                 @user1, @user2 = double("User1"), double("User2")
@@ -18,10 +15,12 @@ RSpec.describe AssignmentsController, type: :controller do
                 
                 allow(User).to receive(:find_by_id).and_return(@admin)
                 allow(@unit).to receive(:get_metashift_workshifts).and_return(@metashift_rows)
-                allow(@workshift1).to receive(:user=) ; allow(@workshift1).to receive(:save)
-                allow(@workshift2).to receive(:user=) ; allow(@workshift2).to receive(:save)
-                allow(@workshift3).to receive(:user=) ; allow(@workshift3).to receive(:save)
-                
+                allow(Workshift).to receive(:find_by_id) do |id|
+                    @workshifts[id]
+                end
+                @workshifts.each do |_, ws|
+                    allow(ws).to receive(:user=) ; allow(ws).to receive(:save)
+                end
                 get :new
             end
             it 'should select the New Assignments template for rendering' do
@@ -31,9 +30,6 @@ RSpec.describe AssignmentsController, type: :controller do
                 expect(assigns(:metashift_rows)).to eq(@metashift_rows)
             end
             it 'should save the assignments by assigning each workshift to a user' do 
-                allow(Workshift).to receive(:find_by_id) do |id|
-                    @workshifts[id]
-                end
                 allow(User).to receive(:find_by_id) do |id|
                     @users[id]
                 end
@@ -46,14 +42,8 @@ RSpec.describe AssignmentsController, type: :controller do
                 post :create, @params
             end
             it "should redirect to the current user's profile page" do
-                allow(Workshift).to receive(:find_by_id) do |id|
-                    @workshifts[id]
-                end
-                allow(User).to receive(:find_by_id) do |id|
-                    @users[id]
-                end
                 post :create, @params
-                expect(response).to redirect_to(user_profile_path(@admin))
+                expect(response).to redirect_to(user_profile_path(@admin.id))
             end
         end
         context 'when the current user is a member ' do 

@@ -117,9 +117,10 @@ RSpec.describe User, type: :model do
       @member2 = User.create!(:first_name => 'Maura', :last_name => 'Fitz',
         :permissions => User::PERMISSION[:member], :password => 'awef', :email => 'm@berkeley.edu')
       Avail.create!(:day => 0, :hour => 13, :status => 'Available', :user => @member2)
+      Avail.create!(:day => 0, :hour => 18, :status => 'Unavailable', :user => @member2)
     end
 
-    it "should show that I am not avaliable" do
+    it "should show that I am not avaliable because no avails" do
       expect(@member1.is_available?(@workshift1)).to be false
     end
 
@@ -127,7 +128,7 @@ RSpec.describe User, type: :model do
       expect(@member2.is_available?(@workshift1)).to be true
     end
     
-    it "should show that I am not avaliable" do
+    it "should show that I am not avaliable because unavaliable" do
       expect(@member2.is_available?(@workshift2)).to be false
     end
   end

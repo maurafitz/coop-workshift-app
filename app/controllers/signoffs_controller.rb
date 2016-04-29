@@ -20,7 +20,7 @@ class SignoffsController < ApplicationController
         unit = Unit.find_by_id params[:unit]
         if unit
             session[:unit] = unit.id
-            flash["success"] = "You're unit has successfully been saved as: " + unit.name
+            flash["success"] = "Your unit has successfully been saved as: " + unit.name
             redirect_to "/"
         else
             flash["danger"] = "That is not a valid unit"

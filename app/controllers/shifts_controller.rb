@@ -26,13 +26,6 @@ class ShiftsController < ApplicationController
     render :text => "Successfully saved shifts", :status => 200, :content_type => 'text/html'
   end
 
-  # def show
-  # end
-  # def new
-  # end
-  # def edit
-  # end
-
   def destroy
     @shift = Shift.find_by_id(params[:id])
     @shift.destroy

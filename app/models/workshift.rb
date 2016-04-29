@@ -2,7 +2,9 @@ class Workshift < ActiveRecord::Base
   belongs_to :metashift
   has_many :shifts
   belongs_to :user
-  
+  validates :start_time, format: { with: /\d?\d:\d\d(A|a|P|p)(m|M)/, message: ": enter correct format, ex. 12:30, then select AM or PM" }
+  validates :end_time, format: { with: /\d?\d:\d\d(A|a|P|p)(m|M)/, message: ": enter correct format, ex. 12:30, then select AM or PM" }
+  validates :day, :inclusion => {:in => %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday Sunday), :message => ': please select a weekday.'}
   before_save :update_future_shifts, if: :user_id_changed?
   
   DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -34,10 +36,15 @@ class Workshift < ActiveRecord::Base
   end
 
   def self.add_workshift(day, start_time, end_time, metashift, length=1)
-    new_workshift = Workshift.create!(:start_time => start_time, :end_time => end_time, :day => day, :length => length)
-    metashift.workshifts << new_workshift
-    metashift.save!
-    return new_workshift
+    new_workshift = Workshift.new(:start_time => start_time, :end_time => end_time, :day => day, :length => length)
+    if (new_workshift.save) 
+      metashift.workshifts << new_workshift
+      metashift.save!
+      return new_workshift
+    else
+      return new_workshift.errors
+    end
+    
   end
   
   def update_future_shifts

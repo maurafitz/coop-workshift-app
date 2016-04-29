@@ -19,6 +19,9 @@ class WorkshiftsController < ApplicationController
   def new_timeslots
     meta_id = params[:id]
     @metashift = (Metashift.find_by_id(meta_id))
+    if (params[:errors])
+      @errors = params[:errors]
+    end
     render 'new_timeslots'
   end
   
@@ -26,8 +29,12 @@ class WorkshiftsController < ApplicationController
     shift = params[:shift]
     @metashift = Metashift.find_by_id(shift[:metashift_id])
     @shift = Workshift.add_workshift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift, shift[:length])
-    flash[:success] = "Created workshift '#{@metashift.name}' on #{@shift.day}s from #{@shift.start_time} to #{@shift.end_time}"
-    redirect_to workshifts_path
+    if @shift.is_a?(ActiveModel::Errors)
+      redirect_to new_timeslots_path(:id => shift[:metashift_id], :errors => @shift.full_messages)
+    else
+      flash[:success] = "Created workshift '#{@metashift.name}' on #{@shift.day}s from #{@shift.start_time} to #{@shift.end_time}"
+      redirect_to workshifts_path
+    end
   end
   
   # DELETE /workshifts/1
@@ -59,7 +66,7 @@ class WorkshiftsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def workshift_params
-      params.require(:workshift).permit(:start_time, :end_time, :day, :metashift_id, :length, :user_id)
+      params.require(:workshift).permit(:start_time, :end_time, :day, :metashift_id, :length, :user_id, :errors)
     end
     
     #Keys: shift, user, start_time, end_time, description

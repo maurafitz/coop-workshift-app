@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
     validates :first_name, presence: true
     validates :last_name, presence: true
     before_create :check_attrs_exist
+    before_create :format_name
     
 
     has_attached_file :avatar, styles: { profile: "150x150>", thumb: "100x100>" }, default_url: "https://socialbelly.com/assets/icons/blank_user-586bd979abac4d7c7007414f5e94fe71.png"
@@ -72,6 +73,27 @@ class User < ActiveRecord::Base
     def self.random_pw
       x = ('0'..'z').to_a.shuffle.first(8).join
       return x
+    end
+    
+    def self.weekly_hours_addition
+      #Should be called once a week, adds hours for every user
+      User.all.each do |usr|
+        usr.hour_balance += usr.unit.policy.starting_hour_balance
+        usr.save()
+      end
+    end
+    
+    def self.add_hours_from_blown(user_blown_hours)
+      #user_blown_hours maps user_id => blown_hours * 2
+      user_blown_hours.each do |user_id, hours_to_add|
+        user = User.find(user_id)
+        if user
+          user.hour_balance += hours_to_add
+          user.save()
+        else 
+          puts "\nCannot find user with id #{user_id} while adding blown hours"
+        end 
+      end 
     end
     
     def has_saved_availability?
@@ -172,5 +194,12 @@ class User < ActiveRecord::Base
       if (self.permissions.blank?)
         self.permissions = PERMISSION[:member]
       end
+    end
+    
+    def format_name
+      first = self.first_name.downcase
+      self.first_name = first.split.map(&:capitalize).join(' ')
+      last = self.last_name.downcase
+      self.last_name = last.split.map(&:capitalize).join(' ')
     end
 end

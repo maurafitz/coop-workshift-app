@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pp'
 
 RSpec.describe User, type: :model do
  
@@ -58,6 +59,44 @@ RSpec.describe User, type: :model do
     end
   end
   
+
+  describe 'checking availability' do
+    it 'should return false if has no avails' do
+      @member1 = User.create!(:first_name => 'Maura', :unit => @unit, :email => 'a@b.com',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:member],
+      :hour_balance => 0, :password => '12345kabsdfasdf')
+      (@member1.has_saved_availability?).should eq(false)
+    end 
+  end 
+  
+  describe 'updating hour balance' do
+    before(:each) do
+      @unit = Unit.create!()
+      @policy = Policy.create!(:starting_hour_balance => 5.0, 
+       :unit => @unit)
+       @member1 = User.create!(:first_name => 'Maura', :unit => @unit, :email => 'a@b.com',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:member],
+      :hour_balance => 0, :password => '12345kabsdfasdf')
+      @member2 = User.create!(:first_name => 'Henri', :unit => @unit,:email => 'b@c.com',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:manager],
+      :hour_balance => 0,:password => '12345kabsdfsdfasdf')
+      
+    end
+    
+    it 'should add 5 to each users balance' do 
+      User.weekly_hours_addition()
+      (User.find(@member1.id).hour_balance).should eq(5)
+      (User.find(@member2.id).hour_balance).should eq(5)
+    end 
+    
+    it 'should add correct number of hours from blown hash' do
+      user_blown_hours = {@member1.id => 10, @member2.id => 20}
+      User.add_hours_from_blown(user_blown_hours)
+      (User.find(@member1.id).hour_balance).should eq(10)
+      (User.find(@member2.id).hour_balance).should eq(20)
+    end 
+  end 
+
   describe "converting time" do
     before(:each) do
       @member1 = FactoryGirl.build(:user, :first_name => 'Maura',

@@ -123,3 +123,16 @@ Then(/^I should have admin rights$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+When(/^I toggle all$/) do
+  find(:css, "[id='preference_toggle']").set(false)
+end
+
+When(/^I refresh the page$/) do
+  visit current_path
+end
+
+When(/^I select member from dropdown$/) do
+  find(:css, "[id='dropdownMenu1']").click # assuming you only have one a.dropdown-toggle
+  click_on 'Member'
+  # select 'Member', from: "dropdownMenu1"
+end

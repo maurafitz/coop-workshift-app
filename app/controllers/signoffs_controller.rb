@@ -20,7 +20,7 @@ class SignoffsController < ApplicationController
         unit = Unit.find_by_id params[:unit]
         if unit
             session[:unit] = unit.id
-            flash["success"] = "You're unit has successfully been saved as: " + unit.name
+            flash["success"] = "Your unit has successfully been saved as: " + unit.name
             redirect_to "/"
         else
             flash["danger"] = "That is not a valid unit"
@@ -77,7 +77,7 @@ class SignoffsController < ApplicationController
                   end
                 end
             end
-            end
+        end
         pp json_info
         render json: json_info
     end
@@ -134,7 +134,6 @@ class SignoffsController < ApplicationController
             flash[:danger] = "Error saving shift"
         end
         redirect_to signoff_page_path
-
     end
     
     def email_admin

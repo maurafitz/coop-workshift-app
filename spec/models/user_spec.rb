@@ -108,4 +108,13 @@ RSpec.describe User, type: :model do
     end
   end
   
+  describe ""
+    before(:each) do
+      @member1 = FactoryGirl.build(:user, :first_name => 'Ryan',
+      :last_name => 'Riddle', :permissions => User::PERMISSION[:member])
+      @workshift = FactoryGirl.build(:workshift)
+    end
+    it "should show avaliability" do
+      expect(@member1.is_available?(@workshift)).to be false
+    end
 end

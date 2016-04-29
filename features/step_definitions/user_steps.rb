@@ -32,8 +32,6 @@ end
 def simulate_login(user)
   visit path_to('the home page')
   click_link('Login')
-  puts user.email
-  puts user.password
   fill_in('email', :with => user.email)
   fill_in('password', :with => user.password)
   click_button("Sign In")
@@ -43,8 +41,6 @@ end
 def simulate_login_with_creds(email, password)
   visit path_to('the home page')
   click_link('Login')
-  puts email
-  puts password
   fill_in('email', :with => email)
   fill_in('password', :with => password)
   click_button("Sign In")

@@ -20,7 +20,7 @@ Feature: Workshift Manager: View and Edit Workshifts
   
   @local
   Scenario: A member views workshifts for the semester but cannot edit
-    Given I am logged in as "Maura"
+    Given I log in with "mf@berkeley.edu", "mypd"
     And I am on the view workshifts page
     Then I should see "Shifts for the Week"
     And I should see a workshift table
@@ -30,7 +30,7 @@ Feature: Workshift Manager: View and Edit Workshifts
     
   @wip  
   Scenario: An admin edits a workshift
-    Given I am logged in as "Giorgia"
+    Given I log in with "gw@berkeley.edu", "gwpd"
     When I follow "Edit" for "Head Cook"
     Then I should be on the edit workshift page
     And I should see "Head Cook"
@@ -42,7 +42,7 @@ Feature: Workshift Manager: View and Edit Workshifts
     
   @wip
   Scenario: An admin tries to edit a workshift incorrectly
-    Given I am logged in as "Giorgia"
+    Given I log in with "gw@berkeley.edu", "gwpd"
     When I follow "Edit" for "Head Cook"
     When I fill in "Name" with ""
     And I press "Save Changes"

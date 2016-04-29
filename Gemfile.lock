@@ -351,7 +351,7 @@ DEPENDENCIES
   coveralls
   cucumber-rails
   database_cleaner
-  factory_girl_rails
+  factory_girl_rails (~> 4.0)
   faker
   font-awesome-rails
   haml-rails

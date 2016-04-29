@@ -28,7 +28,7 @@ policies.each do |policy|
 end
 
 
-## UNITS ## 
+## UNITS  ## 
 units = [{:name => "Cloyne"}, 
          {:name => "Castro"}, 
          {:name => "CZ"}]

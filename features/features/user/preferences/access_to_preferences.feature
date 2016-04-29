@@ -85,3 +85,17 @@ Feature: Workshift Manager: Set User Access to Preference Page
     Then I should see "false"
     When I follow "Giorgia Willits"
     Then I should see "true"
+    
+  Scenario: Admin should be able to see users preferences
+    Given I am a member of "Cloyne"
+    And the following metashifts exist:
+    | category      | name                             | id | description                                   |
+    | Kitchen       | Kitchen Manager                  | 1  | Refer to bylaws for manager description.      |
+    And I have saved the following shift preferences:
+    | Kitchen         | 4       |
+    And I have saved the following time preferences:
+    | day         | times              | availability  |
+    | Monday      | 8am-6pm            | Unavailable   |
+    When I follow "View & Edit Users"
+    Then I should see "Preferences"
+    And I should see "4"

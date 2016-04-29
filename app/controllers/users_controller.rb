@@ -203,7 +203,8 @@ class UsersController < ApplicationController
   
   def admin_view_user
     @user = User.find_by_id(params[:id])
-    @users = User.all
+    @assigned_shifts = Workshift.get_assignments_for @user
+    @users = User.all.where(unit: current_unit)
     if not admin_rights?
       redirect_to '/'
     end

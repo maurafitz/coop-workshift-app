@@ -41,10 +41,6 @@ cloyne, castro, cz = unit_instances
 cloyne.policy = policy_instances[0]
 castro.policy = policy_instances[1]
 cloyne.save ; castro.save
-# unit_instances[0].policy = policy_instances[0]
-# unit_instances[1].policy = policy_instances[1]
-# unit_instances[0].save ; unit_instances[1].save
-
 
 ## USERS ## 
 users = [{:first_name => 'admin', :last_name => 'Z', 
@@ -69,14 +65,15 @@ users = [{:first_name => 'admin', :last_name => 'Z',
           :hour_balance => 10, :fine_balance => 50},
     	  ]
     	  
-(0..100).each {
-    u = User.create!({:first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, 
+faker_users = []
+(0..50).each {
+    faker_users << User.create!({:first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, 
           :email => Faker::Internet.email, 
           :permissions => User::PERMISSION[:member],
-          :password => 'member', :has_confirmed => true,
-          :hour_balance => Faker::Number.between(1, 50), :fine_balance => Faker::Number.between(20, 100)})
+          :password => 'member',
+          :hour_balance => Faker::Number.between(1, 50), :fine_balance => Faker::Number.between(20, 100),
+          :sent_confirmation => true, :has_confirmed => true, :unit => cloyne })
 }
-
     	  
 user_instances = []
 users.each do |user|
@@ -128,6 +125,30 @@ end
 head_cook =  metashift_instances[:head_cook]
 head_cook.unit = unit_instances[1]
 head_cook.save
+
+categories = ['Board', 'Central', 'Common Space', 'Crew', 'Food', 'Kitchen', 'Manager', 'Uncategorized', 'Cleaning', 'Garbage', 'Gardening' ]
+faker_metashifts = []
+(0..25).each {
+    faker_metashifts << Metashift.create!({:category => categories[rand(11)], :name => Faker::Lorem.word, :multiplier => Faker::Number.between(1, 5),
+                        :description => Faker::Lorem.paragraph(rand(20)), :unit => cloyne})
+}
+
+## PREFERENCES ##
+faker_users.each do |user|
+    faker_metashifts.each do |metashift|
+        Preference.create!({:user => user, :metashift => metashift, :rating => 1+rand(5), :cat_rating => 1+rand(5)})
+    end
+end
+
+## AVAILABILITIES ##
+statuses = ["Available", "Available", "Available", "Available", "Unavailable", "Unavailable", "Unavailable", "Not Preferred", "Not Preferred", "Unsure"]
+faker_users.each do |user|
+    (0..6).each do |day|
+        (8..23).each do |hour|
+            Avail.create!({:day => day, :hour => hour, :user => user, :status => statuses[rand(9)]})
+        end
+    end
+end
 
 
 string_day_to_int = {"Sunday" => 0,"Monday" => 1, "Tuesday" => 2, 'Wednesday' => 3, 'Thursday' => 4, "Friday"=> 5, "Saturday" => 6, 'Weeklong' => 0}
@@ -183,6 +204,25 @@ Workshift.all.where('user_id' => nil).each do |ws|
     ws.save
 end 
 
+days = Workshift.days
+(0..100).each {
+    start_time = rand(8..22)
+    end_time = rand(start_time+1..23)
+    length = rand(1..end_time-start_time)
+    if start_time > 12
+        start_time = (start_time-12).to_s + ":00pm"
+    else
+        start_time = start_time.to_s + ":00am"
+    end
+    if end_time > 12
+        end_time = (end_time-12).to_s + ":00pm"
+    else
+        end_time = end_time.to_s + ":00am"
+    end
+    w = Workshift.create!({:start_time => start_time, :end_time => end_time, :details => Faker::Lorem.word,
+                            :length => length, :day => days[rand(7)], :metashift => faker_metashifts[rand(26)]})
+}
+
 ## SHIFTS ##
 
 shifts = [
@@ -233,4 +273,3 @@ def make_shifts(weeks_before, weeks_after)
     end 
 end
 
-make_shifts(5, 5)

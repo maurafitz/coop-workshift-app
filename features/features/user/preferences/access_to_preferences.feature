@@ -13,19 +13,26 @@ Feature: Workshift Manager: Set User Access to Preference Page
     | Ryan            | Riddle        | ry@berkeley.edu           |   hare         |      2           |
     And I am logged in as an admin
     And I am on my profile page
-  
-  @wip  
+
   Scenario: I take away everyone's ability to access the form
     Then I should see "Select Workshifts Preferences"
-    When I follow "View & Edit Users"
-    And I follow "Open Workshift Preference Form for Everyone" 
+    And I follow "View & Edit Users" 
     Then I should see "true"
-    When I click "Close Workshift Preference Form for Everyone"
-    Then I should see "false"
+    And I should see "coop_admin@berkeley.edu"
+    And I should see "Toggle whether or not the preference form is still editable for all users."
     When I follow "Giorgia Willits"
-    Then I should see "false"
-    When I go to my profile page
-    Then I should not see "Select Workshifts Preference"
+    Then I should see "gwillits@berkeley.edu"
+    And I should see "true"
+    And I should see "Toggle whether or not the preference form is still editable for all users."
+    When I toggle all
+    # Then I should see "gwillits@berkeley.edu"
+    # Then I should see "false"
+    # And I should see "Toggle whether or not the preference form is still editable for all users."
+    # When I follow "Eric Nelson"
+    # Then I should see "ericn@berkeley.edu"
+    # And I should see "false"
+    # When I go to my profile page
+    # Then I should not see "Select Workshifts Preference"
   
   @wip  
   Scenario: I give everyone the ability to access the form

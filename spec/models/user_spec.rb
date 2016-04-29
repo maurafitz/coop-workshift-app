@@ -9,6 +9,8 @@ RSpec.describe User, type: :model do
       :last_name => 'Fitz', :permissions => User::PERMISSION[:member])
       @member2 = FactoryGirl.build(:user, :first_name => 'Henri',
       :last_name => 'Fitz', :permissions => User::PERMISSION[:manager])
+      @member3 = FactoryGirl.build(:user, :first_name => 'Lol',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:ws_manager])
     end
     
     it 'should give a member only member access' do
@@ -30,6 +32,16 @@ RSpec.describe User, type: :model do
       expect(@member1.full_name).to eq("Maura Fitz")
       expect(@member2.full_name).to eq("Henri Fitz")
     end
+    
+    it 'getPermission should return the correct string' do
+      expect(@member1.getPermission).to eq("Member")
+      expect(@member2.getPermission).to eq("Manager")
+      expect(@member3.getPermission).to eq("Workshift-Manager")
+    end
+    
+    it 'should map a role to the correct permission code' do
+     expect(User.getPermissionCode("member")).to eq(0)
+    end
   end
   
   describe "the password" do
@@ -47,6 +59,7 @@ RSpec.describe User, type: :model do
     end
   end
   
+
   describe 'checking availability' do
     it 'should return false if has no avails' do
       @member1 = User.create!(:first_name => 'Maura', :unit => @unit, :email => 'a@b.com',
@@ -83,4 +96,16 @@ RSpec.describe User, type: :model do
       (User.find(@member2.id).hour_balance).should eq(20)
     end 
   end 
+
+  describe "converting time" do
+    before(:each) do
+      @member1 = FactoryGirl.build(:user, :first_name => 'Maura',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:member])
+    end
+    it 'should convert to military time' do
+      expect(@member1.convert_to_military('07:40AM')).to eq(7)
+      expect(@member1.convert_to_military('07:40PM')).to eq(19)
+    end
+  end
+  
 end

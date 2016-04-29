@@ -5,6 +5,12 @@ class Workshift < ActiveRecord::Base
   
   before_save :update_future_shifts, if: :user_id_changed?
   
+  DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  
+  def self.days
+    DAYS
+  end
+  
   def get_name
     name = self.metashift.name
     details = self.get_details
@@ -27,8 +33,8 @@ class Workshift < ActiveRecord::Base
     self.metashift.description
   end
 
-  def self.add_workshift(day, start_time, end_time, metashift)
-    new_workshift = Workshift.create!(:start_time => start_time, :end_time => end_time, :day => day)
+  def self.add_workshift(day, start_time, end_time, metashift, length=1)
+    new_workshift = Workshift.create!(:start_time => start_time, :end_time => end_time, :day => day, :length => length)
     metashift.workshifts << new_workshift
     metashift.save!
     return new_workshift

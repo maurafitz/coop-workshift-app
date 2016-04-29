@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   resources :shifts
   resources :metashifts
 
-  resources :workshifts
   root to: 'signoffs#new'
 
   get '/users/get_all' => 'users#get_all', as: 'get_all_users'
@@ -40,12 +39,17 @@ Rails.application.routes.draw do
   post '/preferences/:id/toggle' => 'preferences#toggle', as: 'toggle_preferences'
   post '/preferences/toggle_all' => 'preferences#toggle_all', as: 'toggle_preferences_all'
 
+  post '/metashifts/upload' => 'metashifts#upload', as: 'upload_metashifts'
   post '/metashifts/create' => 'metashifts#create_metashift', as: 'create_metashift'
   get '/workshifts/:id/new_timeslots' => 'workshifts#new_timeslots', as: 'new_timeslots'
   post '/workshifts/create_timeslots' => 'workshifts#create_timeslots', as: 'create_timeslots'
-  post '/metashifts/upload' => 'metashifts#upload', as: 'upload_metashifts'
-  put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_shift_user'
   put '/workshifts/:id/change_users' => 'workshifts#change_users', as: 'change_workshift_users'
+  resources :workshifts
+  get '/assignments' => 'assignments#new', as: 'new_assignments'
+  post 'assignments/create' => 'assignments#create', as: 'create_assignments'
+  get '/assignments/:id/sort_users' => 'assignments#sort_users', as: 'sort_users'
+  
+  put '/shifts/:id/change_users' => 'shifts#change_users', as: 'change_shift_user'
   
   get '/index' => 'workshift#index'
   

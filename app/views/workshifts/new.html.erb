@@ -19,13 +19,7 @@
 
 <div class="col-lg-6 col-md-offset-1">
   <h2>Upload CSV</h2>
-  <h4>Format:</h4>
-  <p> Columns: category, name, description, multiplier, times. <br><br>
-  Multiplier is the hour value of the workshift. <br><br>
-  Times column format: <br>Wednesday, XX:XXAM to YY:YYPM; Friday, ZZ:ZZPM to YY:YYPM <br>
-    (place semi-colon after each day/time pair).</p>
-  <h4>An example:</h4>
-  <img src=<%= asset_path( 'csv_workshift_row.png' ) %> >
+  <%=render "workshift_csv_description" %>
   <div class="hline"></div>
     <%=render "add_csv_form" %>
   </div>

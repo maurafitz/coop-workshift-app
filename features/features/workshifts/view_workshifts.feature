@@ -16,8 +16,8 @@ Feature: View Workshift Table
     | Garbage       | Waste Reduction Coordinator      | 3  | Coordinate waste reduction. Go to CO.         |
     And I am assigned the following workshifts:
     | start_time    | end_time     | day           | metashift_id |
-    | 2pm           | 4pm          | Monday        | 2            |
-    | 5am           | 11am         | Tuesday       | 3            |
+    | 2:00pm           | 4:00pm          | Monday        | 2            |
+    | 5:00am           | 11:00am         | Tuesday       | 3            |
     And I am on the view workshifts page
   
   @local @javascript

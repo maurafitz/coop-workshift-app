@@ -15,8 +15,8 @@ Feature: Workshift Manager: View and Edit Workshifts
     | Garbage       | Waste Reduction Coordinator      | 3  | Coordinate waste reduction. Go to CO.         |
     And "Maura" is assigned the following workshifts:
     | start_time    | end_time     | day           | metashift_id |
-    | 2pm           | 4pm          | Monday        | 2            |
-    | 5am           | 11am         | Tuesday       | 3            |
+    | 2:00pm           | 4:00pm          | Monday        | 2            |
+    | 5:00am           | 11:00am         | Tuesday       | 3            |
   
   @local
   Scenario: A member views workshifts for the semester but cannot edit

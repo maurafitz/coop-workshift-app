@@ -5,7 +5,7 @@ RSpec.describe WorkshiftsController, type: :controller do
     before(:each) do 
         @user1 = create(:user, first_name: "Joe")
         @meta_shift = create(:metashift)
-        @shift = create(:workshift, metashift: @meta_shift, user: @user1)
+        @shift = create(:workshift, metashift: @meta_shift, user: @user1, start_time:'12:20pm', end_time:'12:50pm', day: 'Monday')
         @shift.save
     end
     # describe "creating a new shift" do
@@ -73,8 +73,8 @@ RSpec.describe WorkshiftsController, type: :controller do
         before(:each) do
             @metashift = Metashift.create!(:category => "Kitchen",
             :description => 'dlka;jfd', :multiplier => 5, :id => 3)
-            @workshift2 = Workshift.create!(:start_time => '10am',
-                                    :end_time => '11am',
+            @workshift2 = Workshift.create!(:start_time => '10:00am',
+                                    :end_time => '11:00am', :day => 'Monday',
                                     :metashift_id => '', :user => @user, :id => 20)
         end
         it 'should find the correct shift' do
@@ -91,21 +91,19 @@ RSpec.describe WorkshiftsController, type: :controller do
             @a_user = User.create!(:first_name => 'my user', :last_name => 'last',
                 :email => 'auser@gmail.com', :password => '3ljkd;a2', :permissions =>
                 User::PERMISSION[:ws_manager])
-            @user = User.find_by(:first_name => 'my user')
             @user2 = User.create!(:first_name => 'my user2', :last_name => 'last2',
                 :email => 'auser2@gmail.com', :password => '3ljkd;a3', :permissions =>
                 User::PERMISSION[:ws_manager])
-            @user2 = User.find_by(:first_name => 'my user2')
-            @workshift2 = Workshift.create!(:start_time => '10am',
-                                    :end_time => '11am',
+            @workshift2 = Workshift.create!(:start_time => '10:00am',
+                                    :end_time => '11:00am', :day => 'Monday',
                                     :metashift_id => '', :user => @user, :id => 20)
             @metashift = Metashift.create!(:category => "Kitchen", :description => 'dlka;jfd', :multiplier => 5)
             @shift1 = Shift.create!(:workshift=> @workshift2, :date => DateTime.yesterday, 
-                                    :user => @user)
+                                    :user => @a_user)
             @shift2 = Shift.create!(:workshift=> @workshift2, :date => 5.hours.from_now, 
-                                    :user => @user)
+                                    :user => @a_user)
             @shift3 = Shift.create!(:workshift=> @workshift2, :date => 1.day.from_now, 
-                                    :user => @user)
+                                    :user => @a_user)
                                     
             put :change_users, {:id => @workshift2.id, :user_ids => [@user2.id], 
                                   :shift_ids => [@workshift2.id]}
@@ -124,7 +122,7 @@ RSpec.describe WorkshiftsController, type: :controller do
         
         it 'should not update past shifts' do
             shifts = @workshift2.get_past_shifts
-            (shifts[0].user.id).should eq(@user.id)
+            (shifts[0].user.id).should eq(@a_user.id)
         end 
     end 
     

@@ -5,8 +5,7 @@ RSpec.describe UsersController, type: :controller do
         @a_user = User.create!(:first_name => 'my user', :last_name => 'last',
             :email => 'auser@gmail.com', :password => '3ljkd;a2', :permissions =>
             User::PERMISSION[:ws_manager])
-        @user = User.find_by(:first_name => 'my user')
-        request.session = { :user_id => @user.id }
+        request.session = { :user_id => @a_user.id }
     end
     
     describe "creating users" do
@@ -20,8 +19,7 @@ RSpec.describe UsersController, type: :controller do
                 @a_user2 = User.create!(:first_name => 'b user', :last_name => 'last',
                     :email => 'buser@gmail.com', :password => '4ljkd;a2', :permissions =>
                     User::PERMISSION[:member])
-                @user = User.find_by(:first_name => 'b user')
-                request.session = { :user_id => @user.id }
+                request.session = { :user_id => @a_user2.id }
                 get :new
                 expect(response).to redirect_to('/')
             end
@@ -101,13 +99,13 @@ RSpec.describe UsersController, type: :controller do
     
     describe 'getting all users for the table' do
         it 'should lookup each user by their id' do
-            expect(User).to receive("find").with((@user.id).to_s)
+            expect(User).to receive("find").with((@a_user.id).to_s)
             post :add_user, :user => {:first_name => 'M',
             :last_name => 'F',
             :email => 'ehjd@gmail.com',
             :permissions => User::PERMISSION[:member],
             :password => '48741fkdahl',
-            }, :confirmed_ids => [@user.id]
+            }, :confirmed_ids => [@a_user.id]
         end
         it 'should render the data table' do
             get :get_all

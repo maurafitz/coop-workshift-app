@@ -27,14 +27,15 @@
                   <div class="input-group">
                     <div id="scrollable-dropdown-menu">
                       <input type="text" class="form-control workshift typeahead" id="<%= workshift.id %>" value="<%= workshift.user.full_name if workshift.user %>">
-                      <input type="hidden" class="form-control workshift typeahead" id="hidden<%= workshift.id %>" value="<%= workshift.user.id if workshift.user %>" name="workshifts[<%= workshift.id %>]">
+                      <input type="hidden" class="form-control workshift typeahead hidden_input" id="hidden<%= workshift.id %>" value="<%= workshift.user.id if workshift.user %>" name="workshifts[<%= workshift.id %>]">
                     </div>
                     <div class="input-group-addon workshift">
-                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" 
+                      title="<b>
                         Start Time: <%= workshift.start_time %>
                         End Time: <%= workshift.end_time %> 
                         Hours: <%= workshift.length %> 
-                        Details: <%= workshift.details %>
+                        Details: <%= workshift.details %> </b>
                       "></span>
                     </div>
                   </div>
@@ -59,7 +60,9 @@
             return $( "<li>" ).val( item.val ).appendTo( ul );
           }
     $("table#assign-shifts").on("post-body.bs.table", function(){
-      
+      $(".input.workshift").change(function(){
+        console.log("hello");
+      })
       $("input.workshift").on("focus", function() {
         $.get("/assignments/" + $(this).attr('id') + "/sort_users", function(data) {
           $("#sorted-table").bootstrapTable('load', data.rows);
@@ -72,10 +75,6 @@
               return false;
             },
             select: function( event, ui ) {
-
-              console.log($(this))
-              console.log( data.mapping[ui.item.label] );
-              console.log( $( "#hidden"+$(this).attr("id") ) );
               $(this).val( ui.item.label );
               $( "#hidden"+$(this).attr("id")).val( data.mapping[ui.item.label] );
               return false;

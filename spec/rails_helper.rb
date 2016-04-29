@@ -12,6 +12,7 @@ SimpleCov.start 'rails' do
   add_filter "app/mailers/signup_mailer.rb"
 end
 
+
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production

@@ -34,6 +34,40 @@ Feature: Workshift Manager: Set User Access to Preference Page
     # When I go to my profile page
     # Then I should not see "Select Workshifts Preference"
   
+  Scenario: Admin should be able to edit user info (Compensated Hours)
+    Then I should see "Select Workshifts Preferences"
+    And I follow "View & Edit Users" 
+    Then I should see "Ryan Riddle"
+    When I follow "Ryan Riddle"
+    Then I should see "ry@berkeley.edu"
+    And I should see "Permissions:	Workshift-Manager"
+    And I should see "Compensated Hours:	0"
+    When I follow "Edit Profile"
+    Then I should see "Compensated Hours"
+    When I fill in "Compensated Hours" with "5"
+    And I click "Update User"
+    Then I should see "Compensated Hours:	5"
+    And I should see "ry@berkeley.edu"
+    
+  @wip
+  Scenario: Admin should be able to edit user info (Permissions)
+    Then I should see "Select Workshifts Preferences"
+    And I follow "View & Edit Users" 
+    Then I should see "Ryan Riddle"
+    When I follow "Ryan Riddle"
+    Then I should see "ry@berkeley.edu"
+    And I should see "Permissions:	Member"
+    And I should see "Compensated Hours:	0"
+    When I click "Edit Profile"
+    Then I should see "Compensated Hours"
+    When I click "Permissions"
+    And I click "Workshift-Manager"
+    Then I should see "Workshift-Manager"
+    And I click "Update User"
+    Then I should see "ry@berkeley.edu"
+    And I should see "Compensated Hours:	0"
+    And I should see "Permissions:	Workshift-Manager"
+  
   @wip  
   Scenario: I give everyone the ability to access the form
     When I follow "View & Edit Users"

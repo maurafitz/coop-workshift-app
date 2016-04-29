@@ -1,3 +1,4 @@
+require 'date'
 ### EXISTENCE OF USERS ###
 Given(/the following users exist/) do |users_table|
   users_table.hashes.each do |user|
@@ -118,6 +119,20 @@ end
 Given(/^"(.*)" is assigned the following workshifts:$/) do |first_name, workshifts_table|
   user = User.find_by_first_name(first_name)
   assign_workshifts(user, workshifts_table)
+end
+
+Given(/"(.*)" is assigned a shift today with workshift id "(.*)"/) do |first_name, workshift_id|
+  user = User.find_by_first_name(first_name)
+  shift = Shift.new(:workshift_id => workshift_id.to_i, :date => Date.today)
+  user.shifts << shift
+  user.save!
+  shift.save!
+end
+
+Given(/^I should see today's date/) do
+  today = Date.today
+  today_format = today.strftime("%-m/%d")
+  page.should have_content("#{today_format}")
 end
 
 def assign_workshifts user, workshifts_table

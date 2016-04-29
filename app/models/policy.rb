@@ -40,8 +40,12 @@ class Policy < ActiveRecord::Base
         false
     end 
     
-    # def fine_users
-    #     #This should be executed every fining day
-        
-    # end 
+    def fine_users
+        #This should be executed every fining day
+        unit.users.each do |user|
+            user.fine_balance += fine_amount * user.hour_balance
+            user.hour_balance = 0
+            user.save
+        end 
+    end 
 end

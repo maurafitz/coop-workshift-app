@@ -23,5 +23,28 @@ RSpec.describe User, type: :model do
     it 'should say whether its a fining day or not' do
         expect(@policy2.is_fine_day?).to eq(true)
     end 
+    
+    describe 'fining users' do
+        before :each do 
+            @unit = Unit.create!()
+            @policy = Policy.create!(:starting_hour_balance => 5.0, :fine_amount => 10,
+            :unit => @unit)
+            @member1 = User.create!(:first_name => 'Maura', :unit => @unit, :email => 'a@b.com',
+                    :last_name => 'Fitz', :permissions => User::PERMISSION[:member],
+                    :hour_balance => 5, :password => '12345kabsdfasdf')
+            @member2 = User.create!(:first_name => 'Henri', :unit => @unit,:email => 'b@c.com',
+                    :last_name => 'Fitz', :permissions => User::PERMISSION[:manager],
+                    :hour_balance => 0,:password => '12345kabsdfsdfasdf')
+            @policy.fine_users
+        end 
+        it 'should add correct dollar amount to each users fine balance' do
+            expect(User.find(@member1.id).fine_balance).to eq(50)
+            expect(User.find(@member2.id).fine_balance).to eq(0)
+        end 
+        it 'should reduce the users hour balance to zero' do
+            expect(User.find(@member1.id).hour_balance).to eq(0)
+            expect(User.find(@member2.id).hour_balance).to eq(0)
+        end 
+  end  
 end
  

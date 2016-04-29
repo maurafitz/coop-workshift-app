@@ -29,9 +29,9 @@ module NavigationHelpers
       
     #### USERS ####
     when /^my profile page$/
-      user_profile_path(User.find_by_id(@current_user.id))
+      user_profile_path(@current_user.id)
     when /^my edit profile page$/
-      edit_profile_path(User.find_by_id(@current_user.id))
+      edit_profile_path(@current_user.id)
       
     #### WORKSHIFTS ####
     when /^the create workshifts page$/

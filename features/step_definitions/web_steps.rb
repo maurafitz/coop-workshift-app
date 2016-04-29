@@ -357,3 +357,8 @@ end
 And /^I see the page$/ do
   puts page.body
 end
+
+## SLEEPING ##
+When(/^I wait "([^"]*)" seconds?$/) do |arg1|
+  sleep arg1.to_i
+end

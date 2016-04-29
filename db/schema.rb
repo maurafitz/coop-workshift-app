@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428025442) do
+ActiveRecord::Schema.define(version: 20160429195006) do
 
   create_table "avails", force: :cascade do |t|
     t.integer  "day"
@@ -77,8 +77,9 @@ ActiveRecord::Schema.define(version: 20160428025442) do
 
   create_table "units", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.boolean  "preference_form_open", default: true
   end
 
   create_table "users", force: :cascade do |t|

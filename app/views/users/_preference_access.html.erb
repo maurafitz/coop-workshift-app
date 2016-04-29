@@ -8,9 +8,13 @@
   <div class="col-sm-8 control-label">
     <label for="preference_toggle">Preference Form: </label>
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-4" id="pref_all_div">
     <div class="input-group">
-      <input id="preference_toggle" name="pref_all" type="checkbox" checked data-toggle="toggle" data-on="Open" data-off="Closed" data-onstyle="success" data-offstyle="danger">
+      <% if @pref_all_access %>
+        <input id="preference_toggle" name="pref_all" type="checkbox" checked data-toggle="toggle" data-on="Open" data-off="Closed" data-onstyle="success" data-offstyle="danger">
+      <% else %>
+        <input id="preference_toggle" name="pref_all" type="checkbox" data-toggle="toggle" data-on="Open" data-off="Closed" data-onstyle="success" data-offstyle="danger">
+      <% end %>
     </div>
   </div>
 <% end %>

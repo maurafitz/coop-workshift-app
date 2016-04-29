@@ -93,6 +93,19 @@ class User < ActiveRecord::Base
       end
     end
     
+    def self.add_hours_from_blown(user_blown_hours)
+      #user_blown_hours maps user_id => blown_hours * 2
+      user_blown_hours.each do |user_id, hours_to_add|
+        user = User.find(user_id)
+        if user
+          user.hour_balance += hours_to_add
+          user.save()
+        else 
+          puts "\nCannot find user with id #{user_id} while adding blown hours"
+        end 
+      end 
+    end
+    
     def has_saved_availability?
       self.avails.length > 0
     end

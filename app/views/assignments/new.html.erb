@@ -1,0 +1,33 @@
+<!-- views/assignments/new -->
+
+<!-- Sidebar -->
+<div id="wrapper" > 
+	<div id="slidebar-white" class="slidebar-nav top-bufferXL">
+    <%=render "sort_users_by_shift" %>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      <button class="btn btn-theme" href="#menu-toggle" id="menu-toggle"> 
+         <span id="sidebar-icon" class="glyphicon glyphicon-chevron-left"></span>
+      </button>
+    </div>
+    <div class="col-md-11 no-top-buffer">
+      <h2 class="no-top-margin">Assign Workshifts</h2> 
+    </div>
+  </div>
+    <div class="hline"></div>
+    <%=form_tag create_assignments_path, :id => "assign_workshifts_form" do %>
+      <%= render "assign_workshifts_form" %>
+    <% end %>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#menu-toggle").click(function(e){
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+      $("#sidebar-icon").toggleClass("glyphicon glyphicon-chevron-left");
+      $("#sidebar-icon").toggleClass("glyphicon glyphicon-chevron-right");
+    });
+  })
+</script>

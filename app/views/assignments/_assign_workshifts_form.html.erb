@@ -1,0 +1,105 @@
+<div id="toolbar">
+</div>
+<table  class="table table-striped table-hover" id="assign-shifts"
+                      data-toolbar="#toolbar"
+                      data-show-columns="true" data-show-export="true"
+                      data-toggle="table" data-search="true"
+                      data-page-list="[10, 25, 50, 100, ALL]">
+  <thead>
+    <tr>
+      <th data-sortable="true">Category</th>
+      <th data-sortable="true">Name</th>
+      <% Workshift.days.each do |day| %>
+        <th><%= day %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @metashift_rows.each do |metashift, days| %>
+      <tr>
+        <td><%= metashift.category %></td>
+        <td><%= metashift.name %></td>
+        <% Workshift.days.each do |day| %>
+          <td class="workshift">
+            <% if days[day] %>
+              <% days[day].each do |workshift| %>
+                <div class="form-group sm-bottom-margin">
+                  <div class="input-group">
+                    <div id="scrollable-dropdown-menu">
+                      <input type="text" class="form-control workshift typeahead" id="<%= workshift.id %>" value="<%= workshift.user.full_name if workshift.user %>">
+                      <input type="hidden" class="form-control workshift typeahead" id="hidden<%= workshift.id %>" value="<%= workshift.user.id if workshift.user %>" name="workshifts[<%= workshift.id %>]">
+                    </div>
+                    <div class="input-group-addon workshift">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="
+                        Start Time: <%= workshift.start_time %>
+                        End Time: <%= workshift.end_time %> 
+                        Hours: <%= workshift.length %> 
+                        Details: <%= workshift.details %>
+                      "></span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="pull-right">
+  <button type="submit" class="btn btn-theme">Assign Shifts</button>
+</div>
+
+
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+  $(document).ready(function(){
+    _renderItem = function( ul, item ) {
+            return $( "<li>" ).val( item.val ).appendTo( ul );
+          }
+    $("table#assign-shifts").on("post-body.bs.table", function(){
+      
+      $("input.workshift").on("focus", function() {
+        $.get("/assignments/" + $(this).attr('id') + "/sort_users", function(data) {
+          $("#sorted-table").bootstrapTable('load', data.rows);
+          console.log(data.names)
+          $( ".typeahead" ).autocomplete({
+            minLength: 0,
+            source: data.names,
+            focus: function( event, ui ) {
+              $( this ).val( ui.item.val );
+              return false;
+            },
+            select: function( event, ui ) {
+
+              console.log($(this))
+              console.log( data.mapping[ui.item.label] );
+              console.log( $( "#hidden"+$(this).attr("id") ) );
+              $(this).val( ui.item.label );
+              $( "#hidden"+$(this).attr("id")).val( data.mapping[ui.item.label] );
+              return false;
+            }
+          })
+        });
+      });
+    })
+    
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip({
+        'selector': '',
+        'placement': 'top',
+        'container':'body'
+      });
+      $("#assign-shifts").on('reset-view.bs.table', function() {
+        $('[data-toggle="tooltip"]').tooltip({
+        'selector': '',
+        'placement': 'top',
+        'container':'body'
+        });
+      });
+    });
+    
+  });
+ 
+</script>

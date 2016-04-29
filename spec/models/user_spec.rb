@@ -63,8 +63,15 @@ RSpec.describe User, type: :model do
     
     it 'should add 5 to each users balance' do 
       User.weekly_hours_addition()
-      pp User.all
       (User.find(@member1.id).hour_balance).should eq(5)
+      (User.find(@member2.id).hour_balance).should eq(5)
+    end 
+    
+    it 'should add correct number of hours from blown hash' do
+      user_blown_hours = {@member1.id => 10, @member2.id => 20}
+      User.add_hours_from_blown(user_blown_hours)
+      (User.find(@member1.id).hour_balance).should eq(10)
+      (User.find(@member2.id).hour_balance).should eq(20)
     end 
   end 
 end

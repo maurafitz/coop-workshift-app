@@ -29,8 +29,9 @@ namespace :fine_calculator do
   
   def checkFiningDays
     Policy.all.each do |policy|
-      fine_days = policy.get_fine_days
-      
+      if policy.is_fine_day?
+        policy.fine_users
+      end 
     end 
   end 
   

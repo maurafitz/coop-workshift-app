@@ -4,38 +4,36 @@ Feature: Workshift Manager: View and edit user information
   I would like to be able to view and edit their profile
   
   Background:
-    Given the following users exist:
+    Given the following users are members of "Cloyne":
     | first_name      | last_name     | email                     |   password     |    permissions   |
     | Eric            | Nelson        | ericn@berkeley.edu        |   bunnny       |      0           |
     | Giorgia         | Willits       | gwillits@berkeley.edu     |   tortoise     |      0           |
-    And I am the following user:
-    | first_name      | last_name     | email                     |   password     |    permissions   |
     | Ryan            | Riddle        | ry@berkeley.edu           |   hare         |      2           |
-    And I am logged in as an admin
+    And I log in with "ry@berkeley.edu", "hare"
     And I am on my profile page
   
   Scenario: Admin should be able to edit user info (Compensated Hours)
     Then I should see "Select Workshifts Preferences"
     And I follow "View & Edit Users" 
-    Then I should see "Ryan Riddle"
-    When I follow "Ryan Riddle"
-    Then I should see "ry@berkeley.edu"
-    And I should see "Permissions:	Workshift-Manager"
+    Then I should see "Giorgia Willits"
+    When I follow "Giorgia Willits"
+    Then I should see "gwillits@berkeley.edu"
+    And I should see "Permissions:	Member"
     And I should see "Compensated Hours:	0"
     When I follow "Edit Profile"
     Then I should see "Compensated Hours"
     When I fill in "Compensated Hours" with "5"
     And I click "Update User"
     Then I should see "Compensated Hours:	5"
-    And I should see "ry@berkeley.edu"
+    And I should see "gwillits@berkeley.edu"
 
   Scenario: Admin should be able to edit user info (Permissions)
     Then I should see "Select Workshifts Preferences"
     And I follow "View & Edit Users" 
-    Then I should see "Ryan Riddle"
-    When I follow "Ryan Riddle"
-    Then I should see "ry@berkeley.edu"
-    And I should see "Permissions:	Workshift-Manager"
+    Then I should see "Giorgia Willits"
+    When I follow "Giorgia Willits"
+    Then I should see "gwillits@berkeley.edu"
+    And I should see "Permissions:	Member"
     And I should see "Compensated Hours:	0"
     When I click "Edit Profile"
     Then I should see "Compensated Hours"
@@ -43,7 +41,7 @@ Feature: Workshift Manager: View and edit user information
     And I click "Member"
     Then I should see "Member"
     And I click "Update User"
-    Then I should see "ry@berkeley.edu"
+    Then I should see "gwillits@berkeley.edu"
     And I should see "Compensated Hours:	0"
     # And I should see "Permissions:	Member"
 

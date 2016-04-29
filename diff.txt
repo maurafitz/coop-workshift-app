@@ -1,0 +1,573 @@
+diff --git a/RackMultipart20160428-3157-1eb015u.csv b/RackMultipart20160428-3157-1eb015u.csv
+deleted file mode 100644
+index 6b6d240..0000000
+--- a/RackMultipart20160428-3157-1eb015u.csv
++++ /dev/null
+@@ -1,4 +0,0 @@
+-category,name,description,multiplier,times
+-Kitchen,Clean Dishes, Wash in sink with soap and dkjlfdfa;,1,"Wednesday, 1:30PM to 3:30PM (1.5); Friday, 4:30PM to 6:50PM (2)"
+-Bathroom,Clean Shower,Cleaning the shower,3,"Friday, 1:30PM to 4:30PM (1)"
+-Garden,Water Plants,Backyard jlfjdlksa;f,0.5,"Monday, 3:30PM to 5:50PM (3)"
+\ No newline at end of file
+diff --git a/app/assets/images/csv_workshift_row.png b/app/assets/images/csv_workshift_row.png
+index 1668e0f..5334013 100644
+Binary files a/app/assets/images/csv_workshift_row.png and b/app/assets/images/csv_workshift_row.png differ
+diff --git a/app/controllers/assignments_controller.rb b/app/controllers/assignments_controller.rb
+index 0cbbe47..21f1628 100644
+--- a/app/controllers/assignments_controller.rb
++++ b/app/controllers/assignments_controller.rb
+@@ -28,12 +28,8 @@ class AssignmentsController < ApplicationController
+   end
+   
+   def sort_users
+-    puts params
+     workshift = Workshift.find_by_id(params[:id])
+-    puts workshift
+-    puts current_unit
+     @sorted_users_rankings = User.get_rankings_for workshift, current_unit
+-    puts @sorted_users_rankings
+     @rows, @names, @mapping= [], [], {}
+     @sorted_users_rankings.each do |user, ranking|
+       @rows << {:name => "<a id='#{user.last_name}' href='#{admin_view_user_path(user.id)}'>#{user.full_name}</a>", :ranking => ranking}
+diff --git a/app/controllers/signoffs_controller.rb b/app/controllers/signoffs_controller.rb
+index 1d98a03..706a944 100644
+--- a/app/controllers/signoffs_controller.rb
++++ b/app/controllers/signoffs_controller.rb
+@@ -1,6 +1,6 @@
+ class SignoffsController < ApplicationController
+     skip_before_filter :set_current_user
+-    require "pp"
++
+     def new
+         if current_unit.nil?
+             flash[:danger] = "You have not set your unit yet. Please do so now"
+@@ -50,7 +50,6 @@ class SignoffsController < ApplicationController
+             workshifts.each do |ws|
+                 shifts = ws.shifts.where(date: 2.days.ago..1.week.from_now, completed: false)
+                 shifts.each do |s|
+-                  begin
+                     time = ws.day + " " + s.date.strftime("%-m/%d")
+                     if not json_info.key? time
+                         json_info[time] = {}
+@@ -59,30 +58,16 @@ class SignoffsController < ApplicationController
+                     if not json_info[time].key? desc
+                         json_info[time][desc] = []
+                     end
+-                    u = s.user 
+-                    if not u 
+-                        json_info[time][desc] << {"name" => "Unassigned",
+-                                                    "id" => "",
+-                                                    "hours" => ws.length,
+-                                                    "shift_id" => s.id  }
+-                    end
++                    u = s.user
+                     if not json_info[time][desc].include? u.full_name
+                         json_info[time][desc] << {"name" => u.full_name,
+                                                     "id" => u.id,
+                                                     "hours" => ws.length,
+                                                     "shift_id" => s.id  }
+                     end
+-                  rescue Exception => e
+-
+-                    puts "%" * 67
+-                    puts e.message
+-                    puts "%" * 67
+-                    
+-                  end
+                 end
+             end
+-            end
+-        pp json_info
++        end
+         render json: json_info
+     end
+     
+diff --git a/app/controllers/workshifts_controller.rb b/app/controllers/workshifts_controller.rb
+index 9feb01e..97a6eb7 100644
+--- a/app/controllers/workshifts_controller.rb
++++ b/app/controllers/workshifts_controller.rb
+@@ -25,8 +25,7 @@ class WorkshiftsController < ApplicationController
+   def create_timeslots
+     shift = params[:shift]
+     @metashift = Metashift.find_by_id(shift[:metashift_id])
+-    @shift = Workshift.add_workshift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift, shift[:length])
+-    flash[:success] = "Created workshift '#{@metashift.name}' on #{@shift.day}s from #{@shift.start_time} to #{@shift.end_time}"
++    Workshift.add_workshift(shift[:dayoftheweek], shift[:start_time], shift[:end_time], @metashift)
+     redirect_to workshifts_path
+   end
+   
+@@ -59,7 +58,7 @@ class WorkshiftsController < ApplicationController
+   private
+     # Never trust parameters from the scary internet, only allow the white list through.
+     def workshift_params
+-      params.require(:workshift).permit(:start_time, :end_time, :day, :metashift_id, :length, :user_id)
++      params.require(:workshift).permit(:start_time, :end_time, :day, :metashift_id)
+     end
+     
+     #Keys: shift, user, start_time, end_time, description
+diff --git a/app/models/metashift.rb b/app/models/metashift.rb
+index f8c7120..4188092 100644
+--- a/app/models/metashift.rb
++++ b/app/models/metashift.rb
+@@ -21,7 +21,6 @@ class Metashift < ActiveRecord::Base
+     
+     def self.create_workshift_instances(metashift, csv_times) 
+       metashift_times = []
+-      length = nil
+       all_times = csv_times.split(';')
+       all_times.each do |time_slot|
+         time_slot = time_slot.squish
+@@ -29,12 +28,8 @@ class Metashift < ActiveRecord::Base
+         day = time_details[0].squish
+         start_and_end = time_details[1].split('to')
+         start_time = start_and_end[0].squish
+-        end_time = start_and_end[1].split('(')[0].squish
+-        length_regex = start_and_end[1].match(/\((\d*\.?\d*)\)/)
+-        if length_regex
+-          length = length_regex.captures[0]
+-        end
+-        workshift = Workshift.add_workshift(day, start_time, end_time, metashift, length)
++        end_time = start_and_end[1].squish 
++        workshift = Workshift.add_workshift(day, start_time, end_time, metashift)
+         metashift_times << workshift
+       end
+       return metashift_times
+diff --git a/app/models/user.rb b/app/models/user.rb
+index 457adcf..164bd01 100644
+--- a/app/models/user.rb
++++ b/app/models/user.rb
+@@ -153,14 +153,13 @@ class User < ActiveRecord::Base
+     end
+     
+     def convert_to_military time
+-      time = time.downcase
+-      matcher = /^(\d?\d):(\d\d)(a|p)m$/
++      matcher = /^(\d?\d)(a|p)m$/
+       time = matcher =~ time
+-      hour, ampm, = $1.to_i, $3
++      hour, ampm = $1.to_i, $2
+       if ampm == 'p'
+-        return hour + 12
++        hour + 12
+       else
+-        return hour
++        hour
+       end
+     end
+     
+diff --git a/app/models/workshift.rb b/app/models/workshift.rb
+index 398002c..b603c3d 100644
+--- a/app/models/workshift.rb
++++ b/app/models/workshift.rb
+@@ -33,8 +33,8 @@ class Workshift < ActiveRecord::Base
+     self.metashift.description
+   end
+ 
+-  def self.add_workshift(day, start_time, end_time, metashift, length=1)
+-    new_workshift = Workshift.create!(:start_time => start_time, :end_time => end_time, :day => day, :length => length)
++  def self.add_workshift(day, start_time, end_time, metashift)
++    new_workshift = Workshift.create!(:start_time => start_time, :end_time => end_time, :day => day)
+     metashift.workshifts << new_workshift
+     metashift.save!
+     return new_workshift
+diff --git a/app/views/assignments/new.html.erb b/app/views/assignments/new.html.erb
+index 73ead76..a7840f2 100644
+--- a/app/views/assignments/new.html.erb
++++ b/app/views/assignments/new.html.erb
+@@ -5,24 +5,27 @@
+ 	<div id="slidebar-white" class="slidebar-nav top-bufferXL">
+     <%=render "sort_users_by_shift" %>
+   </div>
+-  <div class="row">
+-    <div class="col-md-1">
+-      <button class="btn btn-theme" href="#menu-toggle" id="menu-toggle"> 
+-         <span id="sidebar-icon" class="glyphicon glyphicon-chevron-left"></span>
+-      </button>
+-    </div>
+-    <div class="col-md-11 no-top-buffer">
+-      <h2 class="no-top-margin">Assign Workshifts</h2> 
+-    </div>
++<!--<div class="col-lg-3">-->
++<!--</div>-->
++<div class="row">
++  <div class="col-md-1">
++    <button class="btn btn-theme" href="#menu-toggle" id="menu-toggle"> 
++       <span id="sidebar-icon" class="glyphicon glyphicon-chevron-left"></span>
++    </button>
+   </div>
+-    <div class="hline"></div>
+-    <%=form_tag create_assignments_path, :id => "assign_workshifts_form" do %>
+-      <%= render "assign_workshifts_form" %>
+-    <% end %>
++  <div class="col-md-11 no-top-buffer">
++    <h2 class="no-top-margin">Assign Workshifts</h2> 
++  </div>
++</div>
++  <div class="hline"></div>
++  <%=form_tag create_assignments_path, :id => "assign_workshifts_form" do %>
++    <%= render "assign_workshifts_form" %>
++  <% end %>
+ </div>
+ 
+ <script>
+   $(document).ready(function(){
++    // add to footer
+     $("#menu-toggle").click(function(e){
+       e.preventDefault();
+       $("#wrapper").toggleClass("toggled");
+diff --git a/app/views/workshifts/_add_timeslots_form.html.erb b/app/views/workshifts/_add_timeslots_form.html.erb
+index c28da3d..0189701 100644
+--- a/app/views/workshifts/_add_timeslots_form.html.erb
++++ b/app/views/workshifts/_add_timeslots_form.html.erb
+@@ -64,15 +64,6 @@
+             </div>
+         </div>
+     </div>
+-    <div class="row">
+-        <div class ="col-md-2">
+-            <h3>Length:</h3>
+-            <p>Number of hours a member must complete during the shift's duration.</p>
+-        </div>
+-        <div class ="col-md-2" style="margin-top:30px;">
+-            <%= text_field :shift, "length", class:"form-control", :value => 1.0 %>
+-        </div>
+-    </div>
+    
+     <div class = "form-group">
+         <input type="hidden" name="shift[metashift_id]" id="metashift_field" value=<%=params[:id]%>>    
+diff --git a/app/views/workshifts/_workshift_csv_description.html.erb b/app/views/workshifts/_workshift_csv_description.html.erb
+deleted file mode 100644
+index 089798b..0000000
+--- a/app/views/workshifts/_workshift_csv_description.html.erb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-<head>
+-  <style type="text/css">
+-    .row {
+-      margin-top:5px;
+-      margin-bottom:5px;
+-    }
+-  </style>
+-</head>
+-
+-<div class="row">
+-    <h4>Format:</h4>
+-    Columns: category, name, description, multiplier, times.
+-</div>
+-<div class="row">
+-    <strong>Multiplier</strong> is the hour value of the workshift.
+-</div>
+-<div class="row">
+-    <strong>Length</strong> is the amount of time a member must do the workshift between its start and end times. <br>
+-    The default <strong>length</strong> is 1.0 hours.
+-</div>
+-<div class="row">
+-    Times column format: <br>Wednesday, XX:XXAM to YY:YYPM (1); Friday, ZZ:ZZPM to YY:YYPM (2)<br>
+-    - place semi-colon after each day/time pair <br>
+-    - the number in parenthesis is the length, if omitted the default length will be assigned</p>
+-</div>
+-<div class="row" style="margin-bottom:30px;">
+-  <h4>An example:</h4>
+-    <img src=<%= asset_path( 'csv_workshift_row.png' ) %> >  
+-</div>
+diff --git a/app/views/workshifts/new.html.erb b/app/views/workshifts/new.html.erb
+index a083acc..5e86faf 100644
+--- a/app/views/workshifts/new.html.erb
++++ b/app/views/workshifts/new.html.erb
+@@ -19,7 +19,13 @@
+ 
+ <div class="col-lg-6 col-md-offset-1">
+   <h2>Upload CSV</h2>
+-  <%=render "workshift_csv_description" %>
++  <h4>Format:</h4>
++  <p> Columns: category, name, description, multiplier, times. <br><br>
++  Multiplier is the hour value of the workshift. <br><br>
++  Times column format: <br>Wednesday, XX:XXAM to YY:YYPM; Friday, ZZ:ZZPM to YY:YYPM <br>
++    (place semi-colon after each day/time pair).</p>
++  <h4>An example:</h4>
++  <img src=<%= asset_path( 'csv_workshift_row.png' ) %> >
+   <div class="hline"></div>
+     <%=render "add_csv_form" %>
+   </div>
+diff --git a/app/views/workshifts/new_timeslots.html.erb b/app/views/workshifts/new_timeslots.html.erb
+index c6d067e..31215f2 100644
+--- a/app/views/workshifts/new_timeslots.html.erb
++++ b/app/views/workshifts/new_timeslots.html.erb
+@@ -4,6 +4,5 @@
+ 
+ <h3 style="margin-bottom:40px;"> Hour Value: <small><%= @metashift.multiplier%></small></h4>
+ 
+-<h3 style="margin-bottom:15px;"> Add a time </h3>
+-<%=render "add_timeslots_form" %>
+-
++<h1 style="margin-bottom:15px;"> Add a time </h4>
++<%=render "add_timeslots_form" %>
+\ No newline at end of file
+diff --git a/app/views/workshifts/upload.html.erb b/app/views/workshifts/upload.html.erb
+index fbb2337..5872cad 100644
+--- a/app/views/workshifts/upload.html.erb
++++ b/app/views/workshifts/upload.html.erb
+@@ -1,6 +1,6 @@
+ <!-- app/views/workshifts/upload.html.erb -->
+   <div class="row">
+-    <div class="col-md-5">
++    <div class="col-lg-8">
+       <h2>Add Workshift Manually</h2>
+       <div class="hline"></div>
+ 
+@@ -9,10 +9,10 @@
+     </div>
+     <! --/col-lg-8 -->
+ 
+-    <div class="col-md-6 col-md-offset-1">
++    <div class="col-lg-4">
+       <h2>Upload CSV</h2>
+-      <%=render "workshifts/workshift_csv_description" %>
+       <div class="hline"></div>
++
+       <%=render "workshifts/add_csv_form" %>
+ 
+     </div>
+@@ -33,7 +33,7 @@
+       <th>Name</th>
+       <th>Description</th>
+       <th>Hour Value</th>
+-      <th>Times (Length)</th>
++      <th>Times</th>
+       <th>Add Timeslots</th>
+     </tr>
+     <% @metashifts_uploaded.each do |metashift, shift_array| %>
+@@ -53,7 +53,7 @@
+         <td>
+           <% if shift_array %>
+             <% shift_array.each do |shift| %>
+-                <%= simple_format(shift.get_time_formatted + " (" + shift.length.to_s + ")" + "\n") %>
++                <%= simple_format(shift.get_time_formatted + "\n") %>
+             <% end %>
+           <% end %>
+         </td>
+diff --git a/db/schema.rb b/db/schema.rb
+index 332f49c..a5c767e 100644
+--- a/db/schema.rb
++++ b/db/schema.rb
+@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20160428025442) do
+     t.integer  "permissions"
+     t.datetime "created_at",                          null: false
+     t.datetime "updated_at",                          null: false
++    t.string   "password"
+     t.string   "password_digest"
+     t.boolean  "sent_confirmation",   default: false
+     t.boolean  "has_confirmed",       default: false
+diff --git a/db/seeds.rb b/db/seeds.rb
+index 5a5d222..4fef53e 100644
+--- a/db/seeds.rb
++++ b/db/seeds.rb
+@@ -70,7 +70,7 @@ faker_users = []
+     faker_users << User.create!({:first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, 
+           :email => Faker::Internet.email, 
+           :permissions => User::PERMISSION[:member],
+-          :password => 'member',
++          :password => 'member', :has_confirmed => true,
+           :hour_balance => Faker::Number.between(1, 50), :fine_balance => Faker::Number.between(20, 100),
+           :sent_confirmation => true, :has_confirmed => true, :unit => cloyne })
+ }
+@@ -205,7 +205,7 @@ Workshift.all.where('user_id' => nil).each do |ws|
+ end 
+ 
+ days = Workshift.days
+-(0..100).each {
++(0..200).each {
+     start_time = rand(8..22)
+     end_time = rand(start_time+1..23)
+     length = rand(1..end_time-start_time)
+diff --git a/features/features/user/preferences/set_and_edit_schedule_preferences.feature b/features/features/user/preferences/set_and_edit_schedule_preferences.feature
+index f291e42..03850c8 100644
+--- a/features/features/user/preferences/set_and_edit_schedule_preferences.feature
++++ b/features/features/user/preferences/set_and_edit_schedule_preferences.feature
+@@ -64,21 +64,3 @@ Feature: Set and Edit User Preferences for Schedule
+     Then my availability for "Monday", "8am" should be "Available"
+     And my availability for "Tuesday", "10pm" should be "Not Preferred"
+       
+-  Scenario: A user tried to edite without setting preferences
+-    Given I have not saved any preferences
+-    When I go to the edit preferences page
+-    Then I should be on the set preferences page
+-    And I should see "You have not yet set your preferences. Please set them here."
+-    
+-  Scenario: A user sets preference and tries to access new preference form
+-    Given I have not saved any preferences
+-    When I go to the set preferences page
+-    And I select the following time preferences:
+-    | day         | times              | availability  |
+-    | Monday      | 8am-6pm            | Unavailable   |
+-    When I fill in "Notes" with "whut"
+-    And I click "Save"
+-    Then I should be on my profile page
+-    When I go to the set preferences page
+-    Then I should be on the edit preferences page
+-    And I should see "You have already set your preferences. Edit them here."
+\ No newline at end of file
+diff --git a/features/features/workshifts/add_workshifts.feature b/features/features/workshifts/add_workshifts.feature
+index eae4c7d..8b04e71 100644
+--- a/features/features/workshifts/add_workshifts.feature
++++ b/features/features/workshifts/add_workshifts.feature
+@@ -1,4 +1,3 @@
+-@javascript
+ Feature: Workshift Manager: Add Workshifts
+   As a workshift manager,
+   In order to set the types of shifts that my house needs completed,
+@@ -18,7 +17,7 @@ Feature: Workshift Manager: Add Workshifts
+     And I should see "3.0"
+     And I should see "You added 3 new workshifts"
+     
+-  Scenario: an admin adds workshifts manually and adds a time
++  Scenario: an admin adds workshifts manually
+     When I fill in "Category" with "Kitchen"
+     And I fill in "Name" with "Sweep"
+     And I fill in "Description" with "Sweeping the kitchen floor"
+@@ -28,22 +27,8 @@ Feature: Workshift Manager: Add Workshifts
+     And I should see "Sweep"
+     And I should see "Sweeping the kitchen floor"
+     And I should see "1.5"
+-    When I follow "Add a time"
+-    Then I should see "Sweeping the kitchen floor"
+-    When I choose the day "Monday"
+-    And I choose the "start" time as "7:30" "AM"
+-    And I choose the "end" time as "9:30" "AM"
+-    And I set the length to be "1.5"
+-    And I press "Add Timeslot"
+-    Then I should be on the view workshifts page
+-    And I should see "Created workshift 'Sweep' on Mondays from 7:30AM to 9:30AM"
+     
+   Scenario: an admin tries to import no file
+     When I press "Import"
+     Then I should be on the create workshifts page
+-    And I should see "You must select a file to upload."
+-    
+-  Scenario: an admin imports a file of the wrong format
+-    When I upload "rando_file.rtf"
+-    And I press "Import"
+-    Then I should see "Unknown file type:" 
+\ No newline at end of file
++    And I should see "You must select a file to upload."
+\ No newline at end of file
+diff --git a/features/step_definitions/shift_steps.rb b/features/step_definitions/shift_steps.rb
+index c5b97fa..eec03ba 100644
+--- a/features/step_definitions/shift_steps.rb
++++ b/features/step_definitions/shift_steps.rb
+@@ -5,30 +5,6 @@ Given(/^the following shifts exist:$/) do |shifts|
+   end
+ end
+ 
+-Given(/^I choose the day "(.*)"/) do |day|
+-  #select '#{day}', from: "workdays"
+-  find('#weekday_btn').click
+-  click_on "#{day}"
+-end
+-
+-Given(/^I choose the "(.*)" time as "(.*)" "(.*)"/) do |start_or_end, time, am_pm|
+-  if start_or_end == "start"
+-    fill_in("start_time", :with => time)
+-    find('#start_btn').click
+-    click_on "#{am_pm}"
+-  elsif start_or_end == "end"
+-    fill_in("end_time", :with => time)
+-    find('#end_btn').click
+-    within("#end_am_pm") do
+-      click_on "#{am_pm}"
+-    end
+-  end
+-end
+-
+-Given(/I set the length to be "(.*)"/) do |len|
+-  fill_in("shift_length", :with => len)
+-end
+-
+ Then(/^([^"]*)'s shift for "([^"]*)" on "([^"]*)" should (not )?be completed$/) do |first_name, metashift_name, date, bool|
+   user = User.find_by_first_name(first_name)
+   metashift = Metashift.find_by_name(metashift_name)
+diff --git a/lib/rando_file.rtf b/lib/rando_file.rtf
+deleted file mode 100644
+index 5d39a84..0000000
+--- a/lib/rando_file.rtf
++++ /dev/null
+@@ -1,8 +0,0 @@
+-{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf460
+-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+-{\colortbl;\red255\green255\blue255;}
+-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+-
+-\f0\fs24 \cf0 random file\
+-}
+\ No newline at end of file
+diff --git a/spec/controllers/shifts_controller_spec.rb b/spec/controllers/shifts_controller_spec.rb
+index 59fc8c1..61e4b30 100644
+--- a/spec/controllers/shifts_controller_spec.rb
++++ b/spec/controllers/shifts_controller_spec.rb
+@@ -9,7 +9,6 @@ RSpec.describe ShiftsController, type: :controller do
+         @shift = create(:workshift, metashift: @meta_shift, user: @user1)
+         @shift.save
+     end
+-
+     
+     describe 'viewing shifts' do
+         before(:each) do
+diff --git a/spec/controllers/users_controller_spec.rb b/spec/controllers/users_controller_spec.rb
+index 439cd20..1505865 100644
+--- a/spec/controllers/users_controller_spec.rb
++++ b/spec/controllers/users_controller_spec.rb
+@@ -114,5 +114,4 @@ RSpec.describe UsersController, type: :controller do
+             expect(response).to render_template(:get_all)
+         end
+     end
+-
+ end
+\ No newline at end of file
+diff --git a/spec/models/user_spec.rb b/spec/models/user_spec.rb
+index 38467f3..dcb0996 100644
+--- a/spec/models/user_spec.rb
++++ b/spec/models/user_spec.rb
+@@ -8,8 +8,6 @@ RSpec.describe User, type: :model do
+       :last_name => 'Fitz', :permissions => User::PERMISSION[:member])
+       @member2 = FactoryGirl.build(:user, :first_name => 'Henri',
+       :last_name => 'Fitz', :permissions => User::PERMISSION[:manager])
+-      @member3 = FactoryGirl.build(:user, :first_name => 'Lol',
+-      :last_name => 'Fitz', :permissions => User::PERMISSION[:ws_manager])
+     end
+     
+     it 'should give a member only member access' do
+@@ -31,16 +29,6 @@ RSpec.describe User, type: :model do
+       expect(@member1.full_name).to eq("Maura Fitz")
+       expect(@member2.full_name).to eq("Henri Fitz")
+     end
+-    
+-    it 'getPermission should return the correct string' do
+-      expect(@member1.getPermission).to eq("Member")
+-      expect(@member2.getPermission).to eq("Manager")
+-      expect(@member3.getPermission).to eq("Workshift-Manager")
+-    end
+-    
+-    it 'should map a role to the correct permission code' do
+-     expect(User.getPermissionCode("member")).to eq(0)
+-    end
+   end
+   
+   describe "the password" do
+@@ -57,16 +45,4 @@ RSpec.describe User, type: :model do
+       expect {User.open_spreadsheet(@file)}.to raise_error(RuntimeError)
+     end
+   end
+-  
+-  describe "converting time" do
+-    before(:each) do
+-      @member1 = FactoryGirl.build(:user, :first_name => 'Maura',
+-      :last_name => 'Fitz', :permissions => User::PERMISSION[:member])
+-    end
+-    it 'should convert to military time' do
+-      expect(@member1.convert_to_military('07:40AM')).to eq(7)
+-      expect(@member1.convert_to_military('07:40PM')).to eq(19)
+-    end
+-  end
+-  
+ end

@@ -31,10 +31,23 @@ end
 def simulate_login(user)
   visit path_to('the home page')
   click_link('Login')
+  puts user.email
+  puts user.password
   fill_in('email', :with => user.email)
   fill_in('password', :with => user.password)
   click_button("Sign In")
   @current_user = user
+end
+
+def simulate_login_with_creds(email, password)
+  visit path_to('the home page')
+  click_link('Login')
+  puts email
+  puts password
+  fill_in('email', :with => email)
+  fill_in('password', :with => password)
+  click_button("Sign In")
+  @current_user = User.find_by(email: email)
 end
 
 Given(/^I am logged in as an admin$/) do
@@ -66,9 +79,8 @@ Given(/^I am logged in$/) do
   simulate_login(@current_user)
 end
 
-Given(/^I am logged in as "(.*)"$/) do |first_name|
-  user = User.find_by_first_name(first_name)
-  simulate_login(user)
+Given(/^I log in with "(.*)", "(.*)"$/) do |email, password|
+  simulate_login_with_creds(email, password)
 end
 
 Given(/^I am not logged in$/) do
@@ -123,8 +135,20 @@ Then(/^I should have admin rights$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-When(/^I toggle all$/) do
-  find(:css, "[id='preference_toggle']").set(false)
+When(/^I toggle all on$/) do
+  find("#pref_all_div .toggle-handle").click
+end
+
+When(/^I toggle all off$/) do
+  find("#pref_all_div .toggle-handle").click
+end
+
+When(/^I toggle theirs on$/) do
+  find("#pref_one_div .toggle-handle").click
+end
+
+When(/^I toggle theirs off$/) do
+  find("#pref_one_div .toggle-handle").click
 end
 
 When(/^I refresh the page$/) do

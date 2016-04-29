@@ -31,9 +31,21 @@ class Policy < ActiveRecord::Base
         end
     end
     
-    # def is_fine_day?
-    #     get_fine_days.each do |day|
-    #         check_day
-    #     end 
-    # end 
+    def is_fine_day?
+        fine_days.each do |day|
+            if day.today?
+                return true
+            end 
+        end 
+        false
+    end 
+    
+    def fine_users
+        #This should be executed every fining day
+        unit.users.each do |user|
+            user.fine_balance += fine_amount * user.hour_balance
+            user.hour_balance = 0
+            user.save
+        end 
+    end 
 end

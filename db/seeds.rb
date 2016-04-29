@@ -28,7 +28,7 @@ policies.each do |policy|
 end
 
 
-## UNITS ## 
+## UNITS  ## 
 units = [{:name => "Cloyne"}, 
          {:name => "Castro"}, 
          {:name => "CZ"}]
@@ -155,21 +155,21 @@ string_day_to_int = {"Sunday" => 0,"Monday" => 1, "Tuesday" => 2, 'Wednesday' =>
 
 ## WORKSHIFTS ## 
 workshifts = {
-        :dishes => [{:start_time => "5am", :end_time => "11am", :details => "Morning", :length => 2, :day => "Monday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 5, :day => "Wednesday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 1, :day => "Thursday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 2, :day => "Friday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "5am", :end_time => "11am", :details => "Morning",:length => 2, :day => "Saturday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "12pm", :end_time => "3pm", :details => "Afternoon",:length => 1, :day => "Saturday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "12pm", :end_time => "3pm", :details => "Afternoon",:length => 1, :day => "Monday", :metashift => metashift_instances[:dishes]},
-                    {:start_time => "12pm", :end_time => "3pm", :details => "AFternoon",:length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]}
+        :dishes => [{:start_time => "5:00am", :end_time => "11:00am", :details => "Morning", :length => 2, :day => "Monday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5:00am", :end_time => "11:00am", :details => "Morning",:length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5:00am", :end_time => "11:00am", :details => "Morning",:length => 5, :day => "Wednesday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5:00am", :end_time => "11:00am", :details => "Morning",:length => 1, :day => "Thursday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5:00am", :end_time => "11:00am", :details => "Morning",:length => 2, :day => "Friday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "5:00am", :end_time => "11:00am", :details => "Morning",:length => 2, :day => "Saturday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12:00pm", :end_time => "3:00pm", :details => "Afternoon",:length => 1, :day => "Saturday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12:00pm", :end_time => "3:00pm", :details => "Afternoon",:length => 1, :day => "Monday", :metashift => metashift_instances[:dishes]},
+                    {:start_time => "12:00pm", :end_time => "3:00pm", :details => "AFternoon",:length => 3, :day => "Tuesday", :metashift => metashift_instances[:dishes]}
                    ],
-        :tidy => [{:start_time => "11am", :end_time => "2pm", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:tidy]}
+        :tidy => [{:start_time => "11:00am", :end_time => "2:00pm", :length => 3, :day => "Tuesday", :metashift => metashift_instances[:tidy]}
                  ],
-        :head_cook => [{:start_time => "5pm", :end_time => "8pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:head_cook]}
+        :head_cook => [{:start_time => "5:00pm", :end_time => "8:00pm", :length => 2, :day => "Tuesday", :metashift => metashift_instances[:head_cook]}
                  ],
-        :wrc => [{ :length => 5, :day => "Weeklong", :metashift => metashift_instances[:wrc]}
+        :wrc => [{ :start_time => "5:00pm", :end_time => "8:00pm", :length => 5, :day => "Monday", :metashift => metashift_instances[:wrc]}
                  ]
         }
            

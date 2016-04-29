@@ -41,7 +41,7 @@ $(document).ready(function() {
           data: valuesToSubmit,
           dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
       }).success(function(json){
-          console.log("success", json);
+        //   console.log("success", json);
       });
       return false; // prevents normal behaviour
   });
@@ -59,12 +59,13 @@ $(document).ready(function() {
           data: valuesToSubmit,
           dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
       }).success(function(json){
-          console.log("success", json);
+        //   console.log("success", json);
       });
       return false; // prevents normal behaviour
   });
   $('#preference_toggle_one').change(function() {
     $( "#pref_form" ).submit();
   });
+
 });
 </script>

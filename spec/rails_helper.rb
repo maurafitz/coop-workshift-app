@@ -12,18 +12,6 @@ SimpleCov.start 'rails' do
   add_filter "app/mailers/signup_mailer.rb"
 end
 
-SimpleCov.coverage_dir 'coverage/rspec'
-all_files = Dir['**/*.rb']
-base_result = {}
-all_files.each do |file|
-  absolute = File::expand_path(file)
-  lines = File.readlines(absolute, :encoding => 'UTF-8')
-  base_result[absolute] = lines.map do |l|
-    l.strip!
-    l.empty? || l =~ /^end$/ || l[0] == '#' ? nil : 0
-  end
-end
-
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)

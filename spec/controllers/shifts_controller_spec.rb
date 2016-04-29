@@ -4,10 +4,6 @@ require 'pp'
 
 RSpec.describe ShiftsController, type: :controller do
     before(:each) do 
-        # @user1 = create(:user, first_name: "Joe", last_name: "Hi")
-        # @meta_shift = create(:metashift)
-        # @shift = create(:workshift, metashift: @meta_shift, user: @user1, start_time: '1:00PM', end_time:)
-        # @shift.save
         @a_user = User.create!(:first_name => 'my user', :last_name => 'last',
                 :email => 'auser@gmail.com', :password => '3ljkd;a2', :permissions =>
                 User::PERMISSION[:ws_manager])

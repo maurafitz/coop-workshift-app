@@ -36,9 +36,9 @@ RSpec.describe AssignmentsController, type: :controller do
                 expect(@workshift1).to receive(:user=).with(@user1) 
                 expect(@workshift2).to receive(:user=).with(@user2) 
                 expect(@workshift3).to receive(:user=).with(@user1) 
-                expect(@workshift1).to receive(:save)
-                expect(@workshift2).to receive(:save)
-                expect(@workshift3).to receive(:save)
+                @workshifts.each do |_, ws|
+                    expect(ws).to receive(:save)
+                end
                 post :create, @params
             end
             it "should redirect to the current user's profile page" do

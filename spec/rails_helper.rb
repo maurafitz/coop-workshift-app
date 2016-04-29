@@ -11,7 +11,6 @@ SimpleCov.start 'rails' do
   add_filter "/config"
   add_filter "app/mailers/signup_mailer.rb"
 end
-Rails.application.eager_load!
 
 
 ENV['RAILS_ENV'] ||= 'test'

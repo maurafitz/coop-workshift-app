@@ -39,6 +39,8 @@ module CoopWorkshiftApp
       :asset_manifest => {},
       :common_manifest => {},
     }
+    config.eager_load_paths += %W(#{config.root}/lib)
+    config.eager_load_paths += Dir["#{config.root}/lib/**/"]
     
   end
 end

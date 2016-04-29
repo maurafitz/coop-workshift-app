@@ -47,6 +47,15 @@ RSpec.describe User, type: :model do
     end
   end
   
+  describe 'checking availability' do
+    it 'should return false if has no avails' do
+      @member1 = User.create!(:first_name => 'Maura', :unit => @unit, :email => 'a@b.com',
+      :last_name => 'Fitz', :permissions => User::PERMISSION[:member],
+      :hour_balance => 0, :password => '12345kabsdfasdf')
+      (@member1.has_saved_availability?).should eq(false)
+    end 
+  end 
+  
   describe 'updating hour balance' do
     before(:each) do
       @unit = Unit.create!()

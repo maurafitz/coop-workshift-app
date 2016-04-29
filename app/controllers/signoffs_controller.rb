@@ -73,15 +73,11 @@ class SignoffsController < ApplicationController
                                                     "shift_id" => s.id  }
                     end
                   rescue Exception => e
-
-                    puts "%" * 67
                     puts e.message
-                    puts "%" * 67
-                    
                   end
                 end
             end
-            end
+        end
         pp json_info
         render json: json_info
     end
@@ -138,7 +134,6 @@ class SignoffsController < ApplicationController
             flash[:danger] = "Error saving shift"
         end
         redirect_to signoff_page_path
-
     end
     
     def email_admin

@@ -1,7 +1,6 @@
 class PreferencesController < ApplicationController
 
   def toggle_all
-    # puts params
     if (params.has_key?(:pref_all) and params[:pref_all] == "on")
       User.all.each do | u |
         u.update_attribute(:preference_open, true)

@@ -73,11 +73,7 @@ class SignoffsController < ApplicationController
                                                     "shift_id" => s.id  }
                     end
                   rescue Exception => e
-
-                    puts "%" * 67
                     puts e.message
-                    puts "%" * 67
-                    
                   end
                 end
             end

@@ -16,16 +16,22 @@ namespace :fine_calculator do
     if isSunday()
       pp 'Adding hours to all users based on their unit policy'
       User.weekly_hours_addition()
-      handleBlownShifts()
+      findAndAddBlownShifts()
     end 
-    calcFiningDays
+    checkFiningDays
   end
   
-  def handleBlownShifts
+  def findAndAddBlownShifts
       pp 'Adding fine hours'
       users_to_fine = getUserSubtractionHash(Shift.get_blown_shifts_last_n_days(7))
-      #NEED TO FINE USERS APPROPRIATELY
       User.add_hours_from_blown(users_to_fine)
+  end 
+  
+  def checkFiningDays
+    Policy.all.each do |policy|
+      fine_days = policy.get_fine_days
+      
+    end 
   end 
   
   def getShiftsForLastNDays(n)

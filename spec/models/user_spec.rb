@@ -156,4 +156,5 @@ RSpec.describe User, type: :model do
       # expect(User.get_rankings_for(@workshift1)).to eq(@result)
     end
   end
+  
 end

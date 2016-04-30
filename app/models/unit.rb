@@ -20,6 +20,8 @@ class Unit < ActiveRecord::Base
     def get_metashift_workshifts
       @metashift_rows = {}
       self.metashifts.each do |metashift|
+        puts metashift
+        puts metashift.workshifts
         @metashift_rows[metashift] = metashift.workshifts.group_by {|ws| ws.day}
       end
       @metashift_rows

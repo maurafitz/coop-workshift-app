@@ -133,8 +133,10 @@ class User < ActiveRecord::Base
     def self.get_rankings_for ws
       available_users = []
       all.each do |user|
+        puts (user.is_available? ws)
         available_users << user if (user.unit == ws.get_unit) and (user.is_available? ws)
       end
+      puts available_users
       
       preferences = Preference.joins(metashift: :workshifts).where(workshifts: {id: ws.id})
                                

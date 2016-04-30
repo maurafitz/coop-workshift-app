@@ -136,18 +136,24 @@ RSpec.describe User, type: :model do
   describe "get rankings for workshifts" do
     before(:each) do
       @unit = Unit.create!(:name => 'ChillerCoop')
-      @member1 = User.create!(:first_name => 'Ryan', :last_name => 'Riddle',
-        :permissions => User::PERMISSION[:member], :password => 'saef',
-        :email => 'ry@berkeley.edu', :unit => @unit)
+      @member1 = User.create!(:first_name => 'Ryan', :last_name => 'Riddle', :password => 'saef',
+                              :email => 'ry@berkeley.edu', :unit => @unit)
+      @member2 = User.create!(:first_name => 'Yannie', :last_name => 'Yip', :password => 'saef',
+                              :email => 'yy@berkeley.edu', :unit => @unit)       
+      @preference1 = Preference.create!(:user => @member1, :rating => 5, :cat_rating => 5, :metashift => @metashift1)
+      @preference2 = Preference.create!(:user => @member2, :rating => 4, :cat_rating => 4, :metashift => @metashift1)
+      
       @metashift1 = Metashift.create!(:category => 'Kitchen', :unit => @unit)
       @workshift1 = Workshift.create!(:day => 'Monday', :start_time => '1:00pm',
-        :end_time => '2:00pm', :metashift => @metashift1)
-      Avail.create!(:day => 0, :hour => 13, :status => 'Available', :user => @member2)
+                                      :end_time => '2:00pm', :metashift => @metashift1)
+                        
+      allow(@member1).to receive(:is_available?).with(:ws).and_return(true)
+      allow(@member1).to receive(:is_available?).with(:ws).and_return(true)
     end
     
-    it "should return correct workshift ranking" do
-      # @member1.get_rankings_for(@workshift1)
+    it "should return users and rankings sorted by ranking for the workshift" do
+      @result = {@member1 => 5, @member2 => 4}
+      # expect(User.get_rankings_for(@workshift1)).to eq(@result)
     end
   end
-    
 end

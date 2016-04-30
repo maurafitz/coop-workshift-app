@@ -28,8 +28,10 @@ namespace :fine_calculator do
   end 
   
   def checkFiningDays
+    pp "Checking fining days"
     Policy.all.each do |policy|
       if policy.is_fine_day?
+        pp "Fining users and resetting hour balance for #{policy.unit.name} "
         policy.fine_users
       end 
     end 
@@ -41,12 +43,11 @@ namespace :fine_calculator do
   
   def getUserSubtractionHash(blown)
     #Multiplies blown hours by 2 and adds to hash
-    user_hash = {}
     blown.each_with_object(Hash.new(0)) { |shift,counts| counts[shift.user_id] += (2 * shift.workshift.length) }
   end 
   
   def isSunday
-    DateTime.now.wday == 0 #Only run on Sundays
+    Time.now.wday == 0 #Only run on Sundays
   end
   
   

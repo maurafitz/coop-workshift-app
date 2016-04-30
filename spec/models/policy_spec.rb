@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
         before :each do 
             @unit = Unit.create!()
             @policy = Policy.create!(:starting_hour_balance => 5.0, :fine_amount => 10,
-            :unit => @unit)
+            :fine_days => [Date.today], :unit => @unit)
             @member1 = User.create!(:first_name => 'Maura', :unit => @unit, :email => 'a@b.com',
                     :last_name => 'Fitz', :permissions => User::PERMISSION[:member],
                     :hour_balance => 5, :password => '12345kabsdfasdf')

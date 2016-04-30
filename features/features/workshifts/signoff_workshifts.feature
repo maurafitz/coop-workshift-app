@@ -36,19 +36,18 @@ Feature: Sign-off a shift
 
   Scenario: A member signs off another member while not signed in
     Given I am on the home page
-    Then I click "Save"
+    And I click "Save"
     Then I should see the following: "Workshifter", "Verifier", "Notes", "Password"
     When I select "Giorgia" for "Workshifter"
     And I select "Eric" for "Verifier"
     And I fill in "bunnny" for "Password"
-    When I click "Signoff Shift"
+    And I click "Signoff Shift"
     Then I should see "You have successfully signed off a shift"
     And I should not be logged in
     
   Scenario: A member enters the wrong password to sign off another member
     Given I am on the home page
-    Then I click "Save"
-    Then I should see the following: "Workshifter", "Verifier", "Notes", "Password"
+    And I click "Save"
     When I select "Giorgia" for "Workshifter"
     And I select "Eric" for "Verifier"
     And I fill in "wrong!!" for "Password"

@@ -11,7 +11,7 @@ RSpec.describe Workshift, type: :model do
         @workshift = Workshift.new(:start_time => "10am", :end_time => "1pm", :day => "Monday", :length => "3")
     end
     
-    it "should return correct formatted time do" do
+    it "should return correct formatted time" do
         expect(@workshift.get_time_formatted).to eq("Monday, 10am to 1pm")
     end
     

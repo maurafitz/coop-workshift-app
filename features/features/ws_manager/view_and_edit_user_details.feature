@@ -23,7 +23,6 @@ Feature: View and Edit User Details
     When I click "Alex Danily"
     Then I should see the following: "adanily@berkeley.edu", "Manager"
  
-  # @wip
   Scenario: A workshift manager edits a user's details
     Given I log in with "mfitz@berkeley.edu", "kitty"
     And I am on the manage users page

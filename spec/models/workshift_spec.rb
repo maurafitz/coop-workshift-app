@@ -9,7 +9,7 @@ RSpec.describe Workshift, type: :model do
     
     before :each do
         @workshift = Workshift.new(:start_time => "10am", :end_time => "1pm", :day => "Monday", :length => "3")
-        @metashift = Metashift.new(:name => "Default", :category => "Default Category", :description => "Default Description", :multiplier => 2.0, :id => 0)
+        @metashift = Metashift.new(:name => "Default", :category => "Default Category", :description => "Default Lalala Description", :multiplier => 2.0, :id => 0)
         @workshift.metashift = @metashift
         @unit = double("Cloyne")
         allow(@workshift).to receive(:get_unit).and_return(@unit)
@@ -24,7 +24,7 @@ RSpec.describe Workshift, type: :model do
     end
     
     it "should return correct metashift description of workshift" do
-        expect(@workshift.get_description).to eq("Default Description")
+        expect(@workshift.get_description).to eq("Default Lalala Description")
     end
     
     it "should return correct unit of workshift" do

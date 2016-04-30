@@ -149,10 +149,8 @@ class User < ActiveRecord::Base
       start_time = convert_to_military workshift.start_time
       end_time = convert_to_military workshift.end_time
       day = Preference.day_mapping.key(workshift.day)
-      
       workshift_avails = self.avails.where(day: day, hour: start_time..end_time).order(:hour)
       length = workshift.length
-      
       # check if user is available for `length` consecutive hours
       avail = false
       count = 0

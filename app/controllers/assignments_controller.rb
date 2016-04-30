@@ -2,7 +2,6 @@ class AssignmentsController < ApplicationController
   # GET /assignments
   def new
     @metashift_rows = current_unit.get_metashift_workshifts
-    
   end
   
   # POST /assignments/create
@@ -22,8 +21,8 @@ class AssignmentsController < ApplicationController
   end
   
   def sort_users
-    workshift = Workshift.find_by_id(params[:id])
-    @sorted_users_rankings = User.get_rankings_for workshift
+    @workshift = Workshift.find_by_id(params[:id])
+    @sorted_users_rankings = User.get_rankings_for @workshift
     @rows, @names, @mapping= [], [], {}
     @sorted_users_rankings.each do |user, ranking|
       @rows << {:name => "<a id='#{user.last_name}' href='#{admin_view_user_path(user.id)}'>#{user.full_name}</a>", :ranking => ranking}

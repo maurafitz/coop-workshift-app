@@ -106,6 +106,7 @@ Given(/^the following users are members of "([^"]*)":$/) do |coop_unit, users_ta
     user.unit = unit
     user.save
   end
+  @current_unit = unit
 end
 
 Given(/^I am assigned the following workshifts:$/) do |workshifts_table|

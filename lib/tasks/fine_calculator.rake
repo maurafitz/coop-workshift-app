@@ -43,7 +43,6 @@ namespace :fine_calculator do
   
   def getUserSubtractionHash(blown)
     #Multiplies blown hours by 2 and adds to hash
-    user_hash = {}
     blown.each_with_object(Hash.new(0)) { |shift,counts| counts[shift.user_id] += (2 * shift.workshift.length) }
   end 
   

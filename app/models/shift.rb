@@ -33,7 +33,7 @@ class Shift < ActiveRecord::Base
   end
   
   def get_signoff_datetime
-    self.signoff_date.strftime('%l:%M%P %A %-m/%e')
+    self.signoff_date.strftime('%-l:%M%P %A %-m/%-e')
   end
   
   def self.get_blown_shifts_last_n_days(n)

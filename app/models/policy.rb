@@ -41,7 +41,10 @@ class Policy < ActiveRecord::Base
     end 
     
     def fine_users
-        #This should be executed every fining day
+        #This should be executed every fining day. Assumes it is a fining day
+        if not is_fine_day?
+            raise 'Should only be called on fining day'
+        end 
         unit.users.each do |user|
             user.fine_balance += fine_amount * user.hour_balance
             user.hour_balance = 0

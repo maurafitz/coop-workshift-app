@@ -28,8 +28,10 @@ namespace :fine_calculator do
   end 
   
   def checkFiningDays
+    pp "Checking fining days"
     Policy.all.each do |policy|
       if policy.is_fine_day?
+        pp "Fining users and resetting hour balance for #{policy.unit.name} "
         policy.fine_users
       end 
     end 

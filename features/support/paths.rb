@@ -16,6 +16,8 @@ module NavigationHelpers
     #### APPLICATION ####
     when /^the login\s?page$/
       '/login'
+    when /^$the logout page/
+      '/logout'
     when /^the home\s?page$/
       '/'
       
@@ -25,7 +27,7 @@ module NavigationHelpers
     when /^the view weekly history page$/
       '/'
     when /^the manage users page$/
-      '/'
+      admin_view_user_path(@current_user.id)
       
     #### USERS ####
     when /^my profile page$/

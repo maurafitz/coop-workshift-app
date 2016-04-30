@@ -12,7 +12,7 @@ Feature: Workshift Manager: Assign Workshifts
     | Kitchen       | Dishes            | 1  |
     | Kitchen       | Head Cook         | 2  |
     | Garbage       | TRC               | 3  |
-    And the following shifts exist:
+    And the following workshifts exist:
     | metashift   | days      | time_blocks                              |
     | Dishes      | M,T,W,R,F | 5am-11am, 12pm-3pm, 4pm-7pm, 8pm-10pm    |
     | Head Cook   | M,T,W,R,F | 8am-11am, 1pm-4pm, 5pm-8pm               |

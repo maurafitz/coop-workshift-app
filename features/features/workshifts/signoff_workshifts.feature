@@ -22,7 +22,6 @@ Feature: Sign-off a shift
 
     And "Giorgia" is assigned a shift today with workshift id "72"
     
-  
   Scenario: A member signs off another member while signed in
     Given I log in with "ericn@berkeley.edu", "bunnny"
     And I am on the home page
@@ -74,4 +73,22 @@ Feature: Sign-off a shift
     Then I should see the following: "All Shifts", "Person", "Hours"
     When I click "Signoff Shift"
     Then I should see "You have successfully signed off a shift"
+    
+  Scenario: Someone tries to sign off their own shift
+    Given I log in with "gwillits@berkeley.edu", "tortoise"
+    And I am on the home page
+    When I select "Giorgia" for "Workshifter"
+    And I click "Signoff Shift"
+    Then I should see "You may not verify your own shift"
+    
+  Scenario: A member tries to sign off a special shift
+    Given I log in with "ericn@berkeley.edu", "bunnny"
+    And I am on the home page
+    When I select "Giorgia" for "Workshifter"
+    And I click "Special Shifts"
+    And I fill in "This is a special shift" for "Special Shift"
+    And I fill in "2" for "Hours"
+    When I click "Signoff Shift"
+    Then I should see "Only managers and admins may sign off on special shifts"
+    
     

@@ -89,9 +89,6 @@ class SignoffsController < ApplicationController
             verif_user = User.find_by_id(signoff[:verifier_id])
         end
         if not verifier_signed_in and not verif_user.authenticate(signoff[:verifier_pw])
-
-            puts signoff[:verifier_pw]
-
             flash[:danger] = "Verifier PW not correct. Please try again"
             redirect_to signoff_page_path and return
         end
@@ -108,7 +105,7 @@ class SignoffsController < ApplicationController
             s = Shift.find_by_id(fields[:shift_id])
         else
             if not verif_user.manager_rights?
-                flash[:danger] = "Only managers or admins may sign off on special shifts"
+                flash[:danger] = "Only managers and admins may sign off on special shifts"
                 redirect_to signoff_page_path and return
             end
             s = Shift.new()

@@ -27,6 +27,10 @@ RSpec.describe Workshift, type: :model do
         expect(@workshift.get_description).to eq("Default Description")
     end
     
+    it "should return correct unit of workshift" do
+        expect(@workshift.get_unit).to eq(@unit)
+    end  
+    
     it "should return correct formatted time of workshift" do
         expect(@workshift.get_time_formatted).to eq("Monday, 10am to 1pm")
     end

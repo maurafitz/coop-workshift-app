@@ -74,3 +74,4 @@ Feature: Sign-off a shift
     Then I should see the following: "All Shifts", "Person", "Hours"
     When I click "Signoff Shift"
     Then I should see "You have successfully signed off a shift"
+    

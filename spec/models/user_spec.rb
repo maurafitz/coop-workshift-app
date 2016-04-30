@@ -132,5 +132,22 @@ RSpec.describe User, type: :model do
       expect(@member2.is_available?(@workshift2)).to be false
     end
   end
+  
+  describe "get rankings for workshifts" do
+    before(:each) do
+      @unit = Unit.create!(:name => 'ChillerCoop')
+      @member1 = User.create!(:first_name => 'Ryan', :last_name => 'Riddle',
+        :permissions => User::PERMISSION[:member], :password => 'saef',
+        :email => 'ry@berkeley.edu', :unit => @unit)
+      @metashift1 = Metashift.create!(:category => 'Kitchen', :unit => @unit)
+      @workshift1 = Workshift.create!(:day => 'Monday', :start_time => '1:00pm',
+        :end_time => '2:00pm', :metashift => @metashift1)
+      Avail.create!(:day => 0, :hour => 13, :status => 'Available', :user => @member2)
+    end
+    
+    it "should return correct workshift ranking" do
+      # @member1.get_rankings_for(@workshift1)
+    end
+  end
     
 end

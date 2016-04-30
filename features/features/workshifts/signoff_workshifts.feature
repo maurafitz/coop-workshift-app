@@ -32,42 +32,47 @@ Feature: Sign-off a shift
     Then I should see "Your Shifts"
     And I should see today's date
     And I should see "Kitchen Manager"
-    #When I select "Head Cook" for "Giorgia's shifts"
-    #Then I should see the following: "Hours", "2"
-    #When I click "Sign off!"
-    #Then Giorgia's shift for "Head Cook" on "March 6, 2016" should be completed
-    
-  @wip
+    When I click "Signoff Shift"
+    And I should see "You have successfully signed off a shift"
+
   Scenario: A member signs off another member while not signed in
     Given I am on the home page
+    Then I click "Save"
     Then I should see the following: "Workshifter", "Verifier", "Notes", "Password"
-    And I should not see "Special Shift"
     When I select "Giorgia" for "Workshifter"
-    And I select "Head Cook" for "Giorgia's shifts"
     And I select "Eric" for "Verifier"
     And I fill in "bunnny" for "Password"
-    And I click "Sign off!"
-    Then Giorgia's shift for "Head Cook" on "March 6, 2016" should be completed
+    When I click "Signoff Shift"
+    Then I should see "You have successfully signed off a shift"
     And I should not be logged in
     
-  @wip
   Scenario: A member enters the wrong password to sign off another member
     Given I am on the home page
+    Then I click "Save"
+    Then I should see the following: "Workshifter", "Verifier", "Notes", "Password"
     When I select "Giorgia" for "Workshifter"
-    And I select "Head Cook" for "Giorgia's shifts"
     And I select "Eric" for "Verifier"
-    And I fill in "rabbit" for "Password"
-    And I click "Sign off!"
-    Then Giorgia's shift for "Head Cook" on "March 6, 2016" should not be completed
-
-  @wip
+    And I fill in "wrong!!" for "Password"
+    When I click "Signoff Shift"
+    Then I should see "Verifier PW not correct. Please try again"
+    And I should not be logged in
+  
   Scenario: A manager signs off a member while logged in
-    Given "Alex" is logged in
+    Given I log in with "adanily@berkeley.edu", "hare"
     And I am on the home page
-    Then I should see the following: "Workshifter", "Notes", "Special Shift", "Recent online signoffs", "View Workshifts and Descriptions"
+    And I click "Special Shifts"
+    Then I should see the following: "Special Shift", "Hours"
+    And I fill in "This is a special shift" for "Special Shift"
+    And I fill in "2" for "Hours"
+    When I click "Signoff Shift"
+    Then I should see "You have successfully signed off a shift"
     
-  @wip
-  Scenario: A workshift manager signs off a member while logged in
-    Given "Maura" is logged in
+  @wip  
+  Scenario: Someone signs off a member for someone else's shift
+    Given I log in with "adanily@berkeley.edu", "hare"
     And I am on the home page
-    Then I should see the following: "Workshifter", "Notes", "Special Shift", "Recent online signoffs", "View Workshifts and Descriptions"
+    And I click "All Shifts"
+    Then I should see the following: "All Shifts", "Person", "Hours"
+    # And I see the page
+    When I click "Signoff Shift"
+    Then I should see "You have successfully signed off a shift"

@@ -130,10 +130,10 @@ class User < ActiveRecord::Base
       end
     end
     
-    def self.get_rankings_for ws, unit
+    def self.get_rankings_for ws
       available_users = []
       all.each do |user|
-        available_users << user if (user.unit == unit) and (user.is_available? ws)
+        available_users << user if (user.unit == ws.get_unit) and (user.is_available? ws)
       end
       
       preferences = Preference.joins(metashift: :workshifts).where(workshifts: {id: ws.id})
@@ -149,10 +149,8 @@ class User < ActiveRecord::Base
       start_time = convert_to_military workshift.start_time
       end_time = convert_to_military workshift.end_time
       day = Preference.day_mapping.key(workshift.day)
-      
       workshift_avails = self.avails.where(day: day, hour: start_time..end_time).order(:hour)
       length = workshift.length
-      
       # check if user is available for `length` consecutive hours
       avail = false
       count = 0

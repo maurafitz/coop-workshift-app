@@ -43,7 +43,7 @@
       <div class="col-sm-4 control-label">
         <label for="preference_toggle">Preference Form: </label>
       </div>
-      <div class="col-sm-4 pref_one_div">
+      <div id="pref_one_div" class="col-sm-4">
         <div class="input-group">
           <input id="preference_toggle_one" name="pref_all" <%=if @user.preference_open then "checked" end %> type="checkbox" data-toggle="toggle" data-on="Open" data-off="Closed" data-onstyle="success" data-offstyle="danger">
         </div>

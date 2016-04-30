@@ -83,9 +83,5 @@ RSpec.describe AssignmentsController, type: :controller do
             get :sort_users, @params
             expect(assigns(:rows)).to eq(@rows)
         end
-        # it 'should render json with the table rows' do
-            # get :sort_users, @params
-            # expect(response).to render_json
-        # end
     end
 end

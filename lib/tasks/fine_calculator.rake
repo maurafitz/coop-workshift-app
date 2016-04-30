@@ -47,7 +47,7 @@ namespace :fine_calculator do
   end 
   
   def isSunday
-    DateTime.now.wday == 0 #Only run on Sundays
+    Time.now.wday == 0 #Only run on Sundays
   end
   
   

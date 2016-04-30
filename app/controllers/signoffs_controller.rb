@@ -1,14 +1,11 @@
 class SignoffsController < ApplicationController
     skip_before_filter :set_current_user
-    require "pp"
     def new
         if current_unit.nil?
             flash[:danger] = "You have not set your unit yet. Please do so now"
             redirect_to get_unit_path
         else
             @all_users = current_unit.users.all
-            print "USERS" 
-            puts @all_users
             @signed_off_shifts = Shift.get_signed_off_shifts current_unit
             @manager_rights = ((not current_user.nil?) and current_user.manager_rights?)
         end
@@ -41,9 +38,6 @@ class SignoffsController < ApplicationController
             json_info[shift.id]["description"] = date + " " + shift.get_name
             json_info[shift.id]["hours"] = ws.length
         end
-        puts "This User #{params[:id]}:"
-        pp json_info
-        puts
         render json: json_info
     end
     
@@ -83,9 +77,6 @@ class SignoffsController < ApplicationController
                 end
             end
         end
-        puts "All shifts"
-        pp json_info
-        puts
         render json: json_info
     end
     

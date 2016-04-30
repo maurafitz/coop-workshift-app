@@ -2,6 +2,7 @@ Given /^the following metashifts exist:$/ do |metashifts_table|
   metashifts_table.hashes.each do |metashift|
     m = Metashift.create!(metashift)
     m.unit = @current_unit
+    puts @current_unit
     m.save
   end
 end

@@ -67,12 +67,10 @@ Feature: Sign-off a shift
     When I click "Signoff Shift"
     Then I should see "You have successfully signed off a shift"
     
-  @wip  
   Scenario: Someone signs off a member for someone else's shift
     Given I log in with "adanily@berkeley.edu", "hare"
     And I am on the home page
     And I click "All Shifts"
     Then I should see the following: "All Shifts", "Person", "Hours"
-    # And I see the page
     When I click "Signoff Shift"
     Then I should see "You have successfully signed off a shift"
